@@ -1,5 +1,3716 @@
 {
-  "generated_at": "2026-07-28T22:44:31.587966+00:00",
-  "count": 0,
-  "instruments": []
+  "generated_at": "2026-07-28T22:57:27.982173+00:00",
+  "count": 530,
+  "instruments": [
+    {
+      "isin": "DE000A0Q4RZ9",
+      "ticker_yf": "EXVM.MI",
+      "name": "ISHARES EB.REXX GOV.GER. 0-1YR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "FR0010510800",
+      "ticker_yf": "LEONIA.MI",
+      "name": "Amundi EUR Overnight Return UCITS ETF-A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "FR0010754200",
+      "ticker_yf": "C3M.MI",
+      "name": "Amundi Euro Government Bond 0-6 M UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00004S2680",
+      "ticker_yf": "VSGF.MI",
+      "name": "Vanguard EUR Eurozone Government 1-3 Year Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0000JVOLK2",
+      "ticker_yf": "FAMUSS.MI",
+      "name": "Fineco AM MSCI World Information Technology Sustainable Selection P-Series 20% Capped UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0000KA1ZX3",
+      "ticker_yf": "HECB.MI",
+      "name": "HSBC ICAV Euro Corp Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00018U4PN8",
+      "ticker_yf": "AICU.MI",
+      "name": "AXA IM Emerg Mkts Credit PAB UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000191HKF0",
+      "ticker_yf": "TRA5.MI",
+      "name": "SPDR Bloomberg 3-7 Year U.S. Treasury Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0001KPAXU3",
+      "ticker_yf": "EYLD.MI",
+      "name": "Invesco EUR IG Corporate Bond Yield Plus UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000264WWY0",
+      "ticker_yf": "IB28.MI",
+      "name": "iShares iBonds 28 € Crp EUR Ds UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000389GTC0",
+      "ticker_yf": "HSGE.MI",
+      "name": "HSBC GLOBAL ESG GOVERNMENT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0003HUCA83",
+      "ticker_yf": "VGGE.MI",
+      "name": "Vanguard Global Government Bond UCITS ETF EUR H DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0003HV7CS6",
+      "ticker_yf": "IX28.MI",
+      "name": "iShares iBonds Dec 2028 Term € Corp Crossover UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0003W9O921",
+      "ticker_yf": "XGBU.MI",
+      "name": "XTRACKERS USD CORP GREEN BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0004LCA3I5",
+      "ticker_yf": "SPGA.MI",
+      "name": "iShares Spain Govt Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000589MF42",
+      "ticker_yf": "IITA.MI",
+      "name": "iShares Italy Govt Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0005F2R613",
+      "ticker_yf": "EYLA.MI",
+      "name": "Invesco EUR IG Corporate Bond Yield Plus UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0005PGDJ30",
+      "ticker_yf": "MONEY.MI",
+      "name": "FINECO AM ESTR PLUS UCITS ETF A EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00066KZ5B5",
+      "ticker_yf": "HEGB.MI",
+      "name": "HSBC ICAV Euro Gov Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00066L6LB9",
+      "ticker_yf": "AQDU.MI",
+      "name": "AXA IM Emerg Mkts Credit PAB UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0006BDZN36",
+      "ticker_yf": "OVER.MI",
+      "name": "UBS EUR Overnight Rate SF UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0006CHRED6",
+      "ticker_yf": "HGAE.MI",
+      "name": "HSBC Global Aggregate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0006GNB732",
+      "ticker_yf": "XZHE.MI",
+      "name": "Xtrackers EUR High Yield Corporate Bond SRI PAB UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0006NCFSW9",
+      "ticker_yf": "HGVU.MI",
+      "name": "HSBC Global Government Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0006YM7D84",
+      "ticker_yf": "XZHY.MI",
+      "name": "Xtrackers USD High Yield Corporate Bond Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00077IIPQ8",
+      "ticker_yf": "NTSG.MI",
+      "name": "WisdomTree Global Efficient Core UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000845MQC5",
+      "ticker_yf": "HUCB.MI",
+      "name": "HSBC ICAV US Corp Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00087GRUR0",
+      "ticker_yf": "A01U.MI",
+      "name": "AXA IM US Treas 0-1 Y UCITS ETF USD A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0008BU0XC3",
+      "ticker_yf": "H10E.MI",
+      "name": "HSBC Euro Lower Carbon Government 10+ Year Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0008U15456",
+      "ticker_yf": "IEGS.MI",
+      "name": "iShares Core EUR Govt Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0008UEVOE0",
+      "ticker_yf": "IVOA.MI",
+      "name": "iShares iBonds 28 € Crp EUR A UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00090GHHQ4",
+      "ticker_yf": "TIPA.MI",
+      "name": "SPDR Bloomberg U.S. TIPS UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0009IAUUI1",
+      "ticker_yf": "UYLD.MI",
+      "name": "Invesco USD IG Corporate Bond Yield Plus UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0009WMIIC0",
+      "ticker_yf": "H13E.MI",
+      "name": "HSBC Euro Lower Carbon Government 1-3 Year Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000A0RC215",
+      "ticker_yf": "BS28.MI",
+      "name": "Invesco BulltShares 28 USD Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000AK4O3W6",
+      "ticker_yf": "IE3E.MI",
+      "name": "iShares € Corp Bond 0-3Yr ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000APK27S2",
+      "ticker_yf": "AEGE.MI",
+      "name": "iShares Global Aggregate Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000AYJ75E5",
+      "ticker_yf": "BE26.MI",
+      "name": "Invesco BulltShares 26 EUR Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000B1A2798",
+      "ticker_yf": "VGGF.MI",
+      "name": "Vanguard Global Government Bond UCITS ETF EUR H ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000BMDG046",
+      "ticker_yf": "BS27.MI",
+      "name": "Invesco BulltShares 27 USD Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000C5Q64P6",
+      "ticker_yf": "BS29.MI",
+      "name": "Invesco BulltShares 29 USD Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000CWS09Q9",
+      "ticker_yf": "XBNK.MI",
+      "name": "L&G Corporate Bond ex-Banks Higher Ratings 0-2Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000D2UDLG6",
+      "ticker_yf": "HUST.MI",
+      "name": "HSBC ICAV US Treasury Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000D9WMGF0",
+      "ticker_yf": "IG31.MI",
+      "name": "iShares iBonds Dec 2031 Term € Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000DOZYQJ7",
+      "ticker_yf": "TAEH.MI",
+      "name": "Janus Henderson Haitong Asia ex-Japan High Yield Corp USD Bond Screened Core UCITS ETF EUR-H Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000E02WFD5",
+      "ticker_yf": "FLUSA.MI",
+      "name": "Franklin US Treasury 0-1 Year UCITS ETF USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000EA7I2N5",
+      "ticker_yf": "SAUE.MI",
+      "name": "State Street SPDR J.P. Morgan Saudi Arabia Aggregate Bond USD Base CCY Hdg to EUR UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000F37PGZ3",
+      "ticker_yf": "V3RF.MI",
+      "name": "VANGUARD ESG EUR CORP BOND UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000F6XDNZ5",
+      "ticker_yf": "ITPD.MI",
+      "name": "ISHARES $ TIPS UCITS ETF USD",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000FG3UNB8",
+      "ticker_yf": "EATA.MI",
+      "name": "Invesco EUR AT1 CoCo Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000FVQW7E7",
+      "ticker_yf": "GCBE.MI",
+      "name": "Invesco Global Corporate Bond ESG Climate Transition UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000FXHG8D6",
+      "ticker_yf": "TRUD.MI",
+      "name": "INVESCO US TREAS 10+ Y UCITS ETF EUR H D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000G4ONBO6",
+      "ticker_yf": "FFGC.MI",
+      "name": "Fidelity Glob Gov Bond Clima UCITS ETF H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000G6CY1T7",
+      "ticker_yf": "26TA.MI",
+      "name": "iShares iBnds 26 € Italy Gvt UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000GB2EQ90",
+      "ticker_yf": "BS30.MI",
+      "name": "Invesco BulltShares 30 USD Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000GBYNAU4",
+      "ticker_yf": "ADLU.MI",
+      "name": "AXA IM US Treas 25+ Y UCITS ETF USD A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000GSIFIB0",
+      "ticker_yf": "CLIP.MI",
+      "name": "GLOBAL X 1-3 MONTH T-BILL UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000H3Q3AF6",
+      "ticker_yf": "VUDS.MI",
+      "name": "Vanguard U.S. Treasury 1-3 Year Bond UCITS ETF - USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000H5X52W8",
+      "ticker_yf": "IBE7.MI",
+      "name": "iShares iBonds 27 € Crp EUR UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000H92C4B8",
+      "ticker_yf": "HYEP.MI",
+      "name": "iShares € High Yield Corp Bond ESG Paris-Aligned Climate UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000HARFTG3",
+      "ticker_yf": "VSGE.MI",
+      "name": "Vanguard EUR Eurozone Government 1-3 Year Bond UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000I660ZF8",
+      "ticker_yf": "IG32.MI",
+      "name": "iShares iBonds Dec 2032 Term € Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000IF0HTJ9",
+      "ticker_yf": "FGGB.MI",
+      "name": "FIDELITY GLOBAL GOV CLIMATE UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000IHURBR0",
+      "ticker_yf": "29GI.MI",
+      "name": "iShares iBonds Dec 29 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000J6CHW80",
+      "ticker_yf": "USFA.MI",
+      "name": "VanEck US Fallen Angel HY UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000JHMFVN7",
+      "ticker_yf": "28IA.MI",
+      "name": "iShares iBonds 28 Italy Govt UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000JR51TI1",
+      "ticker_yf": "VDTD.MI",
+      "name": "Vanguard USD Treasury Bond UCITS ETF EUR H D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000K22VCJ6",
+      "ticker_yf": "TRAX.MI",
+      "name": "SPDR Bloomberg 7-10 Year U.S. Treasury Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000L0X6L81",
+      "ticker_yf": "GSGR.MI",
+      "name": "Goldman Gbl Green Bond UCITS ETF H D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000L2TO2T2",
+      "ticker_yf": "SUA0.MI",
+      "name": "iShares € Corp Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000LG8P349",
+      "ticker_yf": "UIGB.MI",
+      "name": "UTI India Sovereign Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000LKGEZQ6",
+      "ticker_yf": "BE28.MI",
+      "name": "Invesco BulltShares 28 EUR Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000LX17BP9",
+      "ticker_yf": "30IG.MI",
+      "name": "iShares iBonds Dec 30 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000LZ7BZW8",
+      "ticker_yf": "26TP.MI",
+      "name": "iShares iBonds 26 € Italy Govt UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000M6STPW4",
+      "ticker_yf": "VUDP.MI",
+      "name": "Vanguard U.S. Treasury 1-3 Year Bond UCITS ETF - EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000MCVFK47",
+      "ticker_yf": "XGBE.MI",
+      "name": "XTRACKERS EUR CORP GREEN BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000MINO564",
+      "ticker_yf": "EMGH.MI",
+      "name": "L&G Emerging Markets Government Bond (USD) 0-5 Year Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000NBRE3P7",
+      "ticker_yf": "EUES.MI",
+      "name": "iShares € UltraShort Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000NPK2VI6",
+      "ticker_yf": "FAMSFF.MI",
+      "name": "Fineco AM MSCI EUR IG SRI P-Series ex Fossil Fuel Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000O1FWAW6",
+      "ticker_yf": "IG35.MI",
+      "name": "iShares iBonds Dec 2035 Term € Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000O2G7VL0",
+      "ticker_yf": "FAMEUS.MI",
+      "name": "Fineco AM MSCI EUR HY SRI P-Series Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000O36LOH8",
+      "ticker_yf": "BS26.MI",
+      "name": "Invesco BulltShares 26 USD Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000OV4XWA3",
+      "ticker_yf": "NTSZ.MI",
+      "name": "WisdomTree Eurozone Efficient Core UCITS ETF - EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000Q2EQ5K8",
+      "ticker_yf": "28IY.MI",
+      "name": "iShares iBonds 28 € Italy Govt UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000QADMYA3",
+      "ticker_yf": "V3RE.MI",
+      "name": "VANGUARD ESG EUR CORP BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000QB5HJC8",
+      "ticker_yf": "TRAY.MI",
+      "name": "SPDR Bloomberg U.S. Treasury Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000QRDCYW2",
+      "ticker_yf": "SAUB.MI",
+      "name": "State Street SPDR J.P. Morgan Saudi Arabia Aggregate Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000QVYFUT7",
+      "ticker_yf": "XIGB.MI",
+      "name": "XTRACKERS INDIA GOVERNMENT UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000RW7V8Q4",
+      "ticker_yf": "SHORT.MI",
+      "name": "UBS EUR Ultra-Short Bond Screened UCITS ETF EUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000SE6KPV2",
+      "ticker_yf": "IPAB.MI",
+      "name": "iShares € Corp ESG Paris Clima UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000SIZJ2B2",
+      "ticker_yf": "IB26.MI",
+      "name": "iShares iBonds 26 € Crp EUR Ds UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000SN2VKB0",
+      "ticker_yf": "WNGA.MI",
+      "name": "iShares Fallen Angels High Yield Corp Bond UCITS ETF EUR H Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000SNLFDR7",
+      "ticker_yf": "29GA.MI",
+      "name": "iShares iBonds Dec 29 € Corp UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000TAV7246",
+      "ticker_yf": "VUDE.MI",
+      "name": "Vanguard U.S. Treasury 1-3 Year Bond UCITS ETF - EUR Hedged Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000UJSC3C9",
+      "ticker_yf": "IX29.MI",
+      "name": "iShares iBonds Dec 2029 Term € Corp Crossover UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000UX5WPU4",
+      "ticker_yf": "XYPL.MI",
+      "name": "Xtrackers iBoxx EUR Corporate Bond Yield Plus UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000UXDT343",
+      "ticker_yf": "VLDS.MI",
+      "name": "Vanguard U.S. Treasury 7-10 Year Bond UCITS ETF - USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000UY6XF65",
+      "ticker_yf": "IG34.MI",
+      "name": "iShares iBonds Dec 2034 Term € Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000VVC8KW9",
+      "ticker_yf": "EAT1.MI",
+      "name": "Invesco EUR AT1 CoCo Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000VZ8BBU9",
+      "ticker_yf": "VITS.MI",
+      "name": "Vanguard U.S. Treasury 3-7 Year Bond UCITS ETF - USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000VZO6W35",
+      "ticker_yf": "MONEJ.MI",
+      "name": "FINECO AM ESTR PLUS UCITS ETF J EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000W6YTDH7",
+      "ticker_yf": "BE30.MI",
+      "name": "Invesco BulltShares 30 EUR Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000W6ZFH20",
+      "ticker_yf": "FAMSF3.MI",
+      "name": "Fineco AM MSCI EUR IG SRI P-Series ex Fossil Fuel (1-3y) Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000WA6L436",
+      "ticker_yf": "CEBE.MI",
+      "name": "iShares iBonds 26 € Crp EUR A UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000WMJVNE9",
+      "ticker_yf": "FAMLSS.MI",
+      "name": "Fineco AM MSCI USD IG Liquid SRI P-Series Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000WXLHR76",
+      "ticker_yf": "TUCP.MI",
+      "name": "Janus Henderson EUR Ultrashort IG Bond Paris-aligned Climate Core UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000XG0ZRI7",
+      "ticker_yf": "GBHE.MI",
+      "name": "Invesco Global High Yield Corporate Bond ESG Climate Transition UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000XGNMWE1",
+      "ticker_yf": "HAGG.MI",
+      "name": "HSBC BLOOMBERG GLOBAL ESG AGGREGATE 1-3 YEAR BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000XOS4OJ6",
+      "ticker_yf": "BE27.MI",
+      "name": "Invesco BulltShares 27 EUR Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000Y2BJVK9",
+      "ticker_yf": "30IA.MI",
+      "name": "iShares iBonds Dec 30 € Corp UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000YMQ2SC9",
+      "ticker_yf": "XBHE.MI",
+      "name": "L&G Corporate Bond ex-Banks Higher Ratings 0-2Y UCITS ETF EUR H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000YPOHA39",
+      "ticker_yf": "EONS.MI",
+      "name": "Invesco EUR Overnight Return Swap UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000YSUEJ32",
+      "ticker_yf": "TIGA.MI",
+      "name": "L&G India INR Gov Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000YZIVX22",
+      "ticker_yf": "CATHEM.MI",
+      "name": "FRANKLIN EM SOV DEBT VALUES UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZBGZQM8",
+      "ticker_yf": "IG33.MI",
+      "name": "iShares iBonds Dec 2033 Term € Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZC4C5Q1",
+      "ticker_yf": "BE29.MI",
+      "name": "Invesco BulltShares 29 EUR Crp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZMFFPP4",
+      "ticker_yf": "TRA3.MI",
+      "name": "SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZO4CUT7",
+      "ticker_yf": "EMMH.MI",
+      "name": "L&G Emerging Markets Corporate Bond (USD) Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZOI8OK5",
+      "ticker_yf": "IB27.MI",
+      "name": "iShares iBonds 27 € Crp EUR A UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE000ZWSN3F7",
+      "ticker_yf": "GBHY.MI",
+      "name": "Invesco Global High Yield Corporate Bond ESG Climate Transition UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0032523478",
+      "ticker_yf": "IBCX.MI",
+      "name": "ISHARES CORP BOND LAR CAP UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE0032895942",
+      "ticker_yf": "LQDE.MI",
+      "name": "ISHARES $ CORP BOND UCITS ETF USD DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B0M62X26",
+      "ticker_yf": "IBCI.MI",
+      "name": "ISHARES INFL LINKED GOVT UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B14X4Q57",
+      "ticker_yf": "IBGS.MI",
+      "name": "ISHARES GOVT BOND 1-3YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B14X4S71",
+      "ticker_yf": "IBTS.MI",
+      "name": "ISHARES $ TREASURY 1-3YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZS681",
+      "ticker_yf": "IBGX.MI",
+      "name": "ISHARES EURO GOVT BOND 3-5YR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZS798",
+      "ticker_yf": "IBTM.MI",
+      "name": "ISHARES $ TREASURY 7-10YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZS806",
+      "ticker_yf": "IBGM.MI",
+      "name": "ISHARES EU GOVT 7-10YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZS913",
+      "ticker_yf": "IBGL.MI",
+      "name": "ISHARES EU GOVT 15-30YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZSB30",
+      "ticker_yf": "IGLT.MI",
+      "name": "ISHARES CORE UK GILTS UCITS ETF GBP DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZSC47",
+      "ticker_yf": "ITPS.MI",
+      "name": "ISHARES $ TIPS UCITS ETF USD ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B1FZSD53",
+      "ticker_yf": "INXG.MI",
+      "name": "ISHARES INDEX-LINK GILTS UCITS ETF GBP D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B2NPKV68",
+      "ticker_yf": "IEMB.MI",
+      "name": "ISHARES J.P. MORGAN $ EM UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3B8Q275",
+      "ticker_yf": "ICOV.MI",
+      "name": "ISHARES EU COVERED BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3BPCH51",
+      "ticker_yf": "PEU.MI",
+      "name": "Invesco Euro Cash 3 Months UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3DKXQ41",
+      "ticker_yf": "IEAG.MI",
+      "name": "iShares € Aggregate Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3F81R35",
+      "ticker_yf": "IEAC.MI",
+      "name": "ISHARES CORE EU CORP BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3FH7618",
+      "ticker_yf": "IEGE.MI",
+      "name": "ISHARES EU GOVT BOND 0-1Y UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3S5XW04",
+      "ticker_yf": "GOVY.MI",
+      "name": "State Street SPDR Bloomberg Euro Government Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3T9LM79",
+      "ticker_yf": "EUCO.MI",
+      "name": "State Street SPDR Bloomberg Euro Corporate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3VTMJ91",
+      "ticker_yf": "CSBGE3.MI",
+      "name": "ISHARES EU GOVT BOND 1-3YR UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3VTML14",
+      "ticker_yf": "CSBGE7.MI",
+      "name": "ISHARES EU GOVT BOND 3-7YR UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3VTN290",
+      "ticker_yf": "SXRQ.MI",
+      "name": "iShares EUR Govt Bond 7-10yr UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3VWN179",
+      "ticker_yf": "CSBGU3.MI",
+      "name": "ISHARES $ TREA 1-3YR UCITS ETF USD ACC B",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B3VWN393",
+      "ticker_yf": "CSBGU7.MI",
+      "name": "ISHARES $ TREASURY 3-7YR UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B41RYL63",
+      "ticker_yf": "EUAG.MI",
+      "name": "State Street SPDR Bloomberg Euro Aggregate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B43QJJ40",
+      "ticker_yf": "GLAG.MI",
+      "name": "State Street SPDR Bloomberg Global Aggregate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B44CND37",
+      "ticker_yf": "TRSY.MI",
+      "name": "State Street SPDR Bloomberg U.S. Treasury Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4613386",
+      "ticker_yf": "EMLD.MI",
+      "name": "State Street SPDR Bloomberg Emerging Markets Local Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4L5ZG21",
+      "ticker_yf": "IEXF.MI",
+      "name": "ISHARES EU COR BOND EXFIN UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4L60045",
+      "ticker_yf": "SE15.MI",
+      "name": "ISHARES EU COR BOND 1-5YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4P11460",
+      "ticker_yf": "EMLB.MI",
+      "name": "PIMCO Emerging Markets Advantage Local Bond UCITS ETF USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4PY7Y77",
+      "ticker_yf": "IHYU.MI",
+      "name": "ISHARES $ HIGH YIELD CORP UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4WXJG34",
+      "ticker_yf": "IBGY.MI",
+      "name": "ISHARES EU GOVT BOND 5-7Y UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4WXJH41",
+      "ticker_yf": "IBGZ.MI",
+      "name": "ISHARES EU GOVT 10-15YR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B4WXJJ64",
+      "ticker_yf": "SEGA.MI",
+      "name": "ISHARES CORE EU GOVT BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B5M4WH52",
+      "ticker_yf": "SEML.MI",
+      "name": "ISHARES JP MOR EM LOC GOV BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B66F4759",
+      "ticker_yf": "IHYG.MI",
+      "name": "ISHARES HIGH YLD CORP UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B6TLBW47",
+      "ticker_yf": "EMCR.MI",
+      "name": "ISHARES JP MORG $ EM CORP BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B6YX5F63",
+      "ticker_yf": "GOVS.MI",
+      "name": "State Street SPDR Bloomberg 1-3 Year Euro Government Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B6YX5H87",
+      "ticker_yf": "SESR.MI",
+      "name": "State Street SPDR Bloomberg 0-3 Year Euro Corporate Scored UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B6YX5M31",
+      "ticker_yf": "JNKE.MI",
+      "name": "State Street SPDR Bloomberg Euro High Yield Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B74DQ490",
+      "ticker_yf": "HYLD.MI",
+      "name": "ISHARES GLO HIGH YLD CORP UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B7J7TB45",
+      "ticker_yf": "CORP.MI",
+      "name": "ISHARES GLOBAL CORP BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B7LW6Y90",
+      "ticker_yf": "IITB.MI",
+      "name": "ISHARES ITALY GOVT BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B7N3YW49",
+      "ticker_yf": "STHY.MI",
+      "name": "PIMCO US Short-Term High Yield Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B99FL386",
+      "ticker_yf": "SJNK.MI",
+      "name": "State Street  SPDR Bloomberg U.S. High Yield  Corporate Scored UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00B9M6RS56",
+      "ticker_yf": "EMBE.MI",
+      "name": "ISHARES JPMOR $ EM BOND EU HED UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BC7GZJ81",
+      "ticker_yf": "TRS3.MI",
+      "name": "State Street SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BC7GZW19",
+      "ticker_yf": "SEUC.MI",
+      "name": "State Street SPDR Bloomberg 0-3 Year Euro Corporate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BC7GZX26",
+      "ticker_yf": "SUSC.MI",
+      "name": "SPDR BL 0-3 Y US CORP BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BCRY6003",
+      "ticker_yf": "SDHY.MI",
+      "name": "ISHARES $ SHT DUR YLD COR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BCRY6557",
+      "ticker_yf": "ERNE.MI",
+      "name": "ISHARES EU ULTRASHT BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BD0Q9673",
+      "ticker_yf": "HYFA.MI",
+      "name": "INVESCO US HIY FALLEN ANGELS UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BD4DX952",
+      "ticker_yf": "XQUA.MI",
+      "name": "XTRA ES US EMER MAR BON Q W UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BD4DXB77",
+      "ticker_yf": "XQUE.MI",
+      "name": "XTR ESG USD EM B QU WE UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BD8D5H32",
+      "ticker_yf": "EUHI.MI",
+      "name": "PIMCO Advantage Euro Short-Term High Yield Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BD9MMD49",
+      "ticker_yf": "JU13.MI",
+      "name": "JPM BETABUIL TREAS 1-3 USD ACC UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDBRDM35",
+      "ticker_yf": "AGGH.MI",
+      "name": "ISHARES CORE GLB AG BOND UCITS ETF EUR H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDD48R20",
+      "ticker_yf": "VUSC.MI",
+      "name": "VANGUARD USD CORPORATE 1-3 Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDD48S37",
+      "ticker_yf": "VSCE.MI",
+      "name": "Vanguard EUR Corporate 1-3 Year Bond UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDDRDY39",
+      "ticker_yf": "JMBE.MI",
+      "name": "JPM USD EMER SOVEREIGN UCITS ETF EUR H A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDFC6G93",
+      "ticker_yf": "JPMB.MI",
+      "name": "JPMORGAN USD EM MKT SOVER BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDR5HM97",
+      "ticker_yf": "XUHY.MI",
+      "name": "XTRACKERS USD HY CORPORAT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDS67326",
+      "ticker_yf": "EMLC.MI",
+      "name": "VANECK JPM EM LOCAL CURR BOND  UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BDT6FP91",
+      "ticker_yf": "GCVE.MI",
+      "name": "State Street  SPDR FTSE Global Convertible Bond EUR Hdg UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF11F458",
+      "ticker_yf": "FLOE.MI",
+      "name": "ISHARES $ FLOAT RATE UCITS ETF EUR HED",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF11F565",
+      "ticker_yf": "IEAA.MI",
+      "name": "ISHARES CORE EU CORP BOND UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF1QPL78",
+      "ticker_yf": "GLAE.MI",
+      "name": "State Street SPDR Bloomberg Global Aggregate Bond EUR Hdg UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF2FN646",
+      "ticker_yf": "TREX.MI",
+      "name": "INVESCO US TREASURY 7-10 YEAR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF2FN869",
+      "ticker_yf": "TRXE.MI",
+      "name": "INVESCO US TREAS 7-10 UCITS ETF EUR H D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF2FNG46",
+      "ticker_yf": "TRE3.MI",
+      "name": "INVESCO US TREASURY 1-3 YEAR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF2FNQ44",
+      "ticker_yf": "TRE7.MI",
+      "name": "INVESCO US TREASURY 3-7 YEAR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF2GFH28",
+      "ticker_yf": "TRES.MI",
+      "name": "INVESCO US TREASURY BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF3N7102",
+      "ticker_yf": "IHYE.MI",
+      "name": "ISHARES $ HY CORP BOND UCITS ETF EURH",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF51K025",
+      "ticker_yf": "PUIG.MI",
+      "name": "Invesco USD IG Corporate Bond ESG Climate Transition UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF51K132",
+      "ticker_yf": "PEMD.MI",
+      "name": "INVESCO EMER MKTS USD BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF51K249",
+      "ticker_yf": "PSFE.MI",
+      "name": "Invesco EUR IG Corporate Bond ESG Climate Transition UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF540Z61",
+      "ticker_yf": "GFA.MI",
+      "name": "VANECK FALLEN ANGEL HIGH YIELD UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF541080",
+      "ticker_yf": "HYEM.MI",
+      "name": "VANECK EMER MARKETS HIGH YIELD UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF553838",
+      "ticker_yf": "EMSA.MI",
+      "name": "iShares JP Morgan Advanced $ EM Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF8HV600",
+      "ticker_yf": "STHE.MI",
+      "name": "PIMCO US Short-Term High Yield Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BF8J5974",
+      "ticker_yf": "XYLD.MI",
+      "name": "XT USD COR BOND SH DUR SRI PAB UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFM6TB42",
+      "ticker_yf": "CRPA.MI",
+      "name": "ISHARES GLOBAL CORP BOND UCITS ETF ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFNNN236",
+      "ticker_yf": "COBO.MI",
+      "name": "WISDOMTREE AT1 COCO BOND UCITS ETF EUR-H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFNNN343",
+      "ticker_yf": "COBA.MI",
+      "name": "WisdomTree AT1 CoCo Bond UCITS ETF EUR H Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFWFPY67",
+      "ticker_yf": "EMLA.MI",
+      "name": "State Street SPDR Bloomberg Emerging Markets Local Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFY0GV36",
+      "ticker_yf": "USCE.MI",
+      "name": "State Street SPDR Bloomberg U.S. Corporate Scored EUR Hdg UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFZPF322",
+      "ticker_yf": "AT1.MI",
+      "name": "Invesco USD AT1 CoCo Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BFZPF439",
+      "ticker_yf": "XAT1.MI",
+      "name": "Invesco USD AT1 CoCo Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BG0TQB18",
+      "ticker_yf": "AT1D.MI",
+      "name": "Invesco USD AT1 CoCo Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BG47KH54",
+      "ticker_yf": "VAGF.MI",
+      "name": "VANGUARD GLOB AGGREGATE BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BG5QQ390",
+      "ticker_yf": "IU0E.MI",
+      "name": "iShares $ Corp Bond 0-3Yr ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGJWWT11",
+      "ticker_yf": "EIB7.MI",
+      "name": "INVESCO EURO GOV BOND 5-7 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGJWWV33",
+      "ticker_yf": "EIB5.MI",
+      "name": "INVESCO EURO GOV BOND 3-5 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGJWWW40",
+      "ticker_yf": "EIBX.MI",
+      "name": "INVESCO EURO GOV BOND 7-10 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGJWWX56",
+      "ticker_yf": "EIBB.MI",
+      "name": "INVESCO EURO GOVERNMENT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGJWWY63",
+      "ticker_yf": "EIB3.MI",
+      "name": "INVESCO EURO GOV BOND 1-3 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWCB81",
+      "ticker_yf": "VDEA.MI",
+      "name": "VANGUARD USD EMERGING GOVERN UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWFK87",
+      "ticker_yf": "VUCE.MI",
+      "name": "VANGUARD USD CORPORATE BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWFL94",
+      "ticker_yf": "VDCE.MI",
+      "name": "VANGUARD USD CORP BOND UCITS ETF EURH A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWFS63",
+      "ticker_yf": "VDTA.MI",
+      "name": "VANGUARD USD TREASURY BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWSV06",
+      "ticker_yf": "VDCA.MI",
+      "name": "VANGUARD USD CORPORATE 1-3 Y UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWSW13",
+      "ticker_yf": "VCDE.MI",
+      "name": "Vanguard USD Corp 1-3 Y UCITS ETF H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BGYWT403",
+      "ticker_yf": "VECA.MI",
+      "name": "VANGUARD EUR CORPORATE BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BH04FZ00",
+      "ticker_yf": "VSCF.MI",
+      "name": "Vanguard EUR Corporate 1-3 Year Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BH04GL39",
+      "ticker_yf": "VGEA.MI",
+      "name": "VANGUARD EUROZONE GOVERNMENT UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BH3X8336",
+      "ticker_yf": "EMLI.MI",
+      "name": "PIMCO Advantage Emerging Markets Local Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJ06C937",
+      "ticker_yf": "JMBA.MI",
+      "name": "JPM EMERGING SOVEREIGN UCITS ETF USD ACC",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJJYYX67",
+      "ticker_yf": "TFRN.MI",
+      "name": "WISDOMTREE USD FLOAT TREASUR UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJK3WF00",
+      "ticker_yf": "BBIL.MI",
+      "name": "JPM BETABUILD US TREASURY 0-1 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJK55C48",
+      "ticker_yf": "EHYA.MI",
+      "name": "iShares € High Yield Corp Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJK9HD13",
+      "ticker_yf": "BBEG.MI",
+      "name": "JPM BETABUILD EUR GOVT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJK9HH50",
+      "ticker_yf": "BBTR.MI",
+      "name": "JPM BETABUILD US TREASURY BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJL36X53",
+      "ticker_yf": "EMHE.MI",
+      "name": "State Street SPDR ICE BofA 0-5 Year EM USD Government Bond EUR Hdg UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BJSBCS90",
+      "ticker_yf": "CBND.MI",
+      "name": "GOLDMAN ACCESS CHINA GOV USD D UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BK8JH525",
+      "ticker_yf": "EMDE.MI",
+      "name": "State Street SPDR Bloomberg Emerging Markets Local Bond USD Base CCY Hdg to EUR UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BKWD3743",
+      "ticker_yf": "TREL.MI",
+      "name": "INVESCO US TREASURY 10+ Y UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BKWD3966",
+      "ticker_yf": "EHYB.MI",
+      "name": "INVESCO EURO CORP HYBRID BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BKWD3B81",
+      "ticker_yf": "EHBA.MI",
+      "name": "INVESCO EURO COR HYBRID BOND UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BKWD3C98",
+      "ticker_yf": "TREI.MI",
+      "name": "INVESCO US TREASURY 0-1 Y UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BKX90X67",
+      "ticker_yf": "TINE.MI",
+      "name": "Janus Henderson US Enhanced Inflation Core UCITS ETF EUR-H Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BL58LJ19",
+      "ticker_yf": "XZBU.MI",
+      "name": "XT USD CORPORATE BOND SRI PAB  UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BL6K6H97",
+      "ticker_yf": "TIGR.MI",
+      "name": "L&G INDIA INR GOVERNMENT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLDGH553",
+      "ticker_yf": "SECA.MI",
+      "name": "ISHARES € GOVT BOND CLIMATE UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLF7VX27",
+      "ticker_yf": "USCO.MI",
+      "name": "State Street SPDR Bloomberg U.S. Corporate Scored UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLRPPV00",
+      "ticker_yf": "VDST.MI",
+      "name": "Vanguard U.S. Treas 0-1 Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLRPQL76",
+      "ticker_yf": "DRGN.MI",
+      "name": "L&G CHINA CNY BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLRPQP15",
+      "ticker_yf": "EMD5.MI",
+      "name": "L&G Emerging Markets Government Bond (USD) 0-5 Year Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLRPRD67",
+      "ticker_yf": "USDC.MI",
+      "name": "L&G USD Corporate Bond Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BLRPRF81",
+      "ticker_yf": "EMUS.MI",
+      "name": "L&G Emerging Markets Corporate Bond (USD) Screened UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BM97MR69",
+      "ticker_yf": "XT01.MI",
+      "name": "Xtrackers Treasuries Ultrashort Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BMDBMN04",
+      "ticker_yf": "GRON.MI",
+      "name": "ISHARES € GREEN BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BMX0B631",
+      "ticker_yf": "VDTE.MI",
+      "name": "VANGUARD USD TREAS BOND UCITS ETF EURH A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BMYHQM42",
+      "ticker_yf": "GOVA.MI",
+      "name": "State Street SPDR Bloomberg Euro Government Bond UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BN4GXL63",
+      "ticker_yf": "COOL.MI",
+      "name": "Janus Henderson EUR IG Bond Paris-aligned Climate Core UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BNDS1P30",
+      "ticker_yf": "V3GF.MI",
+      "name": "VANGUARD ESG GL COR BOND UCITS ETF HDG A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BNDS1Q47",
+      "ticker_yf": "V3GE.MI",
+      "name": "VANGUARD ESG GL COR BOND UCITS ETF HDG D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BNG70R26",
+      "ticker_yf": "MUNI.MI",
+      "name": "INVESCO US MUNICIPAL BOND UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BNH72088",
+      "ticker_yf": "CONV.MI",
+      "name": "State Street SPDR FTSE Global Convertible Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BP46NG52",
+      "ticker_yf": "EMH5.MI",
+      "name": "State Street SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BQWJFQ70",
+      "ticker_yf": "MGIN.MI",
+      "name": "State Street SPDR MORNINGSTAR MULTI-ASSET GLOBAL INFRASTRUCTURE UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BS7K8821",
+      "ticker_yf": "EU35.MI",
+      "name": "State Street SPDR Bloomberg 3-5 Year Euro Government Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BSKRK281",
+      "ticker_yf": "IEBB.MI",
+      "name": "ISHARES EU CORPOR BBB-BB UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYM31M36",
+      "ticker_yf": "WING.MI",
+      "name": "ISHARES FALL ANG YLD COR UCITS ETF DIST",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYPC1H27",
+      "ticker_yf": "CNYB.MI",
+      "name": "ISHARES CHINA CNY BOND UCITS ETF USD D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYPHT736",
+      "ticker_yf": "XDEP.MI",
+      "name": "XTRACK IBX EUR CORPE YLD PLUS UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYSZ5V04",
+      "ticker_yf": "LUTR.MI",
+      "name": "State Street SPDR Bloomberg 10+ Year U.S. Treasury Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYSZ6062",
+      "ticker_yf": "LGOV.MI",
+      "name": "State Street SPDR Bloomberg 10+ Year Euro Government Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYTH5602",
+      "ticker_yf": "SJNE.MI",
+      "name": "State Street SPDR Bloomberg U.S. High Yield Corporate Scored EUR Hdg UCITS ETF (Acc)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYV12Y75",
+      "ticker_yf": "IUCB.MI",
+      "name": "State Street SPDR Bloomberg 1-10 Year U.S. Corporate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYVTMZ20",
+      "ticker_yf": "FAEU.MI",
+      "name": "INVESCO US HY FALLEN ANG UCITS ETF EUR H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYVZV757",
+      "ticker_yf": "JE13.MI",
+      "name": "JPM BETABUIL EUR GOV 1-3 Y ACC UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYZTVT56",
+      "ticker_yf": "SUOE.MI",
+      "name": "iShares € Corp Bond ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BYZTVV78",
+      "ticker_yf": "SUSE.MI",
+      "name": "iShares € Corp Bond 0-3Yr ESG SRI UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ036H21",
+      "ticker_yf": "XDGU.MI",
+      "name": "XTRACKERS USD CORPORATE BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ036J45",
+      "ticker_yf": "XDGE.MI",
+      "name": "XTRACKERS USD CORP BOND EU HED UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ048462",
+      "ticker_yf": "FLTR.MI",
+      "name": "ISHARES $ FLOATING RATE UCITS ETF USD",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ0G8860",
+      "ticker_yf": "LUSC.MI",
+      "name": "State Street SPDR Bloomberg 10+ Year U.S. Corporate Bond UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ0G8977",
+      "ticker_yf": "TIPS.MI",
+      "name": "State Street SPDR Bloomberg U.S. TIPS UCITS ETF (Dist)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ0XVF52",
+      "ticker_yf": "CCBO.MI",
+      "name": "WISDOMTREE AT1 COCO BOND UCITS ETF - USD",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ163G84",
+      "ticker_yf": "VECP.MI",
+      "name": "VANGUARD EUR CORPORATE BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ163H91",
+      "ticker_yf": "VETY.MI",
+      "name": "VANGUARD EUR EUROZON GOVT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ163K21",
+      "ticker_yf": "VUCP.MI",
+      "name": "VANGUARD USD CORPORATE BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ163L38",
+      "ticker_yf": "VEMT.MI",
+      "name": "VANGUARD USD EM MKTS GOVT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "IE00BZ163M45",
+      "ticker_yf": "VUTY.MI",
+      "name": "VANGUARD USD TREASURY BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290355717",
+      "ticker_yf": "XGLE.MI",
+      "name": "XTRACKERS II EUROZ GOVT UCITS ETF 1C",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290356871",
+      "ticker_yf": "X13E.MI",
+      "name": "XTRACKERS II EUROZ GOVT 1-3 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290356954",
+      "ticker_yf": "X35E.MI",
+      "name": "XTRACKERS II EUROZ GOVT 3-5 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290357176",
+      "ticker_yf": "X57E.MI",
+      "name": "XTRACKERS II EUROZ GOVT 5-7 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290357259",
+      "ticker_yf": "X710.MI",
+      "name": "XTRACKERS II EUROZ GOVT 7-10 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290357507",
+      "ticker_yf": "X15E.MI",
+      "name": "XTRACKERS II EUROZ GOVT 15-30 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290357846",
+      "ticker_yf": "X25E.MI",
+      "name": "XTRACKERS II EUROZ GOVT 25+ UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290357929",
+      "ticker_yf": "XGIN.MI",
+      "name": "XTRACKERS II GL INF-LINK EUR H UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290358224",
+      "ticker_yf": "XEIN.MI",
+      "name": "XTRACKERS II EUROZ INFL-LINK UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0290358497",
+      "ticker_yf": "XEON.MI",
+      "name": "XTRACKERS II EUR OVNI RATE SWA UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0321462953",
+      "ticker_yf": "XEMB.MI",
+      "name": "Xtrackers  II  J.P.  Morgan  USD  Emerging Markets Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0321464652",
+      "ticker_yf": "XSTR.MI",
+      "name": "XTRACKERS II GBP OVNI RATE SWA UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0321465469",
+      "ticker_yf": "XFFE.MI",
+      "name": "XTRACKERS II USD OVNI RATE SWA UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0378818131",
+      "ticker_yf": "XGSH.MI",
+      "name": "XTRACKERS II GL GOVT EUR HED C UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0429458895",
+      "ticker_yf": "XUT3.MI",
+      "name": "Xtrackers US Treasuries 1-3 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0429459356",
+      "ticker_yf": "XUTD.MI",
+      "name": "XTRACKERS II US TREASURIES UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0478205379",
+      "ticker_yf": "XBLC.MI",
+      "name": "XTRACKERS II EUR CORPORAT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0484968812",
+      "ticker_yf": "XB4F.MI",
+      "name": "XTRACKERS EUR CORP B SRI PAB  UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0484969463",
+      "ticker_yf": "XBAT.MI",
+      "name": "Xtrackers II Target Maturity Sept 2029 Italy and Spain Government Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0494592974",
+      "ticker_yf": "XCS2.MI",
+      "name": "XTRACKERS II AUSTRAL GOVT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0524480265",
+      "ticker_yf": "XY4P.MI",
+      "name": "XTRII IBOXX EUROZ GOV YLD PLUS UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0613540268",
+      "ticker_yf": "XBOT.MI",
+      "name": "XTRACKERS II ITAL GOV 0-1 SWAP UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0643975161",
+      "ticker_yf": "X03G.MI",
+      "name": "Xtrackers Germany Government Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0677077884",
+      "ticker_yf": "XUEM.MI",
+      "name": "XTRACKERS II USD EMRG MKTS B UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0690964092",
+      "ticker_yf": "XGVD.MI",
+      "name": "XTRACKERS II GL GOVT EUR HED D UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0721552544",
+      "ticker_yf": "UT1EUA.MI",
+      "name": "UBS Core BBG US Treasury 1-3 UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0721552973",
+      "ticker_yf": "UT7EUA.MI",
+      "name": "UBS Core BBG US Treasury 1-10 UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0832435464",
+      "ticker_yf": "LVO.MI",
+      "name": "Amundi S&P500 VIXFut EnhRol UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0879397742",
+      "ticker_yf": "SB5.MI",
+      "name": "UBS SBI® Foreign AAA-BBB 1-5 ESG UCITS ETF CHF dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0879399441",
+      "ticker_yf": "SB10.MI",
+      "name": "UBS SBI® Foreign AAA-BBB 5-10 ESG UCITS ETF CHF dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0908508731",
+      "ticker_yf": "XG7S.MI",
+      "name": "XTRACKERS II GLOB GOVT BOND UCITS ETF 5C",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0908508814",
+      "ticker_yf": "XGIU.MI",
+      "name": "XTRACKERS II GL INFL-LINKED UCITS ETF 5C",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0925589839",
+      "ticker_yf": "XYP1.MI",
+      "name": "XTRAC II EUROZ GOV YLD PLU 1-3 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0942970103",
+      "ticker_yf": "XBAG.MI",
+      "name": "XTRACKERS II ESG GL AGGR BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0942970798",
+      "ticker_yf": "XBAE.MI",
+      "name": "XTRACKERS II ESG GLO AGG BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0952581584",
+      "ticker_yf": "XJSE.MI",
+      "name": "XTRACKERS II JAPAN GOVT BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0962078753",
+      "ticker_yf": "XGII.MI",
+      "name": "XTRACK II GL INF-LINK EUR H D UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU0969639128",
+      "ticker_yf": "SS1EUA.MI",
+      "name": "UBS Core BBG EUR Gov 1-10 UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1048314196",
+      "ticker_yf": "CBEU5.MI",
+      "name": "UBS BBG Euro Area Liquid Corp 1-5 UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1048314949",
+      "ticker_yf": "CBUS5.MI",
+      "name": "UBS BBG US Liquid Corp 1-5 UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1048315243",
+      "ticker_yf": "CBUS5E.MI",
+      "name": "UBS BBG US Liquid Corp 1-5 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1048316647",
+      "ticker_yf": "CBUS.MI",
+      "name": "UBS Core BBG US Liquid Corp UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1048317025",
+      "ticker_yf": "CBUSE.MI",
+      "name": "UBS Core BBG US Liquid Corp UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1094612022",
+      "ticker_yf": "CGB.MI",
+      "name": "XTRACKERS II HARVEST CHIN GOVT UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1109939865",
+      "ticker_yf": "XHY1.MI",
+      "name": "Xtrackers  II  Rolling  Target  Maturity  Sept 2027 EUR High Yield UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1109941689",
+      "ticker_yf": "XRTM.MI",
+      "name": "Xtrackers II Rolling Target Maturity Sept 2027 EUR High Yield UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1109942653",
+      "ticker_yf": "XHYG.MI",
+      "name": "XTRACK II EUR HI YLD CORP BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1109943388",
+      "ticker_yf": "XHYA.MI",
+      "name": "Xtrackers EUR High Yield Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1215415214",
+      "ticker_yf": "HYBB.MI",
+      "name": "Amundi Euro High Yield Bond ESG UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1215461085",
+      "ticker_yf": "CBSUS.MI",
+      "name": "UBS BBG MSCI US Liquid Corp Sustainable UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1215461168",
+      "ticker_yf": "CBSUSA.MI",
+      "name": "UBS BBG MSCI US Liquid Corp Sustainable UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1215461325",
+      "ticker_yf": "CBSUSE.MI",
+      "name": "UBS BBG MSCI US Liquid Corp Sustainable UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1233598447",
+      "ticker_yf": "FEDF.MI",
+      "name": "Amndi Fed Fnds US Dollar Cash UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1285959703",
+      "ticker_yf": "USIG.MI",
+      "name": "Amundi USD Corporate Bond Climate Paris Aligned UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1285959885",
+      "ticker_yf": "USIC.MI",
+      "name": "Amundi USD Corporate Bond Climate Paris Aligned UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1285960032",
+      "ticker_yf": "USIH.MI",
+      "name": "Amundi USD Corporate Bond Climate Paris Aligned UCITS ETF EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1287023003",
+      "ticker_yf": "EM57.MI",
+      "name": "Amundi Euro Gvrnmnt Bnd 5-7Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1287023185",
+      "ticker_yf": "EM710.MI",
+      "name": "Amdi Euro Govnt Bond 7-10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1287023268",
+      "ticker_yf": "EM15.MI",
+      "name": "Amundi Eur Gvrnmnt Bnd 15+Y UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1287023342",
+      "ticker_yf": "EMAAA.MI",
+      "name": "Amd Eur H Rtd Mcro-Wgh Gvn Bd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1324510525",
+      "ticker_yf": "UST1F.MI",
+      "name": "UBS Core BBG US Treasury 1-3 UCITS ETF hEUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1324516050",
+      "ticker_yf": "SBEM.MI",
+      "name": "UBS BBG USD EM Sovereign UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1324516308",
+      "ticker_yf": "SBEME.MI",
+      "name": "UBS BBG USD EM Sovereign UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1390062245",
+      "ticker_yf": "INFL.MI",
+      "name": "Amndi Eur Infl Expt 2-10Y UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1390062831",
+      "ticker_yf": "INFU.MI",
+      "name": "Amundi US Inflation Expct 10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1399300455",
+      "ticker_yf": "XUTE.MI",
+      "name": "XTRACKERS II US TREAS EURO HED UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407887089",
+      "ticker_yf": "US1.MI",
+      "name": "Amundi US Treas 1-3Y UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407887162",
+      "ticker_yf": "US13.MI",
+      "name": "Amundi US Treasury Bond 1-3Y UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407887329",
+      "ticker_yf": "U13H.MI",
+      "name": "Amundi US Treasury Bond 1-3Y UCITS ETF EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407887915",
+      "ticker_yf": "US7.MI",
+      "name": "Amundi US Treas 7-10Y UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407888996",
+      "ticker_yf": "US37.MI",
+      "name": "Amundi US Treasury Bond 3-7Y UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407890547",
+      "ticker_yf": "US10C.MI",
+      "name": "Amundi US Treas Bnd Long Dtd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407890620",
+      "ticker_yf": "US10.MI",
+      "name": "Amundi US Treas Bnd Long Datd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1407890976",
+      "ticker_yf": "U10H.MI",
+      "name": "Amundi US Treas Bnd Lng Dated UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1435356065",
+      "ticker_yf": "USHYC.MI",
+      "name": "AMUNDI USD HIGH YIELD CORPORATE BOND ESG UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1435356149",
+      "ticker_yf": "USHY.MI",
+      "name": "AMUNDI USD HIGH YIELD CORPORATE BOND ESG UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1435356495",
+      "ticker_yf": "USYH.MI",
+      "name": "AMUNDI USD HIGH YIELD CORPORATE BOND ESG UCITS ETF EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1437016204",
+      "ticker_yf": "GGOV.MI",
+      "name": "Amundi Core Global Government Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1437018168",
+      "ticker_yf": "ECRP.MI",
+      "name": "Amundi EUR Corporate Bond ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1437018598",
+      "ticker_yf": "EGOV.MI",
+      "name": "Amundi Core Euro Government Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1437024729",
+      "ticker_yf": "GAGG.MI",
+      "name": "Amundi Core Global Aggregate Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1452600270",
+      "ticker_yf": "TIPU.MI",
+      "name": "Amdi US TIPS Gvrn Inf-Lnk Bnd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1452600437",
+      "ticker_yf": "TIPE.MI",
+      "name": "Amdi US TIPS Gov Infl-Lnk Bnd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459799943",
+      "ticker_yf": "T10D.MI",
+      "name": "UBS Core BBG US Treasury 10+ UCITS ETF USD Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459800030",
+      "ticker_yf": "T10A.MI",
+      "name": "UBS Core BBG US Treasury 10+ UCITS ETF USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459800113",
+      "ticker_yf": "UST10F.MI",
+      "name": "UBS Core BBG US Treasury 10+ UCITS ETF hEUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459801434",
+      "ticker_yf": "TIP1D.MI",
+      "name": "UBS Core BBG TIPS 1-10 UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459801517",
+      "ticker_yf": "TIP1A.MI",
+      "name": "UBS Core BBG TIPS 1-10 UCITS ETF USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459801780",
+      "ticker_yf": "TIP1E.MI",
+      "name": "UBS Core BBG TIPS 1-10 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459802754",
+      "ticker_yf": "TIP10D.MI",
+      "name": "UBS BBG TIPS 10+ UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1459803059",
+      "ticker_yf": "TIP10E.MI",
+      "name": "UBS BBG TIPS 10+ UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1481202692",
+      "ticker_yf": "JBEM.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1484799769",
+      "ticker_yf": "CBSEU.MI",
+      "name": "UBS BBG MSCI Euro Area Liquid Corp Sustainable UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1525418643",
+      "ticker_yf": "EBBB.MI",
+      "name": "AMUNDI EUR CORPORATE BOND 1-5Y ESG UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1525418726",
+      "ticker_yf": "UBBB.MI",
+      "name": "Amundi Global Corporate Bond 1-5Y ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1547515137",
+      "ticker_yf": "ASRD.MI",
+      "name": "BNP Paribas Easy JPM ESG EMBI Global Diversified Composite UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1563454310",
+      "ticker_yf": "CLIM.MI",
+      "name": "Amundi Glbl Agg Green Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1563454401",
+      "ticker_yf": "CLMD.MI",
+      "name": "Amundi Global Aggr Green Bnd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1598691050",
+      "ticker_yf": "BTP13.MI",
+      "name": "Amundi It BTP GvrntBnd 1-3Y UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1598691217",
+      "ticker_yf": "BTP10.MI",
+      "name": "Amundi Ita BTP Govmnt Bnd 10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1603790731",
+      "ticker_yf": "IQEC.MI",
+      "name": "INDEXIQ FACT SUST CORPOR EUR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1617164998",
+      "ticker_yf": "HYS.MI",
+      "name": "Amundi € ShrTm HY CrpBn ESG UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1645380368",
+      "ticker_yf": "INFL1.MI",
+      "name": "UBS Core BBG Euro Inflation Linked Bond 1-10 UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1645380442",
+      "ticker_yf": "INF1A.MI",
+      "name": "UBS Core BBG Euro Inflation Linked Bond 1-10 UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1645381689",
+      "ticker_yf": "INFL10.MI",
+      "name": "UBS BBG Euro Inflation Linked 10+ UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1645385839",
+      "ticker_yf": "SHEMB.MI",
+      "name": "UBS J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1645386480",
+      "ticker_yf": "SHEME.MI",
+      "name": "UBS J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1650487413",
+      "ticker_yf": "EM13.MI",
+      "name": "Amundi Euro Government Bond 1-3Y UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1650488494",
+      "ticker_yf": "EM35.MI",
+      "name": "Amundi Eur Gvrnmnt Bnd 3-5Y UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1650489385",
+      "ticker_yf": "EM1015.MI",
+      "name": "Amundi Eur Govnmnt Bnd 10-15Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1650491282",
+      "ticker_yf": "EMI.MI",
+      "name": "Amdi Eur Gvrmnt Infl-Lnkd Bnd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681039647",
+      "ticker_yf": "CC4.MI",
+      "name": "Amundi EUR Corporate Bond ESG - UCITS ETF 2 DR - EUR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681040496",
+      "ticker_yf": "AHYE.MI",
+      "name": "AM EURO HIGH YIELD BOND ESG DR UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681040900",
+      "ticker_yf": "USFRN.MI",
+      "name": "Amundi USD Floating Rate Corporate Bond ESG UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681041031",
+      "ticker_yf": "HFRN.MI",
+      "name": "Amundi USD Floating Rate Corporate Bond ESG UCITS ETF EUR Hedged Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681041114",
+      "ticker_yf": "AFRN.MI",
+      "name": "Amundi EUR Floating Rate Corporate Bond ESG UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681041205",
+      "ticker_yf": "AGEB.MI",
+      "name": "Amundi USD Emerging Markets Government Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681046261",
+      "ticker_yf": "CB3.MI",
+      "name": "AMUNDI EURO GOVERNMENT TILTED GREEN BOND UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681046345",
+      "ticker_yf": "X13G.MI",
+      "name": "Amundi Euro Lowest Rated IG Government Bond 1-3Y UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681046691",
+      "ticker_yf": "AM3A.MI",
+      "name": "Amundi Euro Government Bond Highest Rated Investment Grade UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1681046774",
+      "ticker_yf": "X1G.MI",
+      "name": "Amundi Euro Lowest Rated IG Government Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1686830909",
+      "ticker_yf": "EMKTB.MI",
+      "name": "Amundi USD Emerging Markets Government Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1686831030",
+      "ticker_yf": "EMBHI.MI",
+      "name": "Amundi USD Emerging Markets Government Bond UCITS ETF EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1708330235",
+      "ticker_yf": "GOVH.MI",
+      "name": "Amundi Core Global Government Bond UCITS ETF EUR Hedged Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1708330318",
+      "ticker_yf": "GAGH.MI",
+      "name": "Amundi Core Global Aggregate Bond UCITS ETF EUR Hedged Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1720938841",
+      "ticker_yf": "EMLOC.MI",
+      "name": "UBS J.P. Morgan EM Multi-Factor Enhanced Local Currency Bond UCITS ETF USD dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1737653714",
+      "ticker_yf": "MTIG.MI",
+      "name": "Amundi Core Euro Government Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1805389258",
+      "ticker_yf": "E15S.MI",
+      "name": "UBS Core BBG Euro Area Liquid Corp UCITS ETF EUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1805389506",
+      "ticker_yf": "EUC.MI",
+      "name": "UBS Core BBG Euro Area Liquid Corp UCITS ETF EUR Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1806495575",
+      "ticker_yf": "UCRP.MI",
+      "name": "Amundi USD Corporate Bond ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1812090543",
+      "ticker_yf": "HY.MI",
+      "name": "AMUNDI EUR HIGH YIELD CORPORATE BOND ESG UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1829218822",
+      "ticker_yf": "CBEF.MI",
+      "name": "Amudi EUR Corp Bnd ex-Fin ESG UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1829219127",
+      "ticker_yf": "CRPE.MI",
+      "name": "Amundi EUR Corporate Bond Climate Paris Aligned UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1829219556",
+      "ticker_yf": "AAA13.MI",
+      "name": "Amd E Ht Rt Mr-Wt Gt Bnd 1-3Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1829219713",
+      "ticker_yf": "AAA35.MI",
+      "name": "Amd Eu Hh Rd Ma-Wg Gv Bd 3-5Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1852211215",
+      "ticker_yf": "MDBA.MI",
+      "name": "UBS Sustainable Development Bank Bonds UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1852211991",
+      "ticker_yf": "MDBE.MI",
+      "name": "UBS Sustainable Development Bank Bonds UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1859444769",
+      "ticker_yf": "SRIC.MI",
+      "name": "BNP Paribas Easy EUR Corp Bond SRI PAB UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1910939849",
+      "ticker_yf": "GIST.MI",
+      "name": "Amd Glb Gvt Inf-Lnk Bnd 1-10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1910940268",
+      "ticker_yf": "GISE.MI",
+      "name": "Amdi Gl Grm Inf-Lnk Bnd 1-10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1920015440",
+      "ticker_yf": "XUEB.MI",
+      "name": "Xtrackers II J.P. Morgan USD Emerging Markets Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1931975079",
+      "ticker_yf": "ETFCOR.MI",
+      "name": "Amundi Core EUR Corporate Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1931975152",
+      "ticker_yf": "ETFGOV.MI",
+      "name": "Amundi Prime Euro Government Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1931975236",
+      "ticker_yf": "ETFGG.MI",
+      "name": "Amundi Prime Globl Gov Bond UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1931975319",
+      "ticker_yf": "ETFUST.MI",
+      "name": "Amundi Core US Treasury Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1974693662",
+      "ticker_yf": "EGO.MI",
+      "name": "UBS J.P. Morgan Global Gov ESG Liquid Bond UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1974694553",
+      "ticker_yf": "EGE.MI",
+      "name": "UBS J.P. Morgan Global Gov ESG Liquid Bond UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1974695790",
+      "ticker_yf": "EMIG.MI",
+      "name": "UBS J.P. Morgan USD EM IG Screened Diversified Bond UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1974696418",
+      "ticker_yf": "EMIGE.MI",
+      "name": "UBS J.P. Morgan USD EM IG Screened Diversified Bond UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU1981860072",
+      "ticker_yf": "XCO2E.MI",
+      "name": "Amundi Global Aggregate Proceeds Bond 1-10Y UCITS ETF EUR Hedged Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2008760592",
+      "ticker_yf": "SRIC3.MI",
+      "name": "BNP Paribas Easy EUR Corp Bond SRI PAB 1-3Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2008761053",
+      "ticker_yf": "SRIC5.MI",
+      "name": "BNP Paribas Easy EUR Corp Bond SRI PAB 3-5Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2018762653",
+      "ticker_yf": "STPU.MI",
+      "name": "LYXOR US STEEPENING 2-10 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2037748774",
+      "ticker_yf": "ECRP3.MI",
+      "name": "Amundi EUR Corporate Bond 0-3Y ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2037749152",
+      "ticker_yf": "ETFUSC.MI",
+      "name": "Amundi Core USD Corporate Bond UCITS ETF Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2069380306",
+      "ticker_yf": "OG35.MI",
+      "name": "OSSIAM EURO GOV 3-5 CARB REDUC UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2089238625",
+      "ticker_yf": "ETFCRP.MI",
+      "name": "Amundi Core EUR Corporate Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2095995895",
+      "ticker_yf": "CIB.MI",
+      "name": "UBS J.P. Morgan CNY China Gov 1-10 UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2098179695",
+      "ticker_yf": "JT13.MI",
+      "name": "UBS BBG Japan Treasury 1-3 UCITS ETF JPY acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2098180271",
+      "ticker_yf": "JT13E.MI",
+      "name": "UBS BBG Japan Treasury 1-3 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2099289147",
+      "ticker_yf": "GOVG.MI",
+      "name": "Amundi Global Government Bond UCITS ETF EUR Hedged Dist",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2099295466",
+      "ticker_yf": "GHYE.MI",
+      "name": "Amundi GlbHgYld CrptBnd ESG $ UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2099296274",
+      "ticker_yf": "GHYEH.MI",
+      "name": "Amundi GlbHgYld CrptBnd ESG € UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2099991536",
+      "ticker_yf": "ECO.MI",
+      "name": "UBS BBG MSCI Global Liquid Corp Sustainable UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2099992260",
+      "ticker_yf": "ECE.MI",
+      "name": "UBS BBG MSCI Global Liquid Corp Sustainable UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2158769930",
+      "ticker_yf": "XEML.MI",
+      "name": "Xtrackers JPM EM Local Gover UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2178481649",
+      "ticker_yf": "XZE5.MI",
+      "name": "EUR CORP B SH DU SRI PAB UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2182388236",
+      "ticker_yf": "EGRI.MI",
+      "name": "Amundi Euro Aggregate Bond ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2194286006",
+      "ticker_yf": "GEB.MI",
+      "name": "UBS J.P. Morgan EMU Gov ESG Liquid Bond UCITS ETF EUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2244386053",
+      "ticker_yf": "HYSRI.MI",
+      "name": "BNP Paribas Easy EUR High Yield SRI Fossil Free UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2244386137",
+      "ticker_yf": "HSRID.MI",
+      "name": "BNP Paribas Easy EUR High Yield SRI Fossil Free UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2244387457",
+      "ticker_yf": "GEMU.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG 3-5Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2300294316",
+      "ticker_yf": "ECR1.MI",
+      "name": "Amundi EUR Corporate Bond 0-1Y ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2346257210",
+      "ticker_yf": "HYC.MI",
+      "name": "AMUNDI EUR HIGH YIELD CORPORATE BOND ESG UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2356220926",
+      "ticker_yf": "ERTH.MI",
+      "name": "Amundi Eur Gvrnmet Green Bnd UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2365458814",
+      "ticker_yf": "EJEGSS.MI",
+      "name": "BNP Paribas Easy JPM ESG Green Social & Sustainability IG EUR Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2370241684",
+      "ticker_yf": "PLAN.MI",
+      "name": "Amundi Corporate Proceeds Bond UCITS ETF Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2385068163",
+      "ticker_yf": "XZWG.MI",
+      "name": "XTRACKERS ESG GLOBAL GOVERNMEN UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2385068593",
+      "ticker_yf": "XZEG.MI",
+      "name": "XTRACKERS ESG GLB GOVERN UCITS ETF EUR H",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2408467723",
+      "ticker_yf": "U15S.MI",
+      "name": "UBS BBG MSCI US Liquid Corp 1-5 Sustainable UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2408468291",
+      "ticker_yf": "U15E.MI",
+      "name": "UBS BBG MSCI US Liquid Corp 1-5 Sustainable UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2418815473",
+      "ticker_yf": "INFH.MI",
+      "name": "Amundi US Inf Exp 10Y UCITS ETF € Hdg D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2439734141",
+      "ticker_yf": "GASRI.MI",
+      "name": "Amundi Global Aggregate Bond ESG - UCITS ETF DR (C)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2468423459",
+      "ticker_yf": "XZEB.MI",
+      "name": "XTRACKERS ESG EUROZONE GOVT UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2484583138",
+      "ticker_yf": "GGB.MI",
+      "name": "UBS Global Green Bond ESG 1-10 UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2484583302",
+      "ticker_yf": "GGE.MI",
+      "name": "UBS Global Green Bond ESG 1-10 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2504532131",
+      "ticker_yf": "XTIP.MI",
+      "name": "XTRACKERS TIPS US INFLATI LINK UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2504532487",
+      "ticker_yf": "XGEZ.MI",
+      "name": "XTRACKERS EUROZ GOV GREEN BOND UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2504537445",
+      "ticker_yf": "XEZB.MI",
+      "name": "XTRACKERS EUROZ GOVER ESG TILT UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2533810789",
+      "ticker_yf": "GEU3D.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG 1-3Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2533810862",
+      "ticker_yf": "GEU3C.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG 1-3Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2533812058",
+      "ticker_yf": "SRIUC.MI",
+      "name": "BNP Paribas Easy EUR Corp Bond SRI Fossil Free Ultrashort Duration UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2533812728",
+      "ticker_yf": "BSRID.MI",
+      "name": "BNP Paribas Easy EUR Aggregate Bond SRI Fossil Free UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2533812991",
+      "ticker_yf": "BSRIC.MI",
+      "name": "BNP Paribas Easy EUR Aggregate Bond SRI Fossil Free UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2616774076",
+      "ticker_yf": "USCBC.MI",
+      "name": "BNPP Easy USD Corp Bond SRI C UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2641053827",
+      "ticker_yf": "XYP0.MI",
+      "name": "Xtrackers iBoxx Eurozone Government Bond Yield Plus 0-1 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2641054122",
+      "ticker_yf": "XE01.MI",
+      "name": "Xtrackers Eurozone Government Bond 0-1 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2641054551",
+      "ticker_yf": "XG01.MI",
+      "name": "Xtrackers Germany Government Bond 0-1 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673522830",
+      "ticker_yf": "XM27.MI",
+      "name": "Xtrackers Target Maturity Sept 2027 EUR Corporate Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673522913",
+      "ticker_yf": "XM29.MI",
+      "name": "Xtrackers Target Maturity Sept 2029 EUR Corporate Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523051",
+      "ticker_yf": "XM33.MI",
+      "name": "Xtrackers Target Maturity Sept 2033 EUR Corporate Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523135",
+      "ticker_yf": "XM31.MI",
+      "name": "Xtrackers Target Maturity Sept 2031 EUR Corporate Bond UCITS ETF A",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523218",
+      "ticker_yf": "XB27.MI",
+      "name": "Xtrackers Mat Sept27 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523309",
+      "ticker_yf": "XB29.MI",
+      "name": "Xtrackers Mat Sept29 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523481",
+      "ticker_yf": "XB31.MI",
+      "name": "Xtrackers Mat Sept31 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2673523564",
+      "ticker_yf": "XB33.MI",
+      "name": "Xtrackers Mat Sept33 EUR Corp UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2742532828",
+      "ticker_yf": "SRIC7.MI",
+      "name": "BNP Paribas Easy EUR Corp Bond SRI PAB 7-10Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2742533636",
+      "ticker_yf": "GOV10.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG 10Y+ UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2780871401",
+      "ticker_yf": "MB28.MI",
+      "name": "AMUNDI FIX 28 EU GOV BROAD UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2780871666",
+      "ticker_yf": "MY28.MI",
+      "name": "AMUNDI FIX 28 EU GOV YIELD+ UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2780872128",
+      "ticker_yf": "BT27.MI",
+      "name": "AMUNDI FIX 27 ITALY BTP GOV UCITS ETF D",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2809864296",
+      "ticker_yf": "XB30.MI",
+      "name": "Xtrackers Target Maturity Sept 2030 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2809864452",
+      "ticker_yf": "XB32.MI",
+      "name": "Xtrackers Target Maturity Sept 2032 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2809864619",
+      "ticker_yf": "XB34.MI",
+      "name": "Xtrackers Target Maturity Sept 2034 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2810185665",
+      "ticker_yf": "XB28.MI",
+      "name": "Xtrackers Target Maturity Sept 2028 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2870273039",
+      "ticker_yf": "DXG3.MI",
+      "name": "D-X MSCI EURO GOVERNMENT BOND 1-3 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2870273203",
+      "ticker_yf": "DXG5.MI",
+      "name": "D-X MSCI EURO GOVERNMENT BOND 3-5 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2870273385",
+      "ticker_yf": "DXG10.MI",
+      "name": "D-X MSCI EURO GOVERNMENT BOND 7-10 UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2880762781",
+      "ticker_yf": "MDB5.MI",
+      "name": "UBS Sustainable Development Bank Bonds 5-10 UCITS ETF USD acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2880762948",
+      "ticker_yf": "MDB5E.MI",
+      "name": "UBS Sustainable Development Bank Bonds 5-10 UCITS ETF hEUR acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2898088419",
+      "ticker_yf": "SNTE.MI",
+      "name": "OSSIAM SERENITY EURO - UCITS ETF 1C (EUR)",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976318613",
+      "ticker_yf": "YIIG3.MI",
+      "name": "YIS 1-3 Year Italian Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976318886",
+      "ticker_yf": "YIIG5.MI",
+      "name": "YIS 3-5 Year Italian Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976319009",
+      "ticker_yf": "YII5P.MI",
+      "name": "YIS 5+ Year Italian Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976320437",
+      "ticker_yf": "YIEG3.MI",
+      "name": "YIS 1-3 Year EMU Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976320601",
+      "ticker_yf": "YIEG5.MI",
+      "name": "YIS 3-5 Year EMU Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976320866",
+      "ticker_yf": "YIE5P.MI",
+      "name": "YIS 5+ Year EMU Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976321161",
+      "ticker_yf": "YIE10.MI",
+      "name": "YIS 1-10 Year EMU Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2976321328",
+      "ticker_yf": "YIEG.MI",
+      "name": "YIS EMU Government Bond UCITS ETF EUR",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU2993392898",
+      "ticker_yf": "GEU7C.MI",
+      "name": "BNP Paribas Easy JPM ESG EMU Government Bond IG 5-7Y UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3025345516",
+      "ticker_yf": "CASHE.MI",
+      "name": "BNP PARIBAS EASY EUR Overnight",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3053351261",
+      "ticker_yf": "YIUG3.MI",
+      "name": "YIS 1-3 Year US Government Bond UCITS ETF USD",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3053352152",
+      "ticker_yf": "YIUGH.MI",
+      "name": "YIS US Government Bond UCITS ETF EUR Hedged",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3065087333",
+      "ticker_yf": "MDB1.MI",
+      "name": "UBS Sustainable Development Bank Bonds 1-5 UCITS ETF USD Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3065090717",
+      "ticker_yf": "MDB1D.MI",
+      "name": "UBS Sustainable Development Bank Bonds 1-5 UCITS ETF hEUR dis",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3065094974",
+      "ticker_yf": "MDB1E.MI",
+      "name": "UBS Sustainable Development Bank Bonds 1-5 UCITS ETF EUR H Acc",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119430067",
+      "ticker_yf": "XEZ1.MI",
+      "name": "Xtrackers II Eurozone Government Bond 1-3 ESG Tilted UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119430141",
+      "ticker_yf": "XEZ3.MI",
+      "name": "Xtrackers II Eurozone Government Bond 3-5 ESG Tilted UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119430224",
+      "ticker_yf": "XEZ5.MI",
+      "name": "Xtrackers II Eurozone Government Bond 5-7 ESG Tilted UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119430497",
+      "ticker_yf": "XEZ7.MI",
+      "name": "Xtrackers II Eurozone Government Bond 7-10 ESG Tilted UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119430570",
+      "ticker_yf": "XZ10.MI",
+      "name": "Xtrackers II Eurozone Government Bond 10+ ESG Tilted UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3119987140",
+      "ticker_yf": "YEICB.MI",
+      "name": "YIS MSCI EUR IG ESG Select Corporate Bond",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3152892546",
+      "ticker_yf": "XB35.MI",
+      "name": "Xtrackers II Target Maturity Sept 2035 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    },
+    {
+      "isin": "LU3152892629",
+      "ticker_yf": "XB36.MI",
+      "name": "Xtrackers II Target Maturity Sept 2036 EUR Corporate Bond UCITS ETF",
+      "currency": "EUR",
+      "asset_class": null
+    }
+  ]
 }
