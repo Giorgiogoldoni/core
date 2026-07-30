@@ -28,10 +28,58 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "tickers_uni
 # Se in futuro trovi un CSV/Excel di export reale, punta qui il path o l'URL.
 XETRA_SOURCE_PLACEHOLDER = "xetra_etfs.csv"  # TODO: sostituire con fonte reale
 
-# Export Euronext "Trackers" (foglio Simple) — committato nel repo, ricaricato a mano.
-BORSA_ITALIANA_SOURCE_PATH = os.path.join(
+# File Euronext caricato manualmente dall'utente (aggiornamento manuale periodico).
+# Contiene tutti i mercati Euronext; filtriamo solo Market == "ETF Plus" (Borsa Italiana).
+BORSA_ITALIANA_SOURCE = os.path.join(
     os.path.dirname(__file__), "..", "data", "raw", "euronext_trackers.xlsx"
 )
+
+# Classificazione euristica asset_class basata su keyword nel nome esteso.
+# NON è affidabile al 100%: keyword non previste (es. altcoin non elencate, strutture
+# di credito non comuni) finiscono nel fallback "equity" con confidence "default_fallback".
+BOND_KEYWORDS = [
+    "BOND", "GOVT", "GOVERNMENT", "TREASURY", "CORPORATE", "GILT", "BUND", "BTP",
+    "SOVEREIGN", "FIXED INCOME", "DURATION", "CLO", "CDO", "ABS", "MBS", "CREDIT",
+    "INFL-LINKED", "INFLATION", "SHORT MAT",
+]
+COMMODITY_KEYWORDS = [
+    "GOLD", "SILVER", "OIL", "GAS", "NATURAL GAS", "WHEAT", "SUGAR", "COFFEE",
+    "COTTON", "COPPER", "PALLADIUM", "PLATINUM", "COMMODIT", "BRENT", "WTI",
+]
+CRYPTO_KEYWORDS = [
+    "BITCOIN", "BTC", "ETHEREUM", "XRP", "SOLANA", "CARDANO", "DOGE", "LITECOIN",
+    "CRYPTO", "STAKING", "SUI", "POLKADOT", "CHAINLINK", "AVALANCHE", "POLYGON",
+    "TRON", "TON ", "BNB", "RIPPLE", "SHIBA", "UNISWAP", "AAVE", "COSMOS", "ALGORAND",
+]
+EQUITY_KEYWORDS = [
+    "MSCI", "S&P", "DOW JONES", "NASDAQ", "STOXX", "FTSE", "RUSSELL", "DAX",
+    "CAC 40", "MIB", "TOPIX", "NIKKEI", "IBEX", "EQUITY", "SMALL CAP", "LARGE CAP",
+    "MID CAP", "WORLD", "GLOBAL", "EMERGING MARKETS", "EUROPE", "JAPAN", "CHINA",
+    "INDIA", "KOREA", "NORTH AM", "HANG SENG", "ALLCAP",
+]
+
+
+def classify_instrument(fullname):
+    """
+    Ritorna (asset_class, is_leveraged, confidence).
+    confidence è "keyword_match" se una regola ha trovato corrispondenza esplicita,
+    "default_fallback" se è stato assunto equity per esclusione (da rivedere a mano).
+    """
+    import re
+
+    fn = (fullname or "").upper()
+    is_leveraged = bool(re.search(r"[+-]?\d+X\b", fn)) or "LEVERAGED" in fn or "INVERSE" in fn
+    if is_leveraged:
+        return "leva_short", True, "keyword_match"
+    if any(k in fn for k in CRYPTO_KEYWORDS):
+        return "crypto", False, "keyword_match"
+    if any(k in fn for k in COMMODITY_KEYWORDS):
+        return "commodity", False, "keyword_match"
+    if any(k in fn for k in BOND_KEYWORDS):
+        return "bond", False, "keyword_match"
+    if any(k in fn for k in EQUITY_KEYWORDS):
+        return "equity", False, "keyword_match"
+    return "equity", False, "default_fallback"
 
 
 def fetch_xetra():
@@ -75,45 +123,66 @@ def fetch_xetra():
 
 def fetch_borsa_italiana():
     """
-    Legge l'export Excel Euronext "Trackers" (foglio 'Simple', header alla riga 1,
-    dati dalla riga 5). Filtra Market=='ETF Plus' (segmento Borsa Italiana dentro
-    Euronext) e Currency=='EUR'. Il file va committato nel repo (nessun URL diretto
-    noto finora) e ricaricato manualmente quando serve un refresh.
+    Legge data/raw/euronext_trackers.xlsx (aggiornato manualmente dall'utente),
+    filtra Market == "ETF Plus" (= Borsa Italiana) e classifica ogni strumento
+    con regole euristiche su Instrument Fullname.
 
-    Colonne attese (in quest'ordine): Instrument Fullname, ESG Classification, Name,
-    ISIN, Symbol, Market, Currency, Open/High/Low/Last Price, last Trade MIC Time,
-    Time Zone, Volume, Turnover, Closing Price, Closing Price DateTime.
+    NOTA: il file contiene TUTTI i mercati Euronext (Paris, Amsterdam, Brussels,
+    Oslo compresi) — qui prendiamo SOLO ETF Plus, per scelta di scope confermata.
     """
-    if not os.path.exists(BORSA_ITALIANA_SOURCE_PATH):
+    if not os.path.exists(BORSA_ITALIANA_SOURCE):
         print(
-            f"[WARN] Fonte Borsa Italiana non trovata ({BORSA_ITALIANA_SOURCE_PATH}). "
+            f"[WARN] File Euronext non trovato ({BORSA_ITALIANA_SOURCE}). "
             "Nessun dato Borsa Italiana caricato in questo run.",
             file=sys.stderr,
         )
         return []
 
-    import openpyxl
+    import pandas as pd
 
-    wb = openpyxl.load_workbook(BORSA_ITALIANA_SOURCE_PATH, data_only=True)
-    ws = wb["Simple"]
+    df = pd.read_excel(
+        BORSA_ITALIANA_SOURCE, sheet_name="Simple", header=0, skiprows=[1, 2, 3]
+    )
+    etf_plus = df[df["Market"] == "ETF Plus"]
+
     rows = []
-    for row in ws.iter_rows(min_row=5, values_only=True):
-        if not row or len(row) < 7:
-            continue
-        fullname, _esg, _name, isin, symbol, market, currency = row[:7]
-        if market != "ETF Plus" or currency != "EUR":
-            continue
-        isin = (isin or "").strip()
-        symbol = (symbol or "").strip()
+    for _, row in etf_plus.iterrows():
+        isin = str(row.get("ISIN") or "").strip()
+        symbol = str(row.get("Symbol") or "").strip()
+        fullname = str(row.get("Instrument Fullname") or "").strip()
         if not isin or not symbol:
             continue
+
+        asset_class, is_leveraged, confidence = classify_instrument(fullname)
+
+        fn_upper = fullname.upper()
+        if "ETC" in fn_upper.split():
+            product_type = "ETC"
+        elif "ETP" in fn_upper.split():
+            product_type = "ETP"
+        else:
+            product_type = "ETF"
+
+        import re
+
+        if re.search(r"\(ACC\)|\bACC\b", fn_upper):
+            distribution_policy = "accumulating"
+        elif re.search(r"\(DIST\)|\bDIST\b|\bDIS\b", fn_upper):
+            distribution_policy = "distributing"
+        else:
+            distribution_policy = None
+
         rows.append(
             {
                 "isin": isin,
                 "ticker_yf": f"{symbol}.MI",
-                "name": (fullname or "").strip(),
-                "currency": "EUR",
-                "asset_class": None,
+                "name": fullname,
+                "currency": str(row.get("Currency") or "EUR").strip(),
+                "asset_class": asset_class,
+                "is_leveraged": is_leveraged,
+                "product_type": product_type,
+                "distribution_policy": distribution_policy,
+                "asset_class_confidence": confidence,
             }
         )
     return rows
