@@ -21,7 +21,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install --quiet requests openpyxl
+        run: pip install --quiet requests pandas openpyxl
 
       - name: Run discovery script
         run: python scripts/discover_universe.py
