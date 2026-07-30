@@ -4,18 +4,18 @@ discover_universe.py
 Ricostruisce l'universo ETF/ETP (Xetra + Borsa Italiana), deduplica per ISIN
 e scrive data/tickers_universe.json.
 
-STATO ATTUALE (da verificare/completare):
-- fetch_xetra(): fonte indicata https://live.deutsche-boerse.com/en/etfs/search
-  Quella pagina è una UI di ricerca dinamica, NON un export diretto.
-  Qui sotto è implementato un PLACEHOLDER che assume un CSV con colonne tipiche
-  Deutsche Börse (ISIN, Name, Trading Symbol, Currency, Asset Class, TER).
-  Va sostituito con la chiamata reale (endpoint XHR individuato oppure file
-  esportato manualmente) al primo run.
-- fetch_borsa_italiana(): STUB VUOTO — nessuna fonte ancora fornita.
-  TODO: implementare quando disponibile URL o file di esempio ETFplus.
+STATO ATTUALE:
+- fetch_xetra(): OPERATIVA. Legge data/raw/t7-xetr-allTradableInstruments.csv
+  (file ufficiale Xetra T7, aggiornamento manuale periodico a cura dell'utente).
+  Filtro: Instrument Type in (ETF, ETN, ETC), Settlement Currency == EUR.
+  asset_class affidabile solo per ~23% delle righe (nomi molto abbreviati),
+  il resto è default_fallback da rivedere.
+- fetch_borsa_italiana(): OPERATIVA. Legge data/raw/euronext_trackers.xlsx
+  (file Euronext, aggiornamento manuale periodico), filtra Market == "ETF Plus".
+  asset_class affidabile per ~80% delle righe.
 
 Regola dedup: se lo stesso ISIN compare su entrambe le borse, si tiene la riga
-Borsa Italiana (priorità a Borsa Italiana).
+Borsa Italiana (priorità a Borsa Italiana) — copre ~1.933 strumenti su 3.406 Xetra EUR.
 """
 
 import json
@@ -25,8 +25,11 @@ from datetime import datetime, timezone
 
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "tickers_universe.json")
 
-# Se in futuro trovi un CSV/Excel di export reale, punta qui il path o l'URL.
-XETRA_SOURCE_PLACEHOLDER = "xetra_etfs.csv"  # TODO: sostituire con fonte reale
+# File ufficiale Xetra T7 "all tradable instruments" caricato manualmente dall'utente
+# (aggiornamento manuale periodico, non scaricabile via Actions).
+XETRA_SOURCE = os.path.join(
+    os.path.dirname(__file__), "..", "data", "raw", "t7-xetr-allTradableInstruments.csv"
+)
 
 # File Euronext caricato manualmente dall'utente (aggiornamento manuale periodico).
 # Contiene tutti i mercati Euronext; filtriamo solo Market == "ETF Plus" (Borsa Italiana).
@@ -84,40 +87,72 @@ def classify_instrument(fullname):
 
 def fetch_xetra():
     """
-    PLACEHOLDER. Assume un CSV con colonne:
-    ISIN, Name, Trading Symbol, Currency, Asset Class, TER
+    Legge data/raw/t7-xetr-allTradableInstruments.csv (file ufficiale Xetra T7,
+    aggiornato manualmente dall'utente), filtra Instrument Type in (ETF, ETN, ETC)
+    e Settlement Currency == EUR (elimina da solo i ~150 doppioni multi-valuta),
+    poi classifica con le stesse regole euristiche di fetch_borsa_italiana().
 
-    Ritorna una lista di dict con lo schema:
-    {"isin": ..., "ticker_yf": ..., "name": ..., "currency": ..., "asset_class": ...}
+    NOTA IMPORTANTE: il campo "Instrument" qui è molto più abbreviato/criptico
+    di "Instrument Fullname" su Euronext (es. "I2-EOST.50EQUWE EOA"). Il bucket
+    default_fallback risulta quindi molto più ampio (~77% contro ~20% su Borsa
+    Italiana) — da tenere presente, non è un bug del parser ma un limite della fonte.
+
+    product_type: qui la fonte ufficiale è affidabile (campo "Instrument Type"),
+    a differenza di Borsa Italiana dove è dedotto dal nome. Il valore ETN viene
+    mappato su "ETP" per restare coerente con lo schema (ETF/ETC/ETP) già usato
+    per Borsa Italiana.
     """
-    if not os.path.exists(XETRA_SOURCE_PLACEHOLDER):
+    if not os.path.exists(XETRA_SOURCE):
         print(
-            f"[WARN] Fonte Xetra non trovata ({XETRA_SOURCE_PLACEHOLDER}). "
-            "Nessun dato Xetra caricato in questo run. "
-            "TODO: sostituire con la fonte reale (endpoint o file export).",
+            f"[WARN] File Xetra non trovato ({XETRA_SOURCE}). "
+            "Nessun dato Xetra caricato in questo run.",
             file=sys.stderr,
         )
         return []
 
-    import csv
+    import pandas as pd
+
+    df = pd.read_csv(XETRA_SOURCE, sep=";", skiprows=2, low_memory=False)
+    subset = df[
+        df["Instrument Type"].isin(["ETF", "ETN", "ETC"])
+        & (df["Settlement Currency"] == "EUR")
+    ]
+
+    product_type_map = {"ETF": "ETF", "ETC": "ETC", "ETN": "ETP"}
 
     rows = []
-    with open(XETRA_SOURCE_PLACEHOLDER, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            isin = (row.get("ISIN") or "").strip()
-            symbol = (row.get("Trading Symbol") or "").strip()
-            if not isin or not symbol:
-                continue
-            rows.append(
-                {
-                    "isin": isin,
-                    "ticker_yf": f"{symbol}.DE",
-                    "name": (row.get("Name") or "").strip(),
-                    "currency": (row.get("Currency") or "EUR").strip(),
-                    "asset_class": (row.get("Asset Class") or None) or None,
-                }
-            )
+    for _, row in subset.iterrows():
+        isin = str(row.get("ISIN") or "").strip()
+        symbol = str(row.get("Mnemonic") or "").strip()
+        name = str(row.get("Instrument") or "").strip()
+        if not isin or not symbol or symbol.lower() == "nan":
+            continue
+
+        asset_class, is_leveraged, confidence = classify_instrument(name)
+
+        import re
+
+        name_upper = name.upper()
+        if re.search(r"\(ACC\)|\bACC\b", name_upper):
+            distribution_policy = "accumulating"
+        elif re.search(r"\(DIST\)|\bDIST\b", name_upper):
+            distribution_policy = "distributing"
+        else:
+            distribution_policy = None
+
+        rows.append(
+            {
+                "isin": isin,
+                "ticker_yf": f"{symbol}.DE",
+                "name": name,
+                "currency": str(row.get("Settlement Currency") or "EUR").strip(),
+                "asset_class": asset_class,
+                "is_leveraged": is_leveraged,
+                "product_type": product_type_map.get(row.get("Instrument Type"), "ETF"),
+                "distribution_policy": distribution_policy,
+                "asset_class_confidence": confidence,
+            }
+        )
     return rows
 
 
