@@ -201,6 +201,12 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
         else:
             score_onda = 0
 
+        # Data della barra in cui è scattato l'attuale streak SAR UP (se in corso)
+        signal_date = None
+        if sar_is_up.iloc[-1] and sar_age > 0:
+            flip_idx = close.index[-sar_age]
+            signal_date = flip_idx.strftime("%Y-%m-%d")
+
         # --- 4. SCORE FINALE ---
         score_totale = score_vento + score_onda
         score_operativo = score_totale * hard_gate
@@ -218,6 +224,8 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
             "score_onda": int(score_onda),
             "hard_gate": int(hard_gate),
             "signal": signal,
+            "signal_date": signal_date,
+            "sar_age": int(sar_age),
             "adx": round(float(adx_last), 1) if not np.isnan(adx_last) else 0.0,
             "sar_is_up": bool(sar_is_up.iloc[-1]),
             "sar_first_dot": bool(first_sar_up),
