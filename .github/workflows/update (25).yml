@@ -1,0 +1,42 @@
+name: Aggiorna Universo e Calcola Score
+
+on:
+  schedule:
+    # Esegue da lunedì a venerdì alle 18:00 UTC (dopo le chiusure di mercato)
+    - cron: '0 18 * * 1-5'
+  workflow_dispatch: # Permette l'esecuzione manuale da tab Actions su GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Installa Dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy yfinance openpyxl
+
+      - name: Esegui Screening e Calcolo Score
+        run: |
+          python scripts/discover_universe.py
+          python scripts/calculate_scores.py
+
+      - name: Commit e Push dei file generati
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "Aggiorna universo ETF e Score [skip ci]" || exit 0
+          git push
