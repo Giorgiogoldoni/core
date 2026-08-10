@@ -9,10 +9,16 @@ data/etf_scores.json per la dashboard web.
 import json
 import os
 import sys
+import time
 from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 import yfinance as yf
+
+# Batching per evitare timeout Actions (90 min) e rate-limit yfinance
+# su run sequenziali di migliaia di ticker. Stesso pattern del fetch giornaliero.
+BATCH_SIZE = 40
+BATCH_PAUSE_SECONDS = 3
 
 # Percorsi dei file
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -236,17 +242,23 @@ def main():
         f"Inizio calcolo Score su {len(instruments)} strumenti dall'universo..."
     )
 
-    for item in instruments:
-        ticker = item["ticker_yf"]
-        score_data = compute_score_for_ticker(ticker)
-        if score_data:
-            combined = {**item, **score_data}
-            results.append(combined)
+    total = len(instruments)
+    for batch_start in range(0, total, BATCH_SIZE):
+        batch = instruments[batch_start : batch_start + BATCH_SIZE]
+        for item in batch:
+            ticker = item["ticker_yf"]
+            score_data = compute_score_for_ticker(ticker)
+            if score_data:
+                combined = {**item, **score_data}
+                results.append(combined)
+
+        done = min(batch_start + BATCH_SIZE, total)
+        print(f"Batch completato: {done}/{total} strumenti processati.")
+
+        if done < total:
+            time.sleep(BATCH_PAUSE_SECONDS)
 
     # Ordina per score_operativo decrescente
-    results_sorted = sorted(
-        results, key=lambda x: x["score_operativo"], reverse=False
-    )
     results_sorted = sorted(
         results, key=lambda x: x["score_operativo"], reverse=True
     )
