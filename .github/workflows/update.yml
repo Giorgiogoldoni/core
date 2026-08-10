@@ -1,0 +1,4 @@
+- name: Esegui Screening e Calcolo Score
+  run: |
+    python scripts/discover_universe.py
+    python scripts/calculate_scores.py
