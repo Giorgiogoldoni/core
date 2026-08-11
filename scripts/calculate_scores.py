@@ -211,11 +211,24 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
         score_totale = score_vento + score_onda
         score_operativo = score_totale * hard_gate
 
-        signal = (
-            "BUY"
-            if score_operativo >= 80
-            else ("WATCHLIST" if score_operativo >= 65 else "NO TRADE")
-        )
+        if score_operativo >= 80:
+            signal = "BUY"
+        elif score_operativo >= 65:
+            # Sotto-classificazione WATCHLIST:
+            # timing fresco = SAR appena scattato (Onda piena) ma Vento non ancora forte
+            # trend maturo  = Vento forte ma il timing d'ingresso fresco è già passato
+            if score_onda >= 30:
+                signal = "WATCHLIST — timing fresco"
+            else:
+                signal = "WATCHLIST — trend maturo"
+        else:
+            signal = "NO TRADE"
+
+        # Segnale anticipatorio ANTEPRIMA: solo SAR al 1°/2° pallino UP,
+        # SENZA hard gate (prezzo>KAMA) né requisito di Vento — early warning
+        # non confermato, pensato per anticipare, non per operare direttamente.
+        # Non sostituisce BUY/WATCHLIST/NO TRADE: è un flag aggiuntivo.
+        anteprima = bool(sar_is_up.iloc[-1] and sar_age in (1, 2))
 
         return {
             "close": round(float(c_last), 2),
@@ -225,6 +238,7 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
             "hard_gate": int(hard_gate),
             "signal": signal,
             "signal_date": signal_date,
+            "anteprima": anteprima,
             "sar_age": int(sar_age),
             "adx": round(float(adx_last), 1) if not np.isnan(adx_last) else 0.0,
             "sar_is_up": bool(sar_is_up.iloc[-1]),
