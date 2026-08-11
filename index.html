@@ -205,6 +205,8 @@
   .badge.signal-watchlist { background: #fbf0dd; color: #8a5a12; }
   .badge.signal-notrade { background: #eceef1; color: #5b6472; }
   .badge.signal-na { background: #f4f5f6; color: #9aa1ab; }
+  .badge.flip-up { background: #dcfce7; color: #166534; }
+  .badge.flip-down { background: #ffe0e0; color: #a12c2c; }
 
   td.score-cell { font-family: var(--mono); font-weight: 600; }
 
@@ -358,6 +360,14 @@
       <option value="__NA__">Nessuno score</option>
     </select>
   </div>
+  <div class="filter-group">
+    <label>SAR Flip</label>
+    <select id="f-flip">
+      <option value="">Tutti</option>
+      <option value="UP">UP</option>
+      <option value="DOWN">DOWN</option>
+    </select>
+  </div>
   <div class="filter-group checks">
     <label><input type="checkbox" id="f-leva"> Solo a leva/short</label>
     <label><input type="checkbox" id="f-uncertain"> Solo da rivedere (default_fallback)</label>
@@ -383,6 +393,7 @@
         <th data-key="score_operativo">Score</th>
         <th data-key="signal">Segnale</th>
         <th data-key="signal_date">Segnale dal</th>
+        <th data-key="sar_flip">SAR Flip</th>
         <th>Grafico</th>
       </tr>
     </thead>
@@ -458,6 +469,7 @@ const els = {
   currency: document.getElementById('f-currency'),
   exchange: document.getElementById('f-exchange'),
   signal: document.getElementById('f-signal'),
+  flip: document.getElementById('f-flip'),
   leva: document.getElementById('f-leva'),
   uncertain: document.getElementById('f-uncertain'),
   tbody: document.getElementById('table-body'),
@@ -499,6 +511,7 @@ function currentFilters() {
     currency: els.currency.value,
     exchange: els.exchange.value,
     signal: els.signal.value,
+    flip: els.flip.value,
     leva: els.leva.checked,
     uncertain: els.uncertain.checked,
   };
@@ -523,6 +536,7 @@ function filterRows(f) {
         if (r.signal) return false;
       } else if (r.signal !== f.signal) return false;
     }
+    if (f.flip && r.sar_flip !== f.flip) return false;
     if (f.leva && !r.is_leveraged) return false;
     if (f.uncertain && r.asset_class_confidence !== 'default_fallback') return false;
     return true;
@@ -582,6 +596,7 @@ function renderTable(rows) {
       <td class="score-cell">${r.score_operativo != null ? r.score_operativo : '—'}</td>
       <td>${r.signal ? `<span class="badge ${signalBadgeClass(r.signal)}">${r.signal}</span>` : '—'}</td>
       <td>${r.signal_date || '—'}</td>
+      <td>${r.sar_flip ? `<span class="badge ${r.sar_flip === 'UP' ? 'flip-up' : 'flip-down'}">${r.sar_flip}</span>` : '—'}</td>
       <td class="chart-cell">${(r.signal === 'BUY' || (r.signal && r.signal.startsWith('WATCHLIST')) || r.anteprima) ? `<button class="chart-open-btn" onclick="openChart('${r.ticker_yf}','${(r.name||'').replace(/'/g,"\\'")}')">📈 Vedi</button>` : '—'}</td>
     </tr>
   `).join('');
@@ -607,6 +622,7 @@ function exportExcel() {
     Score: r.score_operativo != null ? r.score_operativo : '',
     Segnale: r.signal || '',
     'Segnale dal': r.signal_date || '',
+    'SAR Flip': r.sar_flip || '',
   }));
   const ws = XLSX.utils.json_to_sheet(data);
   const wb = XLSX.utils.book_new();
@@ -622,12 +638,13 @@ function resetFilters() {
   els.currency.value = '';
   els.exchange.value = '';
   els.signal.value = '';
+  els.flip.value = '';
   els.leva.checked = false;
   els.uncertain.checked = false;
   applyFilters();
 }
 
-[els.search, els.assetClass, els.productType, els.distribution, els.currency, els.exchange, els.signal, els.leva, els.uncertain]
+[els.search, els.assetClass, els.productType, els.distribution, els.currency, els.exchange, els.signal, els.flip, els.leva, els.uncertain]
   .forEach(el => el.addEventListener('input', applyFilters));
 
 document.getElementById('reset-filters').addEventListener('click', resetFilters);
@@ -685,6 +702,7 @@ async function loadData() {
             signal: s.signal,
             signal_date: s.signal_date,
             anteprima: s.anteprima,
+            sar_flip: s.sar_flip,
             sar_age: s.sar_age,
             adx: s.adx,
           };
