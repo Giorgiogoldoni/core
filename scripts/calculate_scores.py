@@ -279,6 +279,19 @@ def main():
             score_data = compute_score_for_ticker(ticker)
             if score_data:
                 combined = {**item, **score_data}
+                if item.get("is_money_market"):
+                    # Il prezzo di questi strumenti sale in modo quasi lineare per
+                    # capitalizzazione interesse (EONIA/€STR/SONIA), non per un vero
+                    # trend di mercato: KAMA/SAR/ADX lo leggono come trend perfetto e
+                    # generano BUY strutturalmente falsi. Sterilizzato: prezzo resta
+                    # visibile, Score/Segnale/ANTEPRIMA/SAR Flip azzerati con etichetta.
+                    combined["score_operativo"] = 0
+                    combined["score_vento"] = 0
+                    combined["score_onda"] = 0
+                    combined["signal"] = "NO TRADE — money market"
+                    combined["signal_date"] = None
+                    combined["anteprima"] = False
+                    combined["sar_flip"] = None
                 results.append(combined)
 
         done = min(batch_start + BATCH_SIZE, total)
