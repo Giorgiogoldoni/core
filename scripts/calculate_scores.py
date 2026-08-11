@@ -184,6 +184,7 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
         # --- 3. L'ONDA / TIMING (Max 30 Punti) ---
         # Primo pallino SAR UP = 30 pt; 2° o 3° pallino = 15 pt; altrimenti = 0 pt
         first_sar_up = sar_is_up.iloc[-1] and not sar_is_up.iloc[-2]
+        first_sar_down = (not sar_is_up.iloc[-1]) and sar_is_up.iloc[-2]
 
         # Calcolo età pallino
         sar_age = 0
@@ -230,6 +231,11 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
         # Non sostituisce BUY/WATCHLIST/NO TRADE: è un flag aggiuntivo.
         anteprima = bool(sar_is_up.iloc[-1] and sar_age in (1, 2))
 
+        # UP/DOWN: segnala il primo pallino SAR in assoluto, in entrambe le
+        # direzioni, indipendente da hard gate/Vento/Onda — non è un segnale
+        # operativo BUY/SELL, è un flag grezzo "il SAR ha appena flippato qui".
+        sar_flip = "UP" if first_sar_up else ("DOWN" if first_sar_down else None)
+
         return {
             "close": round(float(c_last), 2),
             "score_operativo": int(score_operativo),
@@ -239,6 +245,7 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
             "signal": signal,
             "signal_date": signal_date,
             "anteprima": anteprima,
+            "sar_flip": sar_flip,
             "sar_age": int(sar_age),
             "adx": round(float(adx_last), 1) if not np.isnan(adx_last) else 0.0,
             "sar_is_up": bool(sar_is_up.iloc[-1]),
