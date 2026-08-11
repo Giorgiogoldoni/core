@@ -64,25 +64,38 @@ EQUITY_KEYWORDS = [
 
 def classify_instrument(fullname):
     """
-    Ritorna (asset_class, is_leveraged, confidence).
+    Ritorna (asset_class, is_leveraged, confidence, is_money_market).
     confidence è "keyword_match" se una regola ha trovato corrispondenza esplicita,
     "default_fallback" se è stato assunto equity per esclusione (da rivedere a mano).
+
+    is_money_market: True per ETF/ETC money-market/tasso overnight (EONIA/€STR/SONIA) —
+    il loro prezzo è una salita quasi lineare per capitalizzazione interesse, non un vero
+    trend di mercato: generano falsi BUY strutturali nello Score tecnico (KAMA/SAR/ADX
+    li leggono come trend perfetto). Score/Segnale vengono neutralizzati a valle in
+    calculate_scores.py, non qui — qui solo la classificazione.
     """
     import re
 
     fn = (fullname or "").upper()
-    is_leveraged = bool(re.search(r"[+-]?\d+X\b", fn)) or "LEVERAGED" in fn or "INVERSE" in fn
+    is_leveraged = (
+        bool(re.search(r"[+-]?\d+X\b", fn))
+        or "LEVERAGED" in fn
+        or "INVERSE" in fn
+        or "LEVERAGE SHARES" in fn  # brand con pattern tipo "3XCRM"/"-1AAPL" senza confine di parola dopo la X
+    )
+    is_money_market = bool(re.search(r"\b(OVERNIGHT|OVERNGHT|EONIA|ESTR|SONIA|MONEY\s*MARKET)\b", fn))
+
     if is_leveraged:
-        return "leva_short", True, "keyword_match"
+        return "leva_short", True, "keyword_match", is_money_market
     if any(k in fn for k in CRYPTO_KEYWORDS):
-        return "crypto", False, "keyword_match"
+        return "crypto", False, "keyword_match", is_money_market
     if any(k in fn for k in COMMODITY_KEYWORDS):
-        return "commodity", False, "keyword_match"
+        return "commodity", False, "keyword_match", is_money_market
     if any(k in fn for k in BOND_KEYWORDS):
-        return "bond", False, "keyword_match"
+        return "bond", False, "keyword_match", is_money_market
     if any(k in fn for k in EQUITY_KEYWORDS):
-        return "equity", False, "keyword_match"
-    return "equity", False, "default_fallback"
+        return "equity", False, "keyword_match", is_money_market
+    return "equity", False, "default_fallback", is_money_market
 
 
 def fetch_xetra():
@@ -128,7 +141,7 @@ def fetch_xetra():
         if not isin or not symbol or symbol.lower() == "nan":
             continue
 
-        asset_class, is_leveraged, confidence = classify_instrument(name)
+        asset_class, is_leveraged, confidence, is_money_market = classify_instrument(name)
 
         import re
 
@@ -188,7 +201,7 @@ def fetch_borsa_italiana():
         if not isin or not symbol:
             continue
 
-        asset_class, is_leveraged, confidence = classify_instrument(fullname)
+        asset_class, is_leveraged, confidence, is_money_market = classify_instrument(fullname)
 
         fn_upper = fullname.upper()
         if "ETC" in fn_upper.split():
@@ -218,6 +231,7 @@ def fetch_borsa_italiana():
                 "product_type": product_type,
                 "distribution_policy": distribution_policy,
                 "asset_class_confidence": confidence,
+                "is_money_market": is_money_market,
             }
         )
     return rows
