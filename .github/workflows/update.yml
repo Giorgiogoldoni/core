@@ -12,7 +12,7 @@ permissions:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    timeout-minutes: 80
+    timeout-minutes: 110
 
     steps:
       - name: Checkout del codice
@@ -26,12 +26,16 @@ jobs:
       - name: Installa Dipendenze
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy yfinance openpyxl
+          pip install pandas numpy yfinance openpyxl joblib scikit-learn
 
       - name: Esegui Screening e Calcolo Score
         run: |
           python scripts/discover_universe.py
           python scripts/calculate_scores.py
+
+      - name: Genera dati grafico dettaglio (BUY/WATCHLIST/ANTEPRIMA)
+        run: |
+          python scripts/generate_charts.py
 
       - name: Commit e Push dei file generati
         run: |
