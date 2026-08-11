@@ -357,6 +357,7 @@
       <option value="WATCHLIST — timing fresco">WATCHLIST — timing fresco</option>
       <option value="WATCHLIST — trend maturo">WATCHLIST — trend maturo</option>
       <option value="NO TRADE">NO TRADE</option>
+      <option value="NO TRADE — money market">NO TRADE — money market</option>
       <option value="__NA__">Nessuno score</option>
     </select>
   </div>
@@ -566,7 +567,7 @@ function applyFilters() {
 function signalBadgeClass(signal) {
   if (signal === 'BUY') return 'signal-buy';
   if (signal.startsWith('WATCHLIST')) return 'signal-watchlist';
-  if (signal === 'NO TRADE') return 'signal-notrade';
+  if (signal.startsWith('NO TRADE')) return 'signal-notrade';
   return 'signal-na';
 }
 
