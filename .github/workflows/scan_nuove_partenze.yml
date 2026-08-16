@@ -9,6 +9,8 @@ on:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -23,3 +25,12 @@ jobs:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         run: python scan_nuove_partenze.py
+
+      - name: Commit e push nuove_partenze.json
+        run: |
+          git config user.name  "RAPTOR Bot"
+          git config user.email "raptor-bot@noreply.github.com"
+          git add nuove_partenze.json
+          git diff --staged --quiet || git commit -m "🟢 Nuove partenze $(date +'%d/%m/%Y %H:%M')"
+          git pull --rebase origin main
+          git push
