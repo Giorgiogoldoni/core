@@ -159,6 +159,20 @@ def main():
     top = filtra_nuove_partenze(scores)
     print(f"Trovati {len(top)} strumenti (max {MAX_RESULTS})")
 
+    # Salva sempre il JSON per il bottone "Nuove Partenze" in pagina, anche se vuoto oggi
+    output = {
+        'generated_at': now.isoformat(),
+        'core_generated_at': scores.get('generated_at'),
+        'count': len(top),
+        'items': [{
+            'ticker': i['ticker_yf'], 'nome': i.get('name', ''),
+            'asset_class': i.get('asset_class'), 'score': i.get('score_operativo'),
+            'sar_age': i.get('sar_age'), 'prezzo': i.get('close'),
+        } for i in top],
+    }
+    with open('nuove_partenze.json', 'w', encoding='utf-8') as f:
+        json.dump(output, f, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+
     if not top:
         print("Nessuna nuova partenza oggi — nessuna email inviata")
         return
