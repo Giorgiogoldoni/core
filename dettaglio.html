@@ -101,6 +101,7 @@
     <span class="trade-stat">Trade chiusi: <b id="stClosed">—</b></span>
     <span class="trade-stat">% Vincenti: <b id="stWr">—</b></span>
     <span class="trade-stat">Rend. medio: <b id="stAvg">—</b></span>
+    <span class="trade-stat">Rend. medio vincenti: <b id="stAvgWin">—</b></span>
     <span class="trade-stat">Rend. cumulato: <b id="stCum">—</b></span>
     <span class="trade-stat">Max Drawdown: <b id="stDd">—</b></span>
   </div>
@@ -286,6 +287,7 @@ function render(d) {
   document.getElementById('stClosed').textContent = perf.closed ?? '—';
   document.getElementById('stWr').textContent = (perf.wr !== undefined) ? perf.wr + '%' : '—';
   document.getElementById('stAvg').textContent = (perf.avg !== undefined) ? (perf.avg > 0 ? '+' : '') + perf.avg + '%' : '—';
+  document.getElementById('stAvgWin').textContent = (perf.avgWin !== undefined) ? '+' + perf.avgWin + '%' : '—';
   document.getElementById('stCum').textContent = (perf.totalPnl !== undefined) ? (perf.totalPnl > 0 ? '+' : '') + perf.totalPnl + '%' : '—';
   document.getElementById('stDd').textContent = (perf.dd !== undefined) ? '-' + perf.dd + '%' : '—';
 
