@@ -45,9 +45,17 @@ SLEEP_BETWEEN_TICKERS = 0.3
 # Segnali che qualificano un ticker per la generazione del grafico dettaglio
 QUALIFYING_SIGNALS = {"BUY", "WATCHLIST — timing fresco", "WATCHLIST — trend maturo"}
 
+# Filtro borsa: solo Borsa Italiana (.MI). Il modulo "Posizioni Aperte" copre
+# solo questo segmento dell'universo core, per scelta esplicita — Xetra (.DE)
+# resta escluso da questa pipeline (non dallo screening generale di core).
+EXCHANGE_SUFFIX = ".MI"
+
 
 def select_tickers():
-    """Legge etf_scores.json e seleziona i ticker qualificati (BUY, WATCHLIST, ANTEPRIMA)."""
+    """Legge etf_scores.json e seleziona i ticker qualificati (BUY, WATCHLIST, ANTEPRIMA)
+    limitati a Borsa Italiana (.MI). Porta con sé anche i campi anagrafici/di score
+    già calcolati da calculate_scores.py (name, asset_class, adx, close) per evitare
+    di ricalcolarli qui."""
     if not os.path.exists(SCORES_PATH):
         print(f"[ERROR] {SCORES_PATH} non trovato — esegui prima calculate_scores.py", file=sys.stderr)
         sys.exit(1)
@@ -59,8 +67,19 @@ def select_tickers():
     for item in scores_data.get("scores", []):
         signal = item.get("signal")
         anteprima = item.get("anteprima", False)
+        ticker_yf = item.get("ticker_yf", "")
+        if not ticker_yf.endswith(EXCHANGE_SUFFIX):
+            continue
         if signal in QUALIFYING_SIGNALS or anteprima:
-            selected.append({"y": item["ticker_yf"], "t": item["ticker_yf"].split(".")[0]})
+            selected.append({
+                "y": ticker_yf,
+                "t": ticker_yf.split(".")[0],
+                "name": item.get("name"),
+                "asset_class": item.get("asset_class"),
+                "adx": item.get("adx"),
+                "isin": item.get("isin"),
+                "score": item.get("score_operativo"),
+            })
 
     # Dedup su ticker yahoo
     seen = set()
@@ -350,13 +369,99 @@ def fmt(arr):
 
 
 # ═══════════════════════════════════════════════════════
+#  TRADE SIMULATION — "Posizioni Aperte"
+#  Porting adattato da chart/fetch.py (simulate_trades/perf_stats),
+#  riscritto sul vocabolario nativo del motore core:
+#  entrata: BUY1/BUY2/BUY3 — uscita: EXIT1/EXIT2.
+#  WATCH e MEAN REV non aprono né chiudono (il concetto di
+#  mean-reversion è già implicito nelle condizioni di BUY, come da
+#  scelta esplicita — nessun motore MR separato).
+# ═══════════════════════════════════════════════════════
+
+ENTRY_SIGNALS = ("BUY1", "BUY2", "BUY3")
+EXIT_SIGNALS = ("EXIT1", "EXIT2")
+
+# Note a template (v1) — associate al codice segnale di entrata/uscita.
+# Non leggono i valori esatti degli indicatori in quel giorno (versione
+# "narrativa" dinamica, più costosa, valutabile in seguito): sono frasi
+# fisse ma correttamente informative sul perché del segnale.
+ENTRY_NOTES = {
+    "BUY1": "Entrata: inversione SAR rialzista con momentum in miglioramento (AO) e incrocio KAMA recente.",
+    "BUY2": "Entrata: prezzo sopra KAMA con pattern Baffetti forte.",
+    "BUY3": "Entrata: prezzo sopra KAMA, Efficiency Ratio elevato e medie allineate (trend maturo).",
+}
+EXIT_NOTES = {
+    "EXIT1": "Uscita: inversione SAR ribassista (perdita di trend).",
+    "EXIT2": "Uscita: prezzo sotto KAMA e SAR ribassista (trend invertito).",
+    "OPEN": "Posizione ancora aperta — nessun segnale di uscita ricevuto.",
+}
+
+
+def simulate_trades(dates, closes, segnale_arr):
+    """Deriva i trade storici (chiusi + eventuale aperto) dalla sequenza segnali.
+    Ogni trade: data/prezzo entrata e uscita, %var, giorni, segnali, nota."""
+    trades = []
+    in_trade = False
+    ent_i = -1
+    ent_sig = None
+    n = len(closes)
+    for i in range(n):
+        sig = segnale_arr[i]
+        if not in_trade:
+            if sig in ENTRY_SIGNALS:
+                in_trade = True
+                ent_i = i
+                ent_sig = sig
+        else:
+            is_last = (i == n - 1)
+            if sig in EXIT_SIGNALS or is_last:
+                exit_sig = sig if sig in EXIT_SIGNALS else "OPEN"
+                is_open = exit_sig == "OPEN"
+                pnl = round((closes[i] - closes[ent_i]) / closes[ent_i] * 100, 2) if closes[ent_i] else 0
+                trades.append({
+                    "dataEntrata": dates[ent_i], "dataUscita": None if is_open else dates[i],
+                    "prezzoEntrata": closes[ent_i], "prezzoUscita": None if is_open else closes[i],
+                    "entSig": ent_sig, "exitSig": exit_sig,
+                    "pnlPct": pnl, "giorni": i - ent_i, "isOpen": is_open,
+                    "note": ENTRY_NOTES.get(ent_sig, "") + (" " + EXIT_NOTES.get(exit_sig, "") if exit_sig in EXIT_NOTES else ""),
+                })
+                if not is_open:
+                    in_trade = False
+    return trades
+
+
+def perf_stats(trades):
+    closed = [t for t in trades if not t["isOpen"]]
+    if not closed:
+        return {"trades": len(trades), "closed": 0, "wins": 0, "wr": 0, "totalPnl": 0, "best": 0, "worst": 0, "avg": 0, "dd": 0}
+    wins = [t for t in closed if t["pnlPct"] > 0]
+    pnls = [t["pnlPct"] for t in closed]
+    total_pnl = sum(pnls)
+    peak = eq = dd = 0
+    for p in pnls:
+        eq += p
+        if eq > peak:
+            peak = eq
+        if peak - eq > dd:
+            dd = peak - eq
+    return {
+        "trades": len(trades), "closed": len(closed), "wins": len(wins),
+        "wr": round(len(wins) / len(closed) * 100, 1) if closed else 0,
+        "totalPnl": round(total_pnl, 2),
+        "best": round(max(pnls), 2), "worst": round(min(pnls), 2),
+        "avg": round(total_pnl / len(closed), 2) if closed else 0,
+        "dd": round(dd, 2),
+    }
+
+
+# ═══════════════════════════════════════════════════════
 #  PROCESS TICKER
 # ═══════════════════════════════════════════════════════
 def process_ticker(info):
     symbol = info["y"]
     try:
         tk = yf.Ticker(symbol)
-        hist_d = tk.history(period="1y", interval="1d", timeout=20)
+        hist_d = tk.history(period="2y", interval="1d", timeout=20)
         if hist_d.empty or len(hist_d) < 60:
             return None
 
@@ -434,8 +539,13 @@ def process_ticker(info):
             except Exception as e:
                 print(f"  ATTENZIONE ML uscita {symbol}: {e}")
 
+        trades = simulate_trades(dates, closes, segnale_arr)
+        perf = perf_stats(trades)
+        open_trade = next((t for t in trades if t["isOpen"]), None)
+
         result = {
             "ticker": info["t"], "yahoo": symbol,
+            "name": info.get("name"), "asset_class": info.get("asset_class"), "isin": info.get("isin"),
             "d": d_bars, "h": h_bars,
             "kama_d": fmt(kama_arr), "sar_d": fmt(sar_arr), "sarBull_d": sarBull_arr,
             "ao_d": fmt(ao_arr), "rsi_d": fmt(rsi_arr), "rsi5_d": fmt(rsi5_arr), "baff_d": baff_arr,
@@ -446,6 +556,8 @@ def process_ticker(info):
             "atr": round(atr, 4) if atr else None,
             "renko_brick": brick, "renko": renko,
             "ml_exit": ml_exit,
+            "trades": trades[-30:], "perf": perf,
+            "open_trade": open_trade,
         }
         return sanitize_nan(result)
     except Exception as e:
@@ -457,7 +569,7 @@ def main():
     now = datetime.datetime.now()
     tickers = select_tickers()
     print(f"generate_charts.py — {now.strftime('%Y-%m-%d %H:%M')}")
-    print(f"Ticker qualificati (BUY/WATCHLIST/ANTEPRIMA): {len(tickers)}")
+    print(f"Ticker qualificati Borsa Italiana (BUY/WATCHLIST/ANTEPRIMA): {len(tickers)}")
 
     os.makedirs(CHARTS_DIR, exist_ok=True)
 
@@ -470,7 +582,25 @@ def main():
             fname = info["y"].replace(".", "_") + ".json"
             with open(os.path.join(CHARTS_DIR, fname), "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
-            index.append({"t": info["t"], "y": info["y"], "f": fname})
+
+            last_close = result["d"][-1][4] if result["d"] else None
+            prev_close = result["d"][-2][4] if len(result["d"]) > 1 else None
+            today_chg = round((last_close - prev_close) / prev_close * 100, 2) if last_close and prev_close else None
+            open_trade = result.get("open_trade")
+
+            index.append({
+                "t": info["t"], "y": info["y"], "f": fname,
+                "name": info.get("name"), "asset_class": info.get("asset_class"),
+                "adx": info.get("adx"), "score": info.get("score"),
+                "close": last_close, "today_chg": today_chg,
+                "signal": (result["segnale_d"][-1] if result["segnale_d"] else None),
+                "rsi": (result["rsi_d"][-1] if result["rsi_d"] else None),
+                "isOpen": bool(open_trade),
+                "daysOpen": open_trade["giorni"] if open_trade else None,
+                "entryDate": open_trade["dataEntrata"] if open_trade else None,
+                "entryPrice": open_trade["prezzoEntrata"] if open_trade else None,
+                "perf": result.get("perf"),
+            })
             ok += 1
         else:
             errors += 1
