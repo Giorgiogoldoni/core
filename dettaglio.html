@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CORE — Dettaglio ETF</title>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+  :root {
+    --bg: #ffffff; --ink: #14181f; --ink-soft: #5b6472; --line: #e2e5ea; --line-strong: #c7ccd4;
+    --accent: #1f4b3f; --accent-soft: #e7f0ec; --buy: #1f7a4d; --buy-soft: #e6f5ec;
+    --exit: #b23b3b; --exit-soft: #fbeaea; --warn: #8a5a12; --warn-soft: #fbf0dd;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+  header { padding: 20px 32px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; }
+  header h1 { margin: 0 0 4px; font-size: 20px; font-weight: 700; }
+  header .sub { color: var(--ink-soft); font-size: 13px; }
+  a.back { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; }
+  .actions { display: flex; gap: 8px; }
+  button.action {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 7px 12px;
+    border-radius: 6px; border: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer;
+  }
+  button.action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat-box { background: #fff; padding: 10px 16px; }
+  .stat-box .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); margin-bottom: 3px; }
+  .stat-box .val { font-family: var(--mono); font-size: 16px; font-weight: 700; }
+  .val.pos { color: var(--buy); } .val.neg { color: var(--exit); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; font-family: var(--mono); }
+  .badge.buy1, .badge.buy2, .badge.buy3 { background: var(--buy-soft); color: var(--buy); }
+  .badge.exit1, .badge.exit2 { background: var(--exit-soft); color: var(--exit); }
+  .badge.watch, .badge.meanrev { background: var(--warn-soft); color: var(--warn); }
+
+  .chart-section { padding: 16px 32px; }
+  .chart-main { width: 100%; height: 340px; }
+  .chart-sub-wrap { margin-top: 4px; }
+  .chart-sub-label { font-size: 10px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 0 2px; }
+  .chart-sub { width: 100%; height: 80px; }
+
+  .trade-section { padding: 10px 32px 40px; }
+  .trade-header { display: flex; align-items: center; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .trade-header h2 { font-size: 15px; margin: 0; }
+  .trade-stat { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .trade-stat b { color: var(--ink); }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  thead th { text-align: left; font-size: 11px; text-transform: uppercase; color: var(--ink-soft); padding: 8px 10px; border-bottom: 1px solid var(--line-strong); }
+  tbody td { padding: 8px 10px; border-bottom: 1px solid var(--line); font-size: 12.5px; vertical-align: top; }
+  tbody td.num { font-family: var(--mono); text-align: right; white-space: nowrap; }
+  tbody td.note { color: var(--ink-soft); max-width: 420px; }
+  .pos { color: var(--buy); font-weight: 600; } .neg { color: var(--exit); font-weight: 600; }
+  .open-row { background: var(--buy-soft); }
+  .loading, .error { padding: 60px 32px; text-align: center; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading">Caricamento dati…</div>
+<div id="content" style="display:none;">
+
+<header>
+  <div>
+    <a class="back" href="posizioni-aperte.html">← Posizioni Aperte</a>
+    <h1 id="hName">—</h1>
+    <div class="sub" id="hSub">—</div>
+  </div>
+  <div class="actions">
+    <button class="action" id="tv-btn">TradingView →</button>
+    <button class="action" id="pdf-btn" disabled title="In arrivo — nessun regolamento operativo ancora definito per questa pagina">Regole (PDF) — in arrivo</button>
+  </div>
+</header>
+
+<div class="stats-grid" id="statsGrid"></div>
+
+<div class="chart-section">
+  <div class="chart-main" id="cMain"></div>
+  <div class="chart-sub-wrap">
+    <div class="chart-sub-label">Baffetti</div>
+    <div class="chart-sub" id="cBaff" style="height:36px;"></div>
+  </div>
+  <div class="chart-sub-wrap">
+    <div class="chart-sub-label">Awesome Oscillator (AO)</div>
+    <div class="chart-sub" id="cAo"></div>
+  </div>
+  <div class="chart-sub-wrap">
+    <div class="chart-sub-label">RSI (14)</div>
+    <div class="chart-sub" id="cRsi"></div>
+  </div>
+</div>
+
+<div class="trade-section">
+  <div class="trade-header">
+    <h2>Storia Trade (2 anni)</h2>
+    <span class="trade-stat">Trade chiusi: <b id="stClosed">—</b></span>
+    <span class="trade-stat">% Vincenti: <b id="stWr">—</b></span>
+    <span class="trade-stat">Rend. medio: <b id="stAvg">—</b></span>
+    <span class="trade-stat">Rend. cumulato: <b id="stCum">—</b></span>
+    <span class="trade-stat">Max Drawdown: <b id="stDd">—</b></span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th><th>Data Entrata</th><th>Data Uscita</th><th>Segnale</th>
+        <th class="num">Prezzo E.</th><th class="num">Prezzo U.</th><th class="num">%Var</th><th class="num">Giorni</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody id="tradeBody"></tbody>
+  </table>
+</div>
+
+</div>
+<div id="errorBox" class="error" style="display:none;"></div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const yahoo = params.get('y');
+if (!yahoo) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'block';
+  document.getElementById('errorBox').textContent = 'Nessun ticker specificato (parametro ?y= mancante).';
+} else {
+  const fname = yahoo.replace('.', '_') + '.json';
+  fetch('data/charts/' + fname + '?v=' + Date.now())
+    .then(r => { if (!r.ok) throw new Error('File non trovato: ' + fname); return r.json(); })
+    .then(render)
+    .catch(err => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('errorBox').style.display = 'block';
+      document.getElementById('errorBox').textContent = 'Errore nel caricamento: ' + err.message;
+    });
+}
+
+function badgeClass(sig) { return sig ? sig.toLowerCase().replace(/\s+/g, '') : ''; }
+function fmtPct(v) {
+  if (v === null || v === undefined) return '—';
+  const cls = v > 0 ? 'pos' : (v < 0 ? 'neg' : '');
+  return `<span class="${cls}">${v > 0 ? '+' : ''}${v.toFixed(2)}%</span>`;
+}
+
+function toHeikinAshi(bars) {
+  // bars: [ts,o,h,l,c,v] -> Heikin-Ashi OHLC
+  const out = [];
+  let prevHaO = null, prevHaC = null;
+  for (const b of bars) {
+    const [ts, o, h, l, c] = b;
+    const haC = (o + h + l + c) / 4;
+    const haO = prevHaO === null ? (o + c) / 2 : (prevHaO + prevHaC) / 2;
+    const haH = Math.max(h, haO, haC);
+    const haL = Math.min(l, haO, haC);
+    out.push({ time: ts, open: haO, high: haH, low: haL, close: haC });
+    prevHaO = haO; prevHaC = haC;
+  }
+  return out;
+}
+
+function render(d) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  document.getElementById('hName').textContent = `${d.name || d.ticker} (${d.yahoo})`;
+  document.getElementById('hSub').textContent = `${d.asset_class || ''} · ISIN ${d.isin || '—'} · Ultimo aggiornamento dati`;
+
+  const bars = d.d || [];
+  const last = bars.length - 1;
+  const lastClose = last >= 0 ? bars[last][4] : null;
+  const prevClose = last >= 1 ? bars[last - 1][4] : null;
+  const todayChg = (lastClose !== null && prevClose) ? (lastClose - prevClose) / prevClose * 100 : null;
+  const lastSig = d.segnale_d ? d.segnale_d[last] : null;
+  const lastRsi = d.rsi_d ? d.rsi_d[last] : null;
+  const openTrade = d.open_trade;
+
+  const stats = [
+    { lbl: 'Segnale', val: `<span class="badge ${badgeClass(lastSig)}">${lastSig || '—'}</span>` },
+    { lbl: 'Prezzo', val: lastClose !== null ? lastClose.toFixed(4) : '—' },
+    { lbl: 'Var. Oggi', val: fmtPct(todayChg) },
+    { lbl: 'RSI (14)', val: lastRsi !== null && lastRsi !== undefined ? lastRsi.toFixed(1) : '—' },
+    { lbl: 'ATR', val: d.atr !== null && d.atr !== undefined ? d.atr.toFixed(4) : '—' },
+    { lbl: 'Giorni Posizione Aperta', val: openTrade ? openTrade.giorni : '—' },
+  ];
+  document.getElementById('statsGrid').innerHTML = stats.map(s =>
+    `<div class="stat-box"><div class="lbl">${s.lbl}</div><div class="val">${s.val}</div></div>`
+  ).join('');
+
+  // TradingView link con mappatura suffisso borsa
+  const suffixMap = { '.MI': 'MIL:', '.DE': 'XETR:', '.PA': 'EURONEXT:', '.L': 'LSE:' };
+  let tvSymbol = d.ticker;
+  for (const suf in suffixMap) {
+    if (d.yahoo.endsWith(suf)) { tvSymbol = suffixMap[suf] + d.ticker; break; }
+  }
+  document.getElementById('tv-btn').addEventListener('click', () => {
+    window.open('https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSymbol), '_blank');
+  });
+
+  // ── Grafico principale: Heikin-Ashi + KAMA + SAR ──
+  const haBars = toHeikinAshi(bars);
+  const baseOpts = {
+    layout: { background: { color: '#ffffff' }, textColor: '#14181f' },
+    grid: { vertLines: { color: '#f0f2f5' }, horzLines: { color: '#f0f2f5' } },
+    timeScale: { timeVisible: false, borderColor: '#e2e5ea' },
+    rightPriceScale: { borderColor: '#e2e5ea' },
+    crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+  };
+  const cMainEl = document.getElementById('cMain');
+  const cMain = LightweightCharts.createChart(cMainEl, { ...baseOpts, width: cMainEl.offsetWidth, height: 340 });
+  const sCandle = cMain.addCandlestickSeries({
+    upColor: '#1f7a4d', downColor: '#b23b3b', borderUpColor: '#1f7a4d', borderDownColor: '#b23b3b',
+    wickUpColor: '#1f7a4d', wickDownColor: '#b23b3b',
+  });
+  sCandle.setData(haBars);
+
+  if (d.kama_d) {
+    const sKama = cMain.addLineSeries({ color: '#b45309', lineWidth: 2, title: 'KAMA' });
+    sKama.setData(bars.map((b, i) => ({ time: b[0], value: d.kama_d[i] })).filter(p => p.value !== null));
+  }
+  if (d.sar_d) {
+    const sSar = cMain.addLineSeries({
+      color: '#db2777', lineWidth: 0, lineStyle: 2, pointMarkersVisible: true, pointMarkersRadius: 2, title: 'SAR',
+    });
+    sSar.setData(bars.map((b, i) => ({ time: b[0], value: d.sar_d[i] })).filter(p => p.value !== null));
+  }
+
+  // Marker BUY/EXIT sul grafico principale
+  if (d.segnale_d) {
+    const markers = [];
+    let lastSeg = null;
+    d.segnale_d.forEach((sig, i) => {
+      if (sig && sig !== lastSeg && (sig.startsWith('BUY') || sig.startsWith('EXIT'))) {
+        const isBuy = sig.startsWith('BUY');
+        markers.push({
+          time: bars[i][0], position: isBuy ? 'belowBar' : 'aboveBar',
+          color: isBuy ? '#1f7a4d' : '#b23b3b', shape: isBuy ? 'arrowUp' : 'arrowDown', text: sig,
+        });
+      }
+      if (sig) lastSeg = sig;
+    });
+    sCandle.setMarkers(markers);
+  }
+  cMain.timeScale().fitContent();
+
+  // ── Sottopannelli: Baffetti, AO, RSI ──
+  const subOpts = { ...baseOpts, timeScale: { visible: false }, rightPriceScale: { borderColor: '#e2e5ea' } };
+
+  if (d.baff_d) {
+    const el = document.getElementById('cBaff');
+    const c = LightweightCharts.createChart(el, { ...subOpts, width: el.offsetWidth, height: 36 });
+    const s = c.addHistogramSeries({ base: 0, priceLineVisible: false, lastValueVisible: false });
+    s.setData(bars.map((b, i) => ({ time: b[0], value: d.baff_d[i], color: d.baff_d[i] >= 2 ? '#1f7a4d' : (d.baff_d[i] <= -2 ? '#b23b3b' : '#c7ccd4') })));
+    syncTimeScale(cMain, c);
+  }
+  if (d.ao_d) {
+    const el = document.getElementById('cAo');
+    const c = LightweightCharts.createChart(el, { ...subOpts, width: el.offsetWidth, height: 80 });
+    const s = c.addHistogramSeries({ base: 0 });
+    let prev = null;
+    s.setData(bars.map((b, i) => {
+      const v = d.ao_d[i];
+      const color = v === null ? '#c7ccd4' : (prev !== null && v >= prev ? '#1f7a4d' : '#b23b3b');
+      prev = v;
+      return { time: b[0], value: v, color };
+    }).filter(p => p.value !== null));
+    syncTimeScale(cMain, c);
+  }
+  if (d.rsi_d) {
+    const el = document.getElementById('cRsi');
+    const c = LightweightCharts.createChart(el, { ...subOpts, width: el.offsetWidth, height: 80 });
+    const s = c.addLineSeries({ color: '#6d28d9', lineWidth: 1.5 });
+    s.setData(bars.map((b, i) => ({ time: b[0], value: d.rsi_d[i] })).filter(p => p.value !== null));
+    syncTimeScale(cMain, c);
+  }
+
+  window.addEventListener('resize', () => {
+    cMain.applyOptions({ width: cMainEl.offsetWidth });
+  });
+
+  // ── Storia Trade ──
+  const trades = d.trades || [];
+  const perf = d.perf || {};
+  document.getElementById('stClosed').textContent = perf.closed ?? '—';
+  document.getElementById('stWr').textContent = (perf.wr !== undefined) ? perf.wr + '%' : '—';
+  document.getElementById('stAvg').textContent = (perf.avg !== undefined) ? (perf.avg > 0 ? '+' : '') + perf.avg + '%' : '—';
+  document.getElementById('stCum').textContent = (perf.totalPnl !== undefined) ? (perf.totalPnl > 0 ? '+' : '') + perf.totalPnl + '%' : '—';
+  document.getElementById('stDd').textContent = (perf.dd !== undefined) ? '-' + perf.dd + '%' : '—';
+
+  const tbody = document.getElementById('tradeBody');
+  tbody.innerHTML = trades.slice().reverse().map((t, i) => `
+    <tr class="${t.isOpen ? 'open-row' : ''}">
+      <td>${trades.length - i}</td>
+      <td>${t.dataEntrata}</td>
+      <td>${t.dataUscita || 'Aperta'}</td>
+      <td><span class="badge ${badgeClass(t.entSig)}">${t.entSig}</span> → <span class="badge ${badgeClass(t.exitSig)}">${t.exitSig}</span></td>
+      <td class="num">${t.prezzoEntrata}</td>
+      <td class="num">${t.prezzoUscita ?? '—'}</td>
+      <td class="num">${fmtPct(t.pnlPct)}</td>
+      <td class="num">${t.giorni}</td>
+      <td class="note">${t.note}</td>
+    </tr>
+  `).join('');
+}
+
+function syncTimeScale(main, sub) {
+  main.timeScale().subscribeVisibleLogicalRangeChange(range => {
+    if (range) sub.timeScale().setVisibleLogicalRange(range);
+  });
+}
+</script>
+</body>
+</html>
