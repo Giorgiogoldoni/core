@@ -433,9 +433,12 @@ def simulate_trades(dates, closes, segnale_arr):
 def perf_stats(trades):
     closed = [t for t in trades if not t["isOpen"]]
     if not closed:
-        return {"trades": len(trades), "closed": 0, "wins": 0, "wr": 0, "totalPnl": 0, "best": 0, "worst": 0, "avg": 0, "dd": 0}
+        return {"trades": len(trades), "closed": 0, "wins": 0, "wr": 0, "totalPnl": 0, "best": 0, "worst": 0, "avg": 0, "avgWin": 0, "avgLoss": 0, "dd": 0}
     wins = [t for t in closed if t["pnlPct"] > 0]
+    losses = [t for t in closed if t["pnlPct"] <= 0]
     pnls = [t["pnlPct"] for t in closed]
+    win_pnls = [t["pnlPct"] for t in wins]
+    loss_pnls = [t["pnlPct"] for t in losses]
     total_pnl = sum(pnls)
     peak = eq = dd = 0
     for p in pnls:
@@ -450,6 +453,8 @@ def perf_stats(trades):
         "totalPnl": round(total_pnl, 2),
         "best": round(max(pnls), 2), "worst": round(min(pnls), 2),
         "avg": round(total_pnl / len(closed), 2) if closed else 0,
+        "avgWin": round(sum(win_pnls) / len(win_pnls), 2) if win_pnls else 0,
+        "avgLoss": round(sum(loss_pnls) / len(loss_pnls), 2) if loss_pnls else 0,
         "dd": round(dd, 2),
     }
 
