@@ -73,6 +73,7 @@
   </div>
   <div class="actions">
     <button class="action" id="tv-btn">TradingView →</button>
+    <button class="action" id="yf-btn">Yahoo Finance →</button>
     <button class="action" id="pdf-btn" disabled title="In arrivo — nessun regolamento operativo ancora definito per questa pagina">Regole (PDF) — in arrivo</button>
   </div>
 </header>
@@ -198,6 +199,20 @@ function render(d) {
   }
   document.getElementById('tv-btn').addEventListener('click', () => {
     window.open('https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSymbol), '_blank');
+  });
+
+  document.getElementById('yf-btn').addEventListener('click', () => {
+    window.open('https://finance.yahoo.com/quote/' + encodeURIComponent(d.yahoo), '_blank');
+  });
+
+  // La scheda regole e' generata insieme al grafico (stesso ciclo in generate_charts.py):
+  // se siamo arrivati qui e' perche' il fetch del grafico sopra e' andato a buon fine, quindi esiste anche lei.
+  const pdfBtn = document.getElementById('pdf-btn');
+  pdfBtn.disabled = false;
+  pdfBtn.title = '';
+  pdfBtn.textContent = '📄 Regole operative';
+  pdfBtn.addEventListener('click', () => {
+    window.open('regole/' + fname.replace('.json', '_Regole.html'), '_blank');
   });
 
   // ── Grafico principale: Heikin-Ashi + KAMA + SAR ──
