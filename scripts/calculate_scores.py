@@ -7,6 +7,7 @@ data/etf_scores.json per la dashboard web.
 """
 
 import json
+import math
 import os
 import sys
 import time
@@ -311,9 +312,22 @@ def main():
         "scores": results_sorted,
     }
 
+    def sanitize_nan(obj):
+        """NaN/Infinity non sono JSON valido per i browser (solo per json di Python) —
+        stesso fix gia' applicato in azionario/core-backtest, qui mancava."""
+        if isinstance(obj, float):
+            return None if (math.isnan(obj) or math.isinf(obj)) else obj
+        if isinstance(obj, dict):
+            return {k: sanitize_nan(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [sanitize_nan(v) for v in obj]
+        return obj
+
+    payload = sanitize_nan(payload)
+
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+        json.dump(payload, f, ensure_ascii=False, indent=2, allow_nan=False)
 
     print(
         f"Calcolati con successo {len(results_sorted)} score. Salvati in {OUTPUT_PATH}"
