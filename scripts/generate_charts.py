@@ -22,6 +22,7 @@ import os
 import sys
 import time
 import datetime
+import urllib.parse
 
 import yfinance as yf
 
@@ -36,6 +37,10 @@ except Exception as _e:
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCORES_PATH = os.path.join(BASE_DIR, "data", "etf_scores.json")
 CHARTS_DIR = os.path.join(BASE_DIR, "data", "charts")
+REGOLE_DIR = os.path.join(BASE_DIR, "regole")
+REGOLE_TEMPLATE_PATH = os.path.join(BASE_DIR, "regole_template.html")
+with open(REGOLE_TEMPLATE_PATH, encoding="utf-8") as _f:
+    REGOLE_TEMPLATE = _f.read()
 
 # Batching per limitare tempi/rate-limit — lista qui è molto più piccola
 # dell'universo completo (solo BUY/WATCHLIST/ANTEPRIMA), non serve batch
@@ -563,11 +568,169 @@ def process_ticker(info):
             "ml_exit": ml_exit,
             "trades": trades[-30:], "perf": perf,
             "open_trade": open_trade,
+            "aoImp": bool(ao_imp_arr[-1]) if ao_imp_arr else None,
         }
         return sanitize_nan(result)
     except Exception as e:
         print(f"  ERR {symbol}: {e}")
         return None
+
+
+
+
+def _n(v, nd=2, suf=""):
+    return "—" if v is None else f"{v:.{nd}f}{suf}"
+
+
+def _ok(cond):
+    return "—" if cond is None else ("✅" if cond else "❌")
+
+
+def _tabella(rows):
+    out = []
+    for cond, soglia, valore, esito, signif in rows:
+        cls = "" if esito is None else ("si" if esito else "no")
+        out.append(f'<tr><td>{cond}</td><td>{soglia}</td><td class="val">{valore}</td>'
+                   f'<td class="esito {cls}">{_ok(esito)}</td><td class="sig">{signif}</td></tr>')
+    return ('<table><thead><tr><th>Condizione</th><th>Soglia</th><th>Valore oggi</th><th></th>'
+            '<th>Significato</th></tr></thead><tbody>' + "".join(out) + '</tbody></table>')
+
+
+def _riepilogo(rows):
+    validi = [r[3] for r in rows if r[3] is not None]
+    n_ok = sum(1 for v in validi if v)
+    return f'<p class="riep">Condizioni soddisfatte: <strong>{n_ok}/{len(validi)}</strong></p>'
+
+
+def build_regole_html(result: dict, info: dict) -> str:
+    """Scheda regole per singolo ticker, costruita sul motore NATIVO del grafico
+    (BUY1/BUY2/BUY3/EXIT1/EXIT2/MEAN REV/WATCH di calc_segnale_array), non sullo
+    Score/Segnale di calculate_scores.py (vocabolario diverso per design)."""
+    now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+    ticker = result["ticker"]
+    yahoo = result["yahoo"]
+    d_bars = result["d"]
+    prezzo = d_bars[-1][4] if d_bars else None
+    prezzo_prec = d_bars[-2][4] if len(d_bars) > 1 else None
+    oggi_pct = ((prezzo / prezzo_prec - 1) * 100) if prezzo and prezzo_prec else None
+
+    kama = result["kama_d"][-1] if result.get("kama_d") else None
+    sar_bull = result["sarBull_d"][-1] if result.get("sarBull_d") else None
+    cross = result["crossDays_d"][-1] if result.get("crossDays_d") else None
+    ao_imp = result.get("aoImp")
+    baff = result["baff_d"][-1] if result.get("baff_d") else None
+    er = result["er_d"][-1] if result.get("er_d") else None
+    mm_align = result["mmAlign_d"][-1] if result.get("mmAlign_d") else None
+    rsi = result["rsi_d"][-1] if result.get("rsi_d") else None
+    rsi5 = result["rsi5_d"][-1] if result.get("rsi5_d") else None
+    segnale = result["segnale_d"][-1] if result.get("segnale_d") else None
+    above_kama = None if (prezzo is None or kama is None) else prezzo > kama
+    near_kama = None if (prezzo is None or kama is None or not kama) else abs(prezzo - kama) / kama < 0.03
+
+    sez = []
+    b1 = [
+        ("SAR", "Rialzista", "Rialzista" if sar_bull else ("Ribassista" if sar_bull is not None else "—"), sar_bull, "Inversione di trend in corso"),
+        ("Incrocio KAMA recente", "≤ 3 barre fa", f"{cross} barre" if cross is not None else "—", None if cross is None else cross <= 3, "Il prezzo ha appena riattraversato la sua media"),
+        ("AO in miglioramento", "Sì", "Sì" if ao_imp else ("No" if ao_imp is not None else "—"), ao_imp, "Momentum in accelerazione"),
+    ]
+    sez.append(("🟢 BUY1 — Inversione fresca", "Pattern indipendente da BUY2/BUY3. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "BUY1" else "no"), b1))
+
+    b2 = [
+        ("Prezzo &gt; KAMA", f"&gt; {_n(kama, 4)}", _n(prezzo, 4), above_kama, "Prezzo sopra la propria media mobile adattiva"),
+        ("Baffetti", "≥ 2", str(baff) if baff is not None else "—", None if baff is None else baff >= 2, "Barre consecutive sopra KAMA con corpo pieno"),
+    ]
+    sez.append(("🔵 BUY2 — Pattern Baffetti", "Pattern indipendente da BUY1/BUY3. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "BUY2" else "no"), b2))
+
+    b3 = [
+        ("Prezzo &gt; KAMA", f"&gt; {_n(kama, 4)}", _n(prezzo, 4), above_kama, "Prezzo sopra la propria media mobile adattiva"),
+        ("ER (Efficiency Ratio)", "≥ 0.50", _n(er, 3), None if er is None else er >= 0.50, "Mercato molto direzionale, poco rumore"),
+        ("Baffetti", "≥ 3", str(baff) if baff is not None else "—", None if baff is None else baff >= 3, "Momentum continuativo"),
+        ("Medie allineate", "Sì", "Sì" if mm_align else ("No" if mm_align is not None else "—"), mm_align, "Trend maturo, non solo appena iniziato"),
+    ]
+    sez.append(("🟣 BUY3 — Trend maturo", "Pattern indipendente da BUY1/BUY2, il più severo dei tre. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "BUY3" else "no"), b3))
+
+    e2 = [
+        ("Prezzo &lt; KAMA", f"&lt; {_n(kama, 4)}", _n(prezzo, 4), None if above_kama is None else not above_kama, "Trend invertito"),
+        ("SAR", "Ribassista", "Ribassista" if sar_bull is False else ("Rialzista" if sar_bull is not None else "—"), None if sar_bull is None else not sar_bull, "Conferma l'inversione"),
+    ]
+    sez.append(("🔴 EXIT2 — Uscita forte", "Priorità su EXIT1 quando entrambe le condizioni sono vere. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "EXIT2" else "no"), e2))
+
+    e1 = [
+        ("SAR", "Ribassista", "Ribassista" if sar_bull is False else ("Rialzista" if sar_bull is not None else "—"), None if sar_bull is None else not sar_bull, "Perdita di trend, prezzo ancora sopra KAMA"),
+    ]
+    sez.append(("🟠 EXIT1 — Uscita per perdita di trend", "Scatta solo se EXIT2 non è già vera (prezzo ancora sopra KAMA). Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "EXIT1" else "no"), e1))
+
+    mr = [
+        ("ER basso", "&lt; 0.30", _n(er, 3), None if er is None else er < 0.30, "Mercato laterale, non direzionale"),
+        ("RSI14 ipervenduto", "&lt; 30", _n(rsi, 1), None if rsi is None else rsi < 30, "Ipervenduto"),
+        ("AO in miglioramento", "Sì", "Sì" if ao_imp else ("No" if ao_imp is not None else "—"), ao_imp, "informativo"),
+        ("Vicino a KAMA o sotto", "Sì", "Sì" if (near_kama or (above_kama is False)) else "No", bool(near_kama or (above_kama is False)), "Prezzo nella zona di rimbalzo"),
+    ]
+    sez.append(("🎯 MEAN REV — Solo informativo", "Non apre né chiude posizioni: segnala un possibile rimbalzo dentro un trade già aperto da BUY1/2/3, o nessuna azione se non si è in posizione. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "MEAN REV" else "no"), mr))
+
+    sezioni_html = "".join(f'<h2>{tit}</h2><p class="nota">{nota}</p>{_tabella(rows)}{_riepilogo(rows)}' for tit, nota, rows in sez)
+
+    ml_exit = result.get("ml_exit")
+    if ml_exit:
+        ml_html = (
+            '<h2>🤖 Suggerimento ML uscita</h2>'
+            '<p class="nota">Stima di un modello allenato offline (non una regola, una previsione statistica) su posizioni BUY1/BUY2 aperte: quanto potrebbe salire ancora e in quanti giorni, prima di un possibile massimo.</p>'
+            '<table><tbody>'
+            f'<tr><td>Rendimento di picco stimato</td><td class="val">{_n(ml_exit.get("peak_return_pct"), 2, "%")}</td></tr>'
+            f'<tr><td>Giorni stimati al picco</td><td class="val">{_n(ml_exit.get("days_to_peak"), 1, " gg")}</td></tr>'
+            '</tbody></table>')
+    else:
+        ml_html = ""
+
+    perf = result.get("perf") or {}
+    open_trade = result.get("open_trade")
+    storico_html = (
+        '<h2>📈 Storico dei trade su questo titolo</h2>'
+        '<p class="nota">Backtest sullo stesso storico scaricato, senza correzione per survivorship: indicativo, non una previsione.</p>'
+        '<table><tbody>'
+        f'<tr><td>Trade totali / chiusi</td><td class="val">{perf.get("trades", 0)} / {perf.get("closed", 0)}</td></tr>'
+        f'<tr><td>% vincenti</td><td class="val">{_n(perf.get("wr"), 1, "%")}</td></tr>'
+        f'<tr><td>P&amp;L medio per trade</td><td class="val">{_n(perf.get("avg"), 2, "%")}</td></tr>'
+        f'<tr><td>Media vincenti / perdenti</td><td class="val">{_n(perf.get("avgWin"), 2, "%")} / {_n(perf.get("avgLoss"), 2, "%")}</td></tr>'
+        f'<tr><td>Migliore / peggiore trade</td><td class="val">{_n(perf.get("best"), 2, "%")} / {_n(perf.get("worst"), 2, "%")}</td></tr>'
+        f'<tr><td>P&amp;L cumulato / drawdown max</td><td class="val">{_n(perf.get("totalPnl"), 2, "%")} / {_n(perf.get("dd"), 2, "%")}</td></tr>'
+        + (f'<tr><td>Posizione aperta</td><td class="val">dal {open_trade["dataEntrata"]} ({open_trade["giorni"]}gg) · {_n(open_trade["pnlPct"], 2, "%")}</td></tr>' if open_trade else '<tr><td>Posizione aperta</td><td class="val">nessuna</td></tr>')
+        + '</tbody></table>')
+
+    suffix_map = {".MI": "MIL:", ".DE": "XETR:", ".PA": "EURONEXT:", ".AS": "EURONEXT:", ".L": "LSE:"}
+    tv_symbol = ticker
+    for suf, pref in suffix_map.items():
+        if yahoo.endswith(suf):
+            tv_symbol = pref + ticker
+            break
+    links = [
+        f'<a href="https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_symbol, safe="")}" target="_blank">📈 TradingView</a>',
+        f'<a href="https://finance.yahoo.com/quote/{urllib.parse.quote(yahoo, safe="")}" target="_blank">🟣 Yahoo Finance</a>',
+        '<a href="../index.html" target="_blank">🏠 Dashboard</a>',
+        '<a href="../posizioni-aperte.html" target="_blank">📂 Posizioni Aperte</a>',
+    ]
+
+    repl = {
+        "{{NOME}}": result.get("name") or ticker,
+        "{{TICKER}}": yahoo,
+        "{{GENERATO}}": now,
+        "{{AGGIORNATO}}": d_bars[-1][0] if d_bars else "—",
+        "{{LINKS}}": " ".join(links),
+        "{{PREZZO}}": _n(prezzo, 4),
+        "{{OGGI_PCT}}": _n(oggi_pct, 2, "%"),
+        "{{RSI14}}": _n(rsi, 1),
+        "{{RSI5}}": _n(rsi5, 1),
+        "{{ADX}}": _n(info.get("adx"), 1),
+        "{{SEGNALE}}": segnale or "—",
+        "{{SCORE}}": str(info.get("score")) if info.get("score") is not None else "—",
+        "{{SEZIONI}}": sezioni_html,
+        "{{ML_EXIT}}": ml_html,
+        "{{STORICO}}": storico_html,
+    }
+    html = REGOLE_TEMPLATE
+    for k, v in repl.items():
+        html = html.replace(k, str(v))
+    return html
 
 
 def main():
@@ -577,6 +740,7 @@ def main():
     print(f"Ticker qualificati Borsa Italiana (BUY/WATCHLIST/ANTEPRIMA): {len(tickers)}")
 
     os.makedirs(CHARTS_DIR, exist_ok=True)
+    os.makedirs(REGOLE_DIR, exist_ok=True)
 
     ok = 0
     errors = 0
@@ -587,6 +751,14 @@ def main():
             fname = info["y"].replace(".", "_") + ".json"
             with open(os.path.join(CHARTS_DIR, fname), "w", encoding="utf-8") as f:
                 json.dump(result, f, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+
+            try:
+                regole_html = build_regole_html(result, info)
+                regole_fname = fname.replace(".json", "_Regole.html")
+                with open(os.path.join(REGOLE_DIR, regole_fname), "w", encoding="utf-8") as f:
+                    f.write(regole_html)
+            except Exception as e:
+                print(f"  ATTENZIONE regole {info['y']}: {e}")
 
             last_close = result["d"][-1][4] if result["d"] else None
             prev_close = result["d"][-2][4] if len(result["d"]) > 1 else None
