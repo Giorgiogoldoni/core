@@ -157,7 +157,7 @@ function render() {
       <td>${r.entryDate || '—'}</td>
       <td class="num">${wr !== null ? wr.toFixed(1) + '%' : '—'}</td>
       <td class="num">${fmtPct(cum)}</td>
-      <td><a class="detail-link" href="dettaglio.html?y=${encodeURIComponent(r.y)}">Dettaglio →</a></td>
+      <td><a class="detail-link" href="dettaglio.html?y=${encodeURIComponent(r.y)}">Dettaglio →</a> <a class="detail-link" href="regole/${r.f.replace('.json','_Regole.html')}" target="_blank">📄 Regole</a></td>
     </tr>`;
   }).join('');
 }
