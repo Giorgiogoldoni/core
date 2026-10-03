@@ -413,6 +413,7 @@
       </div>
       <div class="spacer"></div>
       <a class="chart-btn tv" id="chartTvLink" href="#" target="_blank" rel="noopener">TradingView ↗</a>
+      <a class="chart-btn" id="chartYfLink" href="#" target="_blank" rel="noopener">Yahoo Finance ↗</a>
       <button class="chart-btn" id="chartPdfBtn" disabled title="In arrivo — nessun regolamento operativo ancora definito per questa pagina">Regole (PDF) — in arrivo</button>
       <button class="chart-btn close" onclick="closeChart()">✕ Chiudi</button>
     </div>
@@ -459,6 +460,7 @@
 
 <script>
 let allData = [];
+let CHART_SET = new Set();  // 'y' (ticker_yf) dei titoli con un grafico davvero generato oggi (da data/charts/index.json)
 let sortKey = null;
 let sortDir = 1;
 
@@ -598,7 +600,7 @@ function renderTable(rows) {
       <td>${r.signal ? `<span class="badge ${signalBadgeClass(r.signal)}">${r.signal}</span>` : '—'}</td>
       <td>${r.signal_date || '—'}</td>
       <td>${r.sar_flip ? `<span class="badge ${r.sar_flip === 'UP' ? 'flip-up' : 'flip-down'}">${r.sar_flip}</span>` : '—'}</td>
-      <td class="chart-cell">${(r.signal === 'BUY' || (r.signal && r.signal.startsWith('WATCHLIST')) || r.anteprima) ? `<button class="chart-open-btn" onclick="openChart('${r.ticker_yf}','${(r.name||'').replace(/'/g,"\\'")}')">📈 Vedi</button>` : '—'}</td>
+      <td class="chart-cell">${CHART_SET.has(r.ticker_yf) ? `<button class="chart-open-btn" onclick="openChart('${r.ticker_yf}','${(r.name||'').replace(/'/g,"\\'")}')">📈 Vedi</button>` : '—'}</td>
     </tr>
   `).join('');
   els.tbody.innerHTML = html;
@@ -682,6 +684,14 @@ async function loadData() {
     // etf_scores.json è generato da calculate_scores.py via GitHub Actions.
     // Se non esiste ancora (Action mai lanciata) la pagina resta comunque
     // utilizzabile in sola ricognizione, senza Score/Segnale.
+    try {
+      const chartIdxRes = await fetch('data/charts/index.json?v=' + Date.now());
+      if (chartIdxRes.ok) {
+        const chartIdx = await chartIdxRes.json();
+        CHART_SET = new Set((chartIdx.index || []).map(e => e.y));
+      }
+    } catch (e) { /* data/charts/index.json non ancora generato: nessun grafico disponibile, va bene così */ }
+
     try {
       const scoresRes = await fetch('data/etf_scores.json');
       if (scoresRes.ok) {
@@ -1075,13 +1085,21 @@ async function openChart(tickerYf, name) {
   document.getElementById('chartTitle').textContent = tickerYf + (name ? ' — ' + name : '');
   document.getElementById('chartSub').textContent = 'Caricamento…';
   document.getElementById('chartTvLink').href = 'https://www.tradingview.com/chart/?symbol=' + encodeURIComponent(tvSymbol(tickerYf));
+  document.getElementById('chartYfLink').href = 'https://finance.yahoo.com/quote/' + encodeURIComponent(tickerYf);
 
   const fname = tickerYf.replace(/\./g, '_') + '.json';
+  const pdfBtn = document.getElementById('chartPdfBtn');
+  pdfBtn.disabled = true; pdfBtn.textContent = 'Regole (PDF) — in arrivo'; pdfBtn.onclick = null;
   try {
     const res = await fetch('data/charts/' + fname);
     if (!res.ok) throw new Error('non trovato');
     const data = await res.json();
     document.getElementById('chartSub').textContent = 'Ultimo aggiornamento dati: vedi data/charts/index.json · 1 anno';
+
+    const regoleFname = fname.replace('.json', '_Regole.html');
+    pdfBtn.disabled = false; pdfBtn.textContent = '📄 Regole operative';
+    pdfBtn.title = '';
+    pdfBtn.onclick = () => window.open('regole/' + regoleFname, '_blank');
 
     const closes = data.d.map(b => b[4]);
     const ts = data.d.map(b => b[0]);
