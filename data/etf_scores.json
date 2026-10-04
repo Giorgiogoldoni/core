@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T05:00:01.563545+00:00",
+  "generated_at": "2026-10-04T12:44:53.429346+00:00",
   "count": 3661,
   "scores": [
     {
@@ -14026,17 +14026,17 @@
       "product_type": "ETF",
       "distribution_policy": null,
       "asset_class_confidence": "default_fallback",
-      "close": 42.32,
+      "close": 37.57,
       "score_operativo": 60,
       "score_vento": 60,
       "score_onda": 0,
       "hard_gate": 1,
       "signal": "NO TRADE",
-      "signal_date": "2026-09-14",
+      "signal_date": "2026-09-17",
       "anteprima": false,
       "sar_flip": null,
-      "sar_age": 15,
-      "adx": 72.4,
+      "sar_age": 12,
+      "adx": 35.2,
       "sar_is_up": true,
       "sar_first_dot": false
     },
