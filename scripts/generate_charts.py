@@ -189,6 +189,18 @@ def calc_rsi_array(close, n=14):
     return result
 
 
+def calc_trend_array(close, kama, n=20):
+    """Etichetta di trend SOLO INFORMATIVA (non modifica i segnali).
+    R = KAMA in calo su n barre e prezzo sotto KAMA; U = KAMA in salita e prezzo sopra; L = altrimenti."""
+    result = [None] * len(close)
+    for i in range(n, len(close)):
+        k, k0 = kama[i], kama[i - n]
+        if k is None or k0 is None:
+            continue
+        result[i] = "R" if (k < k0 and close[i] < k) else "U" if (k > k0 and close[i] > k) else "L"
+    return result
+
+
 def calc_er_array(close, n=10):
     result = [0] * len(close)
     for i in range(n, len(close)):
@@ -560,7 +572,7 @@ def process_ticker(info):
             "kama_d": fmt(kama_arr), "sar_d": fmt(sar_arr), "sarBull_d": sarBull_arr,
             "ao_d": fmt(ao_arr), "rsi_d": fmt(rsi_arr), "rsi5_d": fmt(rsi5_arr), "baff_d": baff_arr,
             "segnale_d": segnale_arr,
-            "er_d": fmt(er_arr), "crossDays_d": cross_arr, "mmAlign_d": mm_arr,
+            "er_d": fmt(er_arr), "trend_d": calc_trend_array(closes, kama_arr), "crossDays_d": cross_arr, "mmAlign_d": mm_arr,
             "sarStreak_d": sarStreak_arr,
             "kama_h": fmt(kama_h), "sar_h": fmt(sar_h), "sarBull_h": sarBull_h,
             "atr": round(atr, 4) if atr else None,
@@ -667,6 +679,14 @@ def build_regole_html(result: dict, info: dict) -> str:
         ("Vicino a KAMA o sotto", "Sì", "Sì" if (near_kama or (above_kama is False)) else "No", bool(near_kama or (above_kama is False)), "Prezzo nella zona di rimbalzo"),
     ]
     sez.append(("🎯 MEAN REV — Solo informativo", "Non apre né chiude posizioni: segnala un possibile rimbalzo dentro un trade già aperto da BUY1/2/3, o nessuna azione se non si è in posizione. Attivo oggi: " + ("<strong>SÌ</strong>" if segnale == "MEAN REV" else "no"), mr))
+
+    tr_last = result["trend_d"][-1] if result.get("trend_d") else None
+    k20 = result["kama_d"][-21] if result.get("kama_d") and len(result["kama_d"]) > 20 else None
+    trw = [
+        ("KAMA in calo su 20 barre", "KAMA oggi &lt; KAMA 20 barre fa", f"{_n(kama, 4)} vs {_n(k20, 4)}", None if (kama is None or k20 is None) else kama < k20, "Direzione di fondo"),
+        ("Prezzo sotto KAMA", f"&lt; {_n(kama, 4)}", _n(prezzo, 4), None if above_kama is None else not above_kama, "Conferma della direzione"),
+    ]
+    sez.append(("📉 TREND — Solo informativo", "Ribassista se entrambe vere; Rialzista se KAMA in salita e prezzo sopra; Laterale negli altri casi. Non modifica i segnali. Oggi: <strong>" + {"R": "Ribassista", "U": "Rialzista", "L": "Laterale"}.get(tr_last, "—") + "</strong>", trw))
 
     sezioni_html = "".join(f'<h2>{tit}</h2><p class="nota">{nota}</p>{_tabella(rows)}{_riepilogo(rows)}' for tit, nota, rows in sez)
 
