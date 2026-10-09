@@ -27,7 +27,7 @@
   button.action:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .stats-grid {
-    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--line);
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--line);
     border-bottom: 1px solid var(--line);
   }
   .stat-box { background: #fff; padding: 10px 16px; }
@@ -179,8 +179,12 @@ function render(d) {
   const lastRsi = d.rsi_d ? d.rsi_d[last] : null;
   const openTrade = d.open_trade;
 
+  const trd = d.trend_d ? d.trend_d[last] : null;
+  const trTxt = { R: 'Ribassista', U: 'Rialzista', L: 'Laterale' }[trd] || '—';
+  const trCol = trd === 'R' ? '#b23b3b' : (trd === 'U' ? '#1f7a4d' : '#6b7280');
   const stats = [
     { lbl: 'Segnale', val: `<span class="badge ${badgeClass(lastSig)}">${lastSig || '—'}</span>` },
+    { lbl: 'Trend', val: `<span style="font-weight:600;color:${trCol}">${trTxt}</span>` },
     { lbl: 'Prezzo', val: lastClose !== null ? lastClose.toFixed(4) : '—' },
     { lbl: 'Var. Oggi', val: fmtPct(todayChg) },
     { lbl: 'RSI (14)', val: lastRsi !== null && lastRsi !== undefined ? lastRsi.toFixed(1) : '—' },
@@ -259,6 +263,11 @@ function render(d) {
     });
     sCandle.setMarkers(markers);
   }
+  if (d.trend_d) {
+    const sT = cMain.addHistogramSeries({ priceScaleId: 'trend', priceLineVisible: false, lastValueVisible: false });
+    cMain.priceScale('trend').applyOptions({ scaleMargins: { top: 0, bottom: 0 }, visible: false });
+    sT.setData(bars.map((b, i) => { const t = d.trend_d[i]; return t === 'R' ? { time: b[0], value: 1, color: 'rgba(178,59,59,0.08)' } : (t === 'U' ? { time: b[0], value: 1, color: 'rgba(31,122,77,0.08)' } : { time: b[0] }); }));
+  }
   cMain.timeScale().fitContent();
 
   // ── Sottopannelli: Baffetti, AO, RSI ──
@@ -280,15 +289,15 @@ function render(d) {
       const v = d.ao_d[i];
       const color = v === null ? '#c7ccd4' : (prev !== null && v >= prev ? '#1f7a4d' : '#b23b3b');
       prev = v;
-      return { time: b[0], value: v, color };
-    }).filter(p => p.value !== null));
+      return v === null ? { time: b[0] } : { time: b[0], value: v, color };
+    }));
     syncTimeScale(cMain, c);
   }
   if (d.rsi_d) {
     const el = document.getElementById('cRsi');
     const c = LightweightCharts.createChart(el, { ...subOpts, width: el.offsetWidth, height: 80 });
     const s = c.addLineSeries({ color: '#6d28d9', lineWidth: 1.5 });
-    s.setData(bars.map((b, i) => ({ time: b[0], value: d.rsi_d[i] })).filter(p => p.value !== null));
+    s.setData(bars.map((b, i) => d.rsi_d[i] === null ? { time: b[0] } : { time: b[0], value: d.rsi_d[i] }));
     syncTimeScale(cMain, c);
   }
 
