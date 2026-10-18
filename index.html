@@ -303,7 +303,7 @@
   <div class="sub">Ricognizione strumenti Borsa Italiana (ETF Plus) · Xetra non ancora disponibile</div>
   <div class="top-actions">
     <button class="action primary" id="export-excel">Esporta Excel</button>
-    <button class="action" id="rules-pdf" disabled title="In arrivo — nessun regolamento operativo ancora definito per questa pagina">Regole (PDF) — in arrivo</button>
+    <button class="action" id="rules-pdf" title="Regole generali CORE (PDF), rigenerato a ogni aggiornamento">📄 Regole (PDF)</button>
   </div>
 </header>
 
@@ -378,6 +378,7 @@
   <div class="filter-group checks">
     <label><input type="checkbox" id="f-leva"> Solo a leva/short</label>
     <label><input type="checkbox" id="f-uncertain"> Solo da rivedere (default_fallback)</label>
+    <label><input type="checkbox" id="f-stale"> Solo dati non aggiornati (&gt;3 gg di borsa)</label>
   </div>
   <button id="reset-filters">Azzera filtri</button>
 </div>
@@ -399,6 +400,7 @@
         <th data-key="distribution_policy">Distribuzione</th>
         <th data-key="asset_class_confidence">Confidence</th>
         <th data-key="close">Prezzo</th>
+        <th data-key="last_date">Ultimo dato</th>
         <th data-key="score_operativo">Score</th>
         <th data-key="signal">Segnale</th>
         <th data-key="signal_date">Segnale dal</th>
@@ -472,6 +474,36 @@ let CHART_SET = new Set();  // 'y' (ticker_yf) dei titoli con un grafico davvero
 let sortKey = null;
 let sortDir = 1;
 
+// Data di riferimento = ultimo dato più recente presente nell'universo (non la data odierna,
+// così festività/weekend non fanno risultare "non aggiornato" tutto l'universo).
+// Soglia: più di 3 giorni di borsa aperti (lun-ven) di distanza dalla data di riferimento.
+// Le festività non sono considerate: un ETF può risultare "non aggiornato" per 1 giorno in più del reale.
+let REF_DATE = null;
+const STALE_BUSINESS_DAYS = 3;
+
+function busDaysBetween(fromStr, toStr) {
+  const a = new Date(fromStr + 'T00:00:00Z'), b = new Date(toStr + 'T00:00:00Z');
+  let n = 0;
+  for (let d = new Date(a.getTime() + 86400000); d <= b; d = new Date(d.getTime() + 86400000)) {
+    const w = d.getUTCDay();
+    if (w !== 0 && w !== 6) n++;
+  }
+  return n;
+}
+
+function isStale(r) {
+  return !!(r.last_date && REF_DATE && busDaysBetween(r.last_date, REF_DATE) > STALE_BUSINESS_DAYS);
+}
+
+function lastDateCell(r) {
+  if (!r.last_date) return '—';
+  const [y, m, d] = r.last_date.split('-');
+  const txt = `${d}/${m}/${y}`;
+  return isStale(r)
+    ? `<span style="color:#b42318;font-weight:600" title="Dato fermo da oltre ${STALE_BUSINESS_DAYS} giorni di borsa rispetto al più recente dell'universo">⚠ ${txt}</span>`
+    : txt;
+}
+
 const els = {
   search: document.getElementById('search'),
   assetClass: document.getElementById('f-asset-class'),
@@ -484,6 +516,7 @@ const els = {
   flip: document.getElementById('f-flip'),
   leva: document.getElementById('f-leva'),
   uncertain: document.getElementById('f-uncertain'),
+  stale: document.getElementById('f-stale'),
   tbody: document.getElementById('table-body'),
   stats: document.getElementById('stats'),
   footer: document.getElementById('footer'),
@@ -506,11 +539,13 @@ function renderStats(rows) {
   rows.forEach(r => { byClass[r.asset_class] = (byClass[r.asset_class] || 0) + 1; });
   const uncertain = rows.filter(r => r.asset_class_confidence === 'default_fallback').length;
 
+  const staleN = rows.filter(isStale).length;
   let html = `<div class="stat-card"><div class="n">${total}</div><div class="l">Totale</div></div>`;
   Object.entries(byClass).sort((a,b) => b[1]-a[1]).forEach(([k,v]) => {
     html += `<div class="stat-card"><div class="n">${v}</div><div class="l">${k}</div></div>`;
   });
   html += `<div class="stat-card"><div class="n">${uncertain}</div><div class="l">Da rivedere</div></div>`;
+  if (REF_DATE) html += `<div class="stat-card"><div class="n">${staleN}</div><div class="l">Dati non aggiornati</div></div>`;
   els.stats.innerHTML = html;
 }
 
@@ -527,6 +562,7 @@ function currentFilters() {
     flip: els.flip.value,
     leva: els.leva.checked,
     uncertain: els.uncertain.checked,
+    stale: els.stale.checked,
   };
 }
 
@@ -553,6 +589,7 @@ function filterRows(f) {
     if (f.flip && r.sar_flip !== f.flip) return false;
     if (f.leva && !r.is_leveraged) return false;
     if (f.uncertain && r.asset_class_confidence !== 'default_fallback') return false;
+    if (f.stale && !isStale(r)) return false;
     return true;
   });
 }
@@ -609,6 +646,7 @@ function renderTable(rows) {
       <td>${r.distribution_policy || '—'}</td>
       <td class="conf ${r.asset_class_confidence}">${r.asset_class_confidence === 'default_fallback' ? 'da rivedere' : 'ok'}</td>
       <td>${r.close != null ? r.close.toFixed(2) : '—'}</td>
+      <td>${lastDateCell(r)}</td>
       <td class="score-cell">${r.score_operativo != null ? r.score_operativo : '—'}</td>
       <td>${r.signal ? `<span class="badge ${signalBadgeClass(r.signal)}">${r.signal}</span>` : '—'}</td>
       <td>${r.signal_date || '—'}</td>
@@ -635,6 +673,8 @@ function exportExcel() {
     Distribuzione: r.distribution_policy || '',
     Confidence: r.asset_class_confidence,
     Prezzo: r.close != null ? r.close : '',
+    'Ultimo dato': r.last_date || '',
+    'Dato non aggiornato (>3 gg)': r.last_date ? (isStale(r) ? 'Sì' : 'No') : '',
     Score: r.score_operativo != null ? r.score_operativo : '',
     Segnale: r.signal || '',
     'Segnale dal': r.signal_date || '',
@@ -658,14 +698,16 @@ function resetFilters() {
   els.flip.value = '';
   els.leva.checked = false;
   els.uncertain.checked = false;
+  els.stale.checked = false;
   applyFilters();
 }
 
-[els.search, els.assetClass, els.productType, els.distribution, els.currency, els.exchange, els.issuer, els.signal, els.flip, els.leva, els.uncertain]
+[els.search, els.assetClass, els.productType, els.distribution, els.currency, els.exchange, els.issuer, els.signal, els.flip, els.leva, els.uncertain, els.stale]
   .forEach(el => el.addEventListener('input', applyFilters));
 
 document.getElementById('reset-filters').addEventListener('click', resetFilters);
 document.getElementById('export-excel').addEventListener('click', exportExcel);
+document.getElementById('rules-pdf').addEventListener('click', () => window.open('regole_generali.pdf?v=' + Date.now(), '_blank'));
 
 document.querySelectorAll('thead th').forEach(th => {
   th.addEventListener('click', () => {
@@ -784,6 +826,7 @@ async function loadData() {
           return {
             ...r,
             close: s.close,
+            last_date: s.last_date,
             score_operativo: s.score_operativo,
             score_vento: s.score_vento,
             score_onda: s.score_onda,
@@ -796,7 +839,11 @@ async function loadData() {
           };
         });
 
+        const _dates = allData.map(r => r.last_date).filter(Boolean).sort();
+        REF_DATE = _dates.length ? _dates[_dates.length - 1] : null;
+
         footerText += ` · Score calcolati il ${new Date(scoresJson.generated_at).toLocaleString('it-IT')} (${matched}/${scoresJson.count} strumenti con score)`;
+        footerText += REF_DATE ? ` · Ultimo dato disponibile: ${REF_DATE.split('-').reverse().join('/')}` : ' · Date ultimo dato disponibili dal prossimo aggiornamento';
       } else {
         footerText += ' · Score non ancora disponibili — lancia manualmente il workflow "Aggiorna Universo e Calcola Score" da GitHub Actions.';
       }
@@ -1171,7 +1218,8 @@ async function openChart(tickerYf, name) {
     const res = await fetch('data/charts/' + fname);
     if (!res.ok) throw new Error('non trovato');
     const data = await res.json();
-    document.getElementById('chartSub').textContent = 'Ultimo aggiornamento dati: vedi data/charts/index.json · 1 anno';
+    const _lastTs = (data.d && data.d.length) ? data.d[data.d.length - 1][0] : null;
+    document.getElementById('chartSub').textContent = 'Ultimo dato: ' + (_lastTs ? new Date(_lastTs * 1000).toLocaleDateString('it-IT', { timeZone: 'Europe/Rome' }) : 'n.d.') + ' · 1 anno';
 
     const regoleFname = fname.replace('.json', '_Regole.html');
     pdfBtn.disabled = false; pdfBtn.textContent = '📄 Regole operative';
