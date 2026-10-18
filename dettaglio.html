@@ -168,7 +168,7 @@ function render(d) {
   document.getElementById('content').style.display = 'block';
 
   document.getElementById('hName').textContent = `${d.name || d.ticker} (${d.yahoo})`;
-  document.getElementById('hSub').textContent = `${d.asset_class || ''} · ISIN ${d.isin || '—'} · Ultimo aggiornamento dati`;
+  document.getElementById('hSub').textContent = `${d.asset_class || ''} · ISIN ${d.isin || '—'} · Ultimo dato: ${(d.d && d.d.length) ? new Date(d.d[d.d.length - 1][0] * 1000).toLocaleDateString('it-IT', { timeZone: 'Europe/Rome' }) : 'n.d.'}`;
 
   const bars = d.d || [];
   const last = bars.length - 1;
