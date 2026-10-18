@@ -239,6 +239,7 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
 
         return {
             "close": round(float(c_last), 2),
+            "last_date": close.index[-1].strftime("%Y-%m-%d"),
             "score_operativo": int(score_operativo),
             "score_vento": int(score_vento),
             "score_onda": int(score_onda),
