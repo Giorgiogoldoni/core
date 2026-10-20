@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CORE — Confronto ETF</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #14181f;
+    --ink-soft: #5b6472;
+    --line: #e2e5ea;
+    --line-strong: #c7ccd4;
+    --accent: #1f4b3f;
+    --accent-soft: #e7f0ec;
+    --warn: #8a5a12;
+    --warn-soft: #fbf0dd;
+    --bad: #a12c2c;
+    --bad-soft: #fbe6e6;
+    --info-soft: #eef3fb;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+  header { padding: 28px 32px 20px; border-bottom: 1px solid var(--line); }
+  header h1 { margin: 0 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  header .sub { color: var(--ink-soft); font-size: 13px; }
+  .top-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  button.action {
+    font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 6px;
+    border: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer;
+  }
+  button.action:hover { background: #f6f7f8; }
+  button.action.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.action.primary:hover { background: #17392f; }
+  button.action:disabled { opacity: 0.45; cursor: not-allowed; }
+  button.action.primary:disabled:hover { background: var(--accent); }
+  button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid #0969da; outline-offset: 2px; }
+
+  .layout { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 20px; padding: 20px 32px 32px; align-items: start; }
+  .panel { border: 1px solid var(--line); border-radius: 8px; padding: 16px; min-width: 0; }
+  .panel h2 { margin: 0 0 12px; font-size: 15px; font-weight: 700; }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; padding: 16px; } header { padding: 20px 16px 16px; } }
+
+  .pf { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+  .pf input[type="text"], .pf select {
+    font-family: var(--sans); font-size: 13px; padding: 7px 8px; border: 1px solid var(--line-strong);
+    border-radius: 6px; background: #fff; width: 100%;
+  }
+  .pf label { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .hint { font-size: 12px; color: var(--ink-soft); margin: 4px 0 8px; }
+  .picklist { max-height: 460px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .row { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: #fafbfc; }
+  .row.on { background: var(--accent-soft); }
+  .row.dis { opacity: 0.45; cursor: not-allowed; }
+  .row .tk { font-family: var(--mono); font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .row .nm { font-size: 12px; color: var(--ink-soft); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tag { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; white-space: nowrap; }
+  .tag.lev { background: var(--bad-soft); color: var(--bad); }
+  .tag.buy { background: #e2f3e6; color: #1a7a34; }
+  .tag.watch { background: var(--warn-soft); color: var(--warn); }
+  .empty { padding: 36px 16px; text-align: center; color: var(--ink-soft); }
+
+  .chips-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  #chips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 10px; border: 1px solid var(--line-strong);
+    border-radius: 20px; font-family: var(--mono); font-size: 12px; font-weight: 600; background: #fff;
+  }
+  .chip.bad { border-color: var(--bad); color: var(--bad); }
+  .chip i, .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+  .chip button { border: none; background: #f1f3f5; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; line-height: 1; font-size: 14px; color: var(--ink-soft); }
+  .chip button:hover { background: var(--bad-soft); color: var(--bad); }
+  .counter { font-size: 12px; color: var(--ink-soft); font-family: var(--mono); }
+  button.link { border: none; background: none; color: var(--ink-soft); text-decoration: underline; cursor: pointer; font-size: 12px; font-family: var(--sans); }
+
+  .ctl-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+  .ctl-row label { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .ctl-row select { font-family: var(--mono); font-size: 12px; padding: 5px 8px; border: 1px solid var(--line-strong); border-radius: 6px; background: #fff; }
+  .seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; }
+  .seg-b { font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 6px 12px; border: none; border-right: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer; }
+  .seg-b:last-child { border-right: none; }
+  .seg-b:hover { background: #f6f7f8; }
+  .seg-b.on { background: var(--accent); color: #fff; }
+
+  .note { font-size: 12.5px; padding: 8px 12px; border-radius: 6px; margin-bottom: 8px; }
+  .note.warn { background: var(--warn-soft); color: var(--warn); border: 1px solid #ecd9b3; }
+  .note.info { background: var(--info-soft); color: #2a4a7c; border: 1px solid #d3def0; }
+
+  #chartWrap { position: relative; border: 1px solid var(--line); border-radius: 8px; background: #fff; min-height: 120px; margin-top: 4px; }
+  .tip {
+    position: absolute; pointer-events: none; background: #fff; border: 1px solid var(--line-strong); border-radius: 6px;
+    padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.12); z-index: 5; white-space: nowrap;
+  }
+  .tip .d { font-weight: 700; margin-bottom: 4px; }
+  .tip .l { display: flex; align-items: center; gap: 6px; }
+  .tip .l span.v { margin-left: auto; padding-left: 14px; font-family: var(--mono); font-weight: 600; }
+
+  .stats-wrap { margin-top: 16px; overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; }
+  thead th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-soft); border-bottom: 2px solid var(--line-strong); padding: 8px 10px; white-space: nowrap; }
+  tbody td { padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; vertical-align: middle; }
+  td.num, th.num { text-align: right; font-family: var(--mono); font-size: 12.5px; }
+  td.pos { color: #1a7a34; } td.neg { color: #a12c2c; } td.warnc { color: var(--warn); font-weight: 700; }
+  .mono { font-family: var(--mono); font-size: 12.5px; }
+  .nm2 { color: var(--ink-soft); font-size: 12px; margin-left: 4px; white-space: normal; }
+  a.tvlink {
+    font-family: var(--sans); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; text-decoration: none;
+    border: 1px solid #0969da; background: #dcedff; color: #0969da; white-space: nowrap;
+  }
+  footer { padding: 14px 32px; color: var(--ink-soft); font-size: 12px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CORE — Confronto ETF</h1>
+  <div class="sub" id="sub"></div>
+  <div class="top-actions">
+    <button class="action" id="back">← Universo CORE</button>
+    <button class="action primary" id="export-excel" disabled>Esporta Excel</button>
+    <button class="action" id="rules-pdf" title="Regole della pagina di confronto (PDF), generato dal codice della pagina e quindi sempre allineato">📄 Regole (PDF)</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="panel">
+    <h2>1. Scegli gli ETF</h2>
+    <div class="pf">
+      <input type="text" id="q" placeholder="Cerca ticker, ISIN o nome..." autocomplete="off">
+      <select id="f-ac" aria-label="Asset class"><option value="">Asset class: tutte</option></select>
+      <select id="f-sig" aria-label="Segnale di screening" hidden>
+        <option value="">Segnale: tutti</option>
+        <option value="BUY">BUY</option>
+        <option value="WATCHLIST">WATCHLIST</option>
+        <option value="NO TRADE">NO TRADE</option>
+        <option value="__NA__">Nessuno score</option>
+      </select>
+      <label id="f-open-wrap" hidden><input type="checkbox" id="f-open"> Solo posizioni aperte</label>
+    </div>
+    <div class="hint" id="pickInfo">Caricamento elenco…</div>
+    <div class="picklist" id="pickList"></div>
+  </aside>
+
+  <section class="panel">
+    <h2>2. Confronta</h2>
+    <div class="chips-row">
+      <div id="chips"></div>
+      <button class="link" id="clear">Azzera selezione</button>
+    </div>
+    <div id="controls"></div>
+    <div id="notes"></div>
+    <div class="hint" id="meta"></div>
+    <div id="chartWrap"><div class="empty">Caricamento…</div></div>
+    <div class="stats-wrap" id="statsWrap"></div>
+  </section>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  COSTANTI — le regole del PDF sono generate da queste, quindi restano allineate
+// ═══════════════════════════════════════════════════════
+const APP_VERSION = '1.0';
+const APP_DATE = '2026-10-20';
+const MAX_SEL = 8;
+const MIN_SEL = 2;
+const ZERO_VOL_WARN = 0.30;   // quota di giorni senza scambi oltre la quale si avvisa
+const PERIODS = [
+  { k: '1M', m: 1,  label: '1 mese' },
+  { k: '3M', m: 3,  label: '3 mesi' },
+  { k: '6M', m: 6,  label: '6 mesi' },
+  { k: '1A', m: 12, label: '1 anno' },
+  { k: '2A', m: 24, label: '2 anni' },
+];
+const VIEWS = [
+  { k: 'base',  label: 'Base 100' },
+  { k: 'rel',   label: 'Performance relativa' },
+  { k: 'ratio', label: 'Rapporto A/B' },
+];
+const COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#17becf'];
+
+/* PURE:START — funzioni di calcolo senza accesso al DOM */
+const _romeFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome', year: 'numeric', month: '2-digit', day: '2-digit' });
+function romeDate(ts) { return _romeFmt.format(new Date(ts * 1000)); }   // 'AAAA-MM-GG' nel giorno di borsa italiano
+
+// json = contenuto di data/charts/TICKER.json; d = [ts, open, high, low, close, volume]
+function parseSeries(json) {
+  const map = new Map();
+  (json.d || []).forEach(b => {
+    const c = b[4];
+    if (!(c > 0)) return;
+    map.set(romeDate(b[0]), { c: c, v: b[5] || 0 });
+  });
+  const dates = Array.from(map.keys()).sort();
+  const h = json.h && json.h.length ? json.h : null;
+  return {
+    map: map,
+    dates: dates,
+    firstDate: dates.length ? dates[0] : null,
+    lastDate: dates.length ? dates[dates.length - 1] : null,
+    lastTs: h ? h[h.length - 1][0] : null,
+    assetClass: json.asset_class || null,
+  };
+}
+
+function commonDates(seriesList) {
+  if (!seriesList.length) return [];
+  let base = seriesList[0].dates;
+  for (let i = 1; i < seriesList.length; i++) {
+    const m = seriesList[i].map;
+    base = base.filter(d => m.has(d));
+  }
+  return base;
+}
+
+function periodStart(lastDate, months) {
+  const d = new Date(lastDate + 'T00:00:00Z');
+  const day = d.getUTCDate();
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() - months);
+  const dim = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate();
+  d.setUTCDate(Math.min(day, dim));
+  return d.toISOString().slice(0, 10);
+}
+
+function buildWindow(seriesList, months) {
+  const dates = commonDates(seriesList);
+  if (dates.length < 2) return null;
+  const last = dates[dates.length - 1];
+  const startTarget = periodStart(last, months);
+  let i0 = dates.findIndex(d => d >= startTarget);
+  if (i0 < 0) i0 = 0;
+  const win = dates.slice(i0);
+  if (win.length < 2) return null;
+  return {
+    dates: win,
+    closes: seriesList.map(s => win.map(d => s.map.get(d).c)),
+    vols: seriesList.map(s => win.map(d => s.map.get(d).v)),
+    truncated: dates[0] > startTarget,   // lo storico in comune è più corto del periodo richiesto
+    commonFirst: dates[0],
+    commonLast: last,
+  };
+}
+
+function statsFor(closes, vols) {
+  const n = closes.length;
+  let peak = closes[0], mdd = 0;
+  const rets = [];
+  for (let i = 0; i < n; i++) {
+    const c = closes[i];
+    if (c > peak) peak = c;
+    const dd = c / peak - 1;
+    if (dd < mdd) mdd = dd;
+    if (i > 0) rets.push(Math.log(c / closes[i - 1]));
+  }
+  let vol = null;
+  if (rets.length > 1) {
+    const m = rets.reduce((a, b) => a + b, 0) / rets.length;
+    const v = rets.reduce((a, b) => a + (b - m) * (b - m), 0) / (rets.length - 1);
+    vol = Math.sqrt(v) * Math.sqrt(252);
+  }
+  return { perf: closes[n - 1] / closes[0] - 1, mdd: mdd, vol: vol, zero: vols.filter(x => !x).length / n };
+}
+/* PURE:END */
+
+// ═══════════════════════════════════════════════════════
+//  UTILITÀ
+// ═══════════════════════════════════════════════════════
+const el = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const fmtIt = (n, dec) => n.toLocaleString('it-IT', { minimumFractionDigits: dec == null ? 2 : dec, maximumFractionDigits: dec == null ? 2 : dec });
+const fmtPct = x => (x >= 0 ? '+' : '') + fmtIt(x * 100, 2) + '%';
+const fmtDate = d => d ? d.slice(8, 10) + '/' + d.slice(5, 7) + '/' + d.slice(0, 4) : '—';
+const fmtDateShort = d => d.slice(8, 10) + '/' + d.slice(5, 7) + '/' + d.slice(2, 4);
+const fmtStamp = ts => new Date(ts * 1000).toLocaleString('it-IT', { timeZone: 'Europe/Rome', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(',', '');
+const lastStamp = s => s.lastTs ? fmtStamp(s.lastTs) : fmtDate(s.lastDate);
+
+function tvSymbol(t) {
+  if (t.endsWith('.MI')) return 'MIL:' + t.slice(0, -3);
+  if (t.endsWith('.DE')) return 'XETR:' + t.slice(0, -3);
+  if (t.endsWith('.PA')) return 'EURONEXT:' + t.slice(0, -3);
+  if (t.endsWith('.L')) return 'LSE:' + t.slice(0, -2);
+  return t;
+}
+
+// ═══════════════════════════════════════════════════════
+//  STATO
+// ═══════════════════════════════════════════════════════
+let items = [];                 // ETF selezionabili (quelli con grafico in data/charts/index.json)
+const itemMap = new Map();
+let universe = new Map();       // ticker_yf -> record di tickers_universe.json
+let scoresByIsin = {};
+let selected = [];              // ticker selezionati, in ordine
+const colorOf = new Map();
+const seriesCache = new Map();  // ticker -> Promise
+const loaded = new Map();       // ticker -> serie parsata
+const failed = new Set();
+const state = { view: 'base', period: '1A', ref: null, a: null, b: null };
+let lastCtx = null;
+let lastWidth = 0;
+
+// ═══════════════════════════════════════════════════════
+//  CARICAMENTO DATI
+// ═══════════════════════════════════════════════════════
+function ensureLoaded(t) {
+  if (!seriesCache.has(t)) {
+    const fname = t.replace(/\./g, '_') + '.json';
+    seriesCache.set(t,
+      fetch('data/charts/' + fname, { cache: 'no-cache' })
+        .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(j => {
+          const s = parseSeries(j);
+          if (s.dates.length < 2) throw new Error('serie vuota');
+          loaded.set(t, s);
+          return s;
+        })
+        .catch(() => { failed.add(t); return null; })
+    );
+  }
+  return seriesCache.get(t);
+}
+
+async function init() {
+  el('sub').textContent = `Seleziona da ${MIN_SEL} a ${MAX_SEL} ETF e confrontali nello stesso periodo · grafico a linee`;
+  el('footer').textContent = `Pagina v${APP_VERSION} del ${fmtDate(APP_DATE)} · Fonte: data/charts/*.json · caricata il ${fmtStamp(Date.now() / 1000)}`;
+
+  let chartIdx = [];
+  try {
+    const r = await fetch('data/charts/index.json?v=' + Date.now());
+    if (!r.ok) throw new Error('http ' + r.status);
+    const j = await r.json();
+    chartIdx = (j.index || []).filter(e => e && e.y);
+  } catch (e) {
+    el('pickInfo').textContent = '';
+    el('chartWrap').innerHTML = '<div class="empty">Impossibile leggere data/charts/index.json: verifica che il file esista nel repo e che il workflow dei grafici sia stato eseguito.</div>';
+    return;
+  }
+  try {
+    const r = await fetch('data/tickers_universe.json');
+    if (r.ok) (await r.json()).instruments.forEach(i => universe.set(i.ticker_yf, i));
+  } catch (e) { /* senza universo si usa solo il ticker come nome */ }
+  try {
+    const r = await fetch('data/etf_scores.json');
+    if (r.ok) ((await r.json()).scores || []).forEach(s => { scoresByIsin[s.isin] = s; });
+  } catch (e) { /* senza score niente filtro per segnale */ }
+
+  const seen = new Set();
+  chartIdx.forEach(e => {
+    if (seen.has(e.y)) return;
+    seen.add(e.y);
+    const u = universe.get(e.y) || {};
+    const sc = u.isin ? scoresByIsin[u.isin] : null;
+    const it = {
+      y: e.y, name: u.name || e.n || e.name || '', isin: u.isin || '', ac: u.asset_class || '',
+      leva: !!u.is_leveraged || u.asset_class === 'leva_short', dist: u.distribution_policy || '',
+      sig: sc && sc.signal ? sc.signal : '', open: e.isOpen === true,
+    };
+    items.push(it);
+    itemMap.set(it.y, it);
+  });
+  items.sort((a, b) => a.y < b.y ? -1 : a.y > b.y ? 1 : 0);
+
+  [...new Set(items.map(i => i.ac).filter(Boolean))].sort().forEach(ac => {
+    const o = document.createElement('option'); o.value = ac; o.textContent = ac.replace('_', ' '); el('f-ac').appendChild(o);
+  });
+  if (items.some(i => i.sig)) el('f-sig').hidden = false;
+  if (chartIdx.some(e => typeof e.isOpen === 'boolean')) el('f-open-wrap').hidden = false;
+
+  readUrl();
+  renderList();
+  draw();
+  selected.forEach(t => ensureLoaded(t).then(draw));
+}
+
+// ═══════════════════════════════════════════════════════
+//  URL (consente link diretti, es. confronto.html?t=SWDA.MI,VWCE.DE&p=6M&v=rel)
+// ═══════════════════════════════════════════════════════
+function readUrl() {
+  try {
+    const p = new URLSearchParams(location.search);
+    (p.get('t') || '').split(',').map(s => s.trim()).filter(Boolean).forEach(t => {
+      if (itemMap.has(t) && !selected.includes(t) && selected.length < MAX_SEL) { selected.push(t); colorOf.set(t, nextColor()); }
+    });
+    if (PERIODS.some(x => x.k === p.get('p'))) state.period = p.get('p');
+    if (VIEWS.some(x => x.k === p.get('v'))) state.view = p.get('v');
+  } catch (e) {}
+}
+function writeUrl() {
+  try {
+    const p = new URLSearchParams();
+    if (selected.length) p.set('t', selected.join(','));
+    p.set('p', state.period); p.set('v', state.view);
+    history.replaceState(null, '', '?' + p.toString());
+  } catch (e) {}
+}
+
+// ═══════════════════════════════════════════════════════
+//  SELEZIONE
+// ═══════════════════════════════════════════════════════
+function nextColor() {
+  const used = Array.from(colorOf.values());
+  return COLORS.find(c => !used.includes(c)) || COLORS[0];
+}
+
+function toggle(t) {
+  if (selected.includes(t)) {
+    selected = selected.filter(x => x !== t);
+    colorOf.delete(t);
+  } else {
+    if (selected.length >= MAX_SEL) return;
+    selected.push(t);
+    colorOf.set(t, nextColor());
+    ensureLoaded(t).then(draw);
+  }
+  writeUrl();
+  renderList();
+  draw();
+}
+
+function filteredItems() {
+  const q = el('q').value.trim().toLowerCase();
+  const ac = el('f-ac').value, sg = el('f-sig').value, op = el('f-open').checked;
+  return items.filter(i => {
+    if (q && !(i.y + ' ' + i.isin + ' ' + i.name).toLowerCase().includes(q)) return false;
+    if (ac && i.ac !== ac) return false;
+    if (sg) {
+      if (sg === '__NA__') { if (i.sig) return false; }
+      else if (!i.sig.startsWith(sg)) return false;
+    }
+    if (op && !i.open) return false;
+    return true;
+  });
+}
+
+function renderList() {
+  const LIM = 250;
+  const f = filteredItems();
+  const full = selected.length >= MAX_SEL;
+  const box = el('pickList');
+  const sc = box.scrollTop;
+  box.innerHTML = f.slice(0, LIM).map(i => {
+    const on = selected.includes(i.y), dis = !on && full;
+    const sg = i.sig === 'BUY' ? '<span class="tag buy">BUY</span>' : i.sig.startsWith('WATCHLIST') ? '<span class="tag watch">WATCH</span>' : '';
+    return `<label class="row${on ? ' on' : ''}${dis ? ' dis' : ''}"><input type="checkbox" data-t="${esc(i.y)}"${on ? ' checked' : ''}${dis ? ' disabled' : ''}>` +
+      `<span class="tk">${esc(i.y)}</span><span class="nm" title="${esc(i.name)}">${esc(i.name)}</span>${i.leva ? '<span class="tag lev">leva</span>' : ''}${sg}</label>`;
+  }).join('') || '<div class="empty">Nessun ETF corrisponde ai filtri.</div>';
+  box.scrollTop = sc;
+  el('pickInfo').textContent = `${f.length} su ${items.length} ETF con grafico` + (f.length > LIM ? ` · mostrati i primi ${LIM}: affina la ricerca` : '') +
+    (full ? ` · raggiunto il massimo di ${MAX_SEL}` : '');
+}
+
+function renderChips() {
+  el('chips').innerHTML = selected.map(t =>
+    `<span class="chip${failed.has(t) ? ' bad' : ''}" title="${esc((itemMap.get(t) || {}).name || '')}"><i style="background:${colorOf.get(t)}"></i>${esc(t)}${failed.has(t) ? ' (n.d.)' : ''}` +
+    `<button data-rm="${esc(t)}" aria-label="Rimuovi ${esc(t)}">×</button></span>`).join('') +
+    `<span class="counter">${selected.length}/${MAX_SEL}</span>`;
+  el('clear').hidden = selected.length === 0;
+}
+
+function renderControls(list) {
+  const optsHtml = (cur) => list.map(t => `<option value="${esc(t)}"${t === cur ? ' selected' : ''}>${esc(t)}</option>`).join('');
+  let h = '<div class="ctl-row"><div class="seg">' +
+    VIEWS.map(v => `<button class="seg-b${state.view === v.k ? ' on' : ''}" data-view="${v.k}">${v.label}</button>`).join('') + '</div>' +
+    '<div class="seg">' + PERIODS.map(p => `<button class="seg-b${state.period === p.k ? ' on' : ''}" data-period="${p.k}" title="${p.label}">${p.k}</button>`).join('') + '</div></div>';
+  if (state.view === 'rel' && list.length) h += `<div class="ctl-row"><label>ETF di riferimento <select data-sel="ref">${optsHtml(state.ref)}</select></label></div>`;
+  if (state.view === 'ratio' && list.length >= 2) h += `<div class="ctl-row"><label>A <select data-sel="a">${optsHtml(state.a)}</select></label><span>diviso</span><label>B <select data-sel="b">${optsHtml(state.b)}</select></label></div>`;
+  el('controls').innerHTML = h;
+}
+
+function renderNotes(notes) {
+  el('notes').innerHTML = notes.map(n => `<div class="note ${n[0]}">${n[1]}</div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+//  DISEGNO
+// ═══════════════════════════════════════════════════════
+function draw() {
+  renderChips();
+  const list = selected.filter(t => loaded.has(t));
+  const pend = selected.filter(t => !loaded.has(t) && !failed.has(t));
+  const bad = selected.filter(t => failed.has(t));
+
+  // coerenza delle scelte secondarie
+  if (!list.includes(state.ref)) state.ref = list[0] || null;
+  let ai = list.indexOf(state.a), bi = list.indexOf(state.b);
+  if (ai < 0) ai = 0;
+  if (bi < 0 || bi === ai) bi = ai === 0 ? 1 : 0;
+  state.a = list[ai] || null; state.b = list[bi] || null;
+  renderControls(list);
+
+  lastCtx = null;
+  el('export-excel').disabled = true;
+  el('statsWrap').innerHTML = '';
+  el('meta').textContent = '';
+  const notes = [];
+  if (bad.length) notes.push(['warn', `Dati non disponibili per ${esc(bad.join(', '))}: file mancante in data/charts o senza storico. Esclusi dal confronto.`]);
+  if (pend.length) notes.push(['info', 'Caricamento dati in corso…']);
+
+  if (list.length < MIN_SEL) {
+    el('chartWrap').innerHTML = '<div class="empty">' + (pend.length ? 'Caricamento…' : selected.length < MIN_SEL ? `Seleziona almeno ${MIN_SEL} ETF dalla lista.` : `Servono almeno ${MIN_SEL} ETF con dati per il confronto.`) + '</div>';
+    renderNotes(notes);
+    return;
+  }
+
+  const sl = list.map(t => loaded.get(t));
+  const months = PERIODS.find(p => p.k === state.period).m;
+  const w = buildWindow(sl, months);
+  if (!w) {
+    el('chartWrap').innerHTML = '<div class="empty">Nessun intervallo di date in comune tra gli ETF selezionati (almeno 2 giorni).</div>';
+    renderNotes(notes);
+    return;
+  }
+  const base = w.closes.map(a => a.map(x => 100 * x / a[0]));
+  const stats = w.closes.map((c, i) => statsFor(c, w.vols[i]));
+  const ri = Math.max(0, list.indexOf(state.ref));
+
+  // avvisi
+  const lev = list.filter(t => (itemMap.get(t) || {}).leva || loaded.get(t).assetClass === 'leva_short');
+  if (lev.length) notes.push(['warn', `ETP a leva/short tra i selezionati (${esc(lev.join(', '))}): la base 100 non è confrontabile con strumenti 1x oltre il breve periodo (decadimento, effetto path-dependency).`]);
+  const maxLast = sl.map(s => s.lastDate).sort().pop();
+  if (w.commonLast < maxLast) {
+    const stale = list.filter((t, i) => sl[i].lastDate === w.commonLast);
+    notes.push(['warn', `Date di aggiornamento diverse: il confronto è tagliato al ${fmtDate(w.commonLast)} perché ${esc(stale.join(', '))} si ferma a quella data, mentre altri arrivano al ${fmtDate(maxLast)}.`]);
+  }
+  if (w.truncated) notes.push(['info', `Storico in comune disponibile solo dal ${fmtDate(w.commonFirst)}: il periodo ${state.period} è stato accorciato.`]);
+  const still = list.filter((t, i) => stats[i].zero > ZERO_VOL_WARN);
+  if (still.length) notes.push(['warn', `Prezzi spesso fermi (oltre il ${Math.round(ZERO_VOL_WARN * 100)}% di giorni senza scambi) per ${esc(still.join(', '))}: la volatilità risulta sottostimata.`]);
+  const dists = new Set(list.map(t => (itemMap.get(t) || {}).dist).filter(Boolean));
+  if (dists.has('accumulating') && dists.has('distributing')) notes.push(['info', 'Mix di ETF ad accumulazione e a distribuzione: se le chiusure non includono i dividendi, il confronto penalizza quelli a distribuzione.']);
+  renderNotes(notes);
+
+  // serie per vista
+  let series, opts;
+  if (state.view === 'base') {
+    series = list.map((t, i) => ({ name: t, color: colorOf.get(t), values: base[i] }));
+    opts = { baseline: 100, fmt: v => fmtIt(v, 1), title: 'Prezzo normalizzato base 100' };
+  } else if (state.view === 'rel') {
+    const r = base[ri];
+    series = list.map((t, i) => ({ name: t, color: colorOf.get(t), values: base[i].map((v, k) => v - r[k]), dash: i === ri ? '4,3' : null }));
+    opts = { baseline: 0, fmt: v => (v > 0 ? '+' : '') + fmtIt(v, 1) + ' pt', title: 'Performance relativa vs ' + list[ri] };
+  } else {
+    const ra = w.closes[ai].map((x, k) => x / w.closes[bi][k]);
+    series = [{ name: list[ai] + ' / ' + list[bi], color: '#14181f', values: ra, w: 2 }];
+    opts = { baseline: null, fmt: v => fmtIt(v, ra[0] < 10 ? 4 : 2), title: 'Rapporto ' + list[ai] + ' / ' + list[bi] };
+  }
+
+  el('meta').textContent = `${opts.title} · dal ${fmtDate(w.dates[0])} al ${fmtDate(w.dates[w.dates.length - 1])} · ${w.dates.length} giorni di borsa in comune` +
+    (state.view === 'rel' ? ' · differenza di performance cumulata in punti percentuali (il riferimento vale 0)' : '') +
+    (state.view === 'ratio' ? ' · se il rapporto sale, ' + list[ai] + ' batte ' + list[bi] : '');
+  drawChart(series, w.dates, opts);
+
+  // tabella di sintesi
+  const relCol = state.view === 'rel';
+  el('statsWrap').innerHTML = '<table><thead><tr><th>ETF</th><th>Ultimo dato (file)</th><th class="num">Perf. periodo</th><th class="num">Max drawdown</th><th class="num">Vol. ann.</th><th class="num">Gg senza scambi</th>' +
+    (relCol ? `<th class="num">Diff. vs ${esc(list[ri])}</th>` : '') + '<th>Grafico</th></tr></thead><tbody>' +
+    list.map((t, i) => {
+      const s = stats[i], it = itemMap.get(t) || {};
+      const diff = base[i][base[i].length - 1] - base[ri][base[ri].length - 1];
+      return `<tr><td><i class="sw" style="background:${colorOf.get(t)}"></i> <b class="mono">${esc(t)}</b><span class="nm2">${esc(it.name || '')}</span></td>` +
+        `<td>${esc(lastStamp(loaded.get(t)))}</td>` +
+        `<td class="num ${s.perf >= 0 ? 'pos' : 'neg'}">${fmtPct(s.perf)}</td>` +
+        `<td class="num">${fmtPct(s.mdd)}</td>` +
+        `<td class="num">${s.vol == null ? '—' : fmtIt(s.vol * 100, 1) + '%'}</td>` +
+        `<td class="num ${s.zero > ZERO_VOL_WARN ? 'warnc' : ''}">${fmtIt(s.zero * 100, 0)}%</td>` +
+        (relCol ? `<td class="num">${(diff > 0 ? '+' : '') + fmtIt(diff, 1)} pt</td>` : '') +
+        `<td><a class="tvlink" href="https://www.tradingview.com/chart/?symbol=${encodeURIComponent(tvSymbol(t))}" target="_blank" rel="noopener">TradingView ↗</a></td></tr>`;
+    }).join('') + '</tbody></table>';
+
+  lastCtx = { list, w, base, stats, ri, ai, bi, stamp: Date.now() / 1000 };
+  el('export-excel').disabled = false;
+}
+
+function drawChart(series, dates, o) {
+  const wrap = el('chartWrap');
+  const W = Math.max(wrap.clientWidth || 640, 320), H = 400;
+  lastWidth = wrap.clientWidth;
+  const P = { l: 66, r: 16, t: 14, b: 30 };
+  const pw = W - P.l - P.r, ph = H - P.t - P.b;
+  let mn = Infinity, mx = -Infinity;
+  series.forEach(s => s.values.forEach(v => { if (v < mn) mn = v; if (v > mx) mx = v; }));
+  if (o.baseline != null) { mn = Math.min(mn, o.baseline); mx = Math.max(mx, o.baseline); }
+  if (mn === mx) { mn -= 1; mx += 1; }
+  const pad = (mx - mn) * 0.06; mn -= pad; mx += pad;
+  const n = dates.length;
+  const x = i => P.l + (n === 1 ? 0 : i / (n - 1)) * pw;
+  const y = v => P.t + ph - (v - mn) / (mx - mn) * ph;
+
+  let s = `<svg id="svg" viewBox="0 0 ${W} ${H}" width="100%" style="display:block;max-width:100%;touch-action:pan-y" role="img" aria-label="${esc(o.title)}">`;
+  for (let g = 0; g <= 5; g++) {
+    const v = mn + (mx - mn) * g / 5, yy = y(v).toFixed(1);
+    s += `<line x1="${P.l}" y1="${yy}" x2="${W - P.r}" y2="${yy}" stroke="#e8ebef" stroke-width="1"/>`;
+    s += `<text x="${P.l - 6}" y="${(+yy + 3).toFixed(1)}" text-anchor="end" font-size="10" fill="#5b6472">${o.fmt(v)}</text>`;
+  }
+  const nt = Math.min(6, n);
+  for (let k = 0; k < nt; k++) {
+    const i = Math.round(k * (n - 1) / Math.max(nt - 1, 1));
+    s += `<text x="${x(i).toFixed(1)}" y="${H - 10}" text-anchor="${k === 0 ? 'start' : k === nt - 1 ? 'end' : 'middle'}" font-size="10" fill="#5b6472">${fmtDateShort(dates[i])}</text>`;
+  }
+  if (o.baseline != null) s += `<line x1="${P.l}" y1="${y(o.baseline).toFixed(1)}" x2="${W - P.r}" y2="${y(o.baseline).toFixed(1)}" stroke="#8b949e" stroke-width="1" stroke-dasharray="5,4"/>`;
+  series.forEach(se => {
+    const pts = se.values.map((v, i) => x(i).toFixed(1) + ',' + y(v).toFixed(1)).join(' ');
+    s += `<polyline points="${pts}" fill="none" stroke="${se.color}" stroke-width="${se.w || 1.8}" stroke-linejoin="round"${se.dash ? ` stroke-dasharray="${se.dash}"` : ''}/>`;
+  });
+  s += `<line id="hv" x1="0" y1="${P.t}" x2="0" y2="${P.t + ph}" stroke="#14181f" stroke-width="1" stroke-dasharray="3,3" visibility="hidden"/>`;
+  series.forEach((se, j) => { s += `<circle id="hc${j}" r="3.5" fill="${se.color}" stroke="#fff" stroke-width="1" visibility="hidden"/>`; });
+  s += `<rect id="hit" x="${P.l}" y="${P.t}" width="${pw}" height="${ph}" fill="transparent"/></svg><div class="tip" id="tip" hidden></div>`;
+  wrap.innerHTML = s;
+
+  const svg = el('svg'), tip = el('tip'), hv = el('hv');
+  const hide = () => {
+    hv.setAttribute('visibility', 'hidden'); tip.hidden = true;
+    series.forEach((_, j) => el('hc' + j).setAttribute('visibility', 'hidden'));
+  };
+  svg.addEventListener('pointerleave', hide);
+  svg.addEventListener('pointermove', ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.clientX - r.left) * (W / r.width);
+    if (px < P.l || px > W - P.r) { hide(); return; }
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - P.l) / pw * (n - 1))));
+    hv.setAttribute('x1', x(i)); hv.setAttribute('x2', x(i)); hv.setAttribute('visibility', 'visible');
+    series.forEach((se, j) => {
+      const c = el('hc' + j);
+      c.setAttribute('cx', x(i)); c.setAttribute('cy', y(se.values[i])); c.setAttribute('visibility', 'visible');
+    });
+    tip.innerHTML = `<div class="d">${fmtDate(dates[i])}</div>` + series.map(se =>
+      `<div class="l"><i class="sw" style="background:${se.color}"></i>${esc(se.name)}<span class="v">${o.fmt(se.values[i])}</span></div>`).join('');
+    tip.hidden = false;
+    const wr = wrap.getBoundingClientRect();
+    let left = ev.clientX - wr.left + 14;
+    if (left + tip.offsetWidth > wr.width - 4) left = ev.clientX - wr.left - tip.offsetWidth - 14;
+    tip.style.left = Math.max(4, left) + 'px';
+    tip.style.top = Math.max(4, ev.clientY - wr.top - 10) + 'px';
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  EXCEL
+// ═══════════════════════════════════════════════════════
+function exportExcel() {
+  const c = lastCtx;
+  if (!c) return;
+  const r4 = v => Math.round(v * 10000) / 10000;
+  const wb = XLSX.utils.book_new();
+  const sheet = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), name);
+  const byDate = fn => c.w.dates.map((d, k) => { const row = { Data: fmtDate(d) }; c.list.forEach((t, i) => { row[t] = fn(i, k); }); return row; });
+
+  sheet('Base100', byDate((i, k) => r4(c.base[i][k])));
+  sheet('PerfRelativa', byDate((i, k) => r4(c.base[i][k] - c.base[c.ri][k])));
+  sheet('Rapporto', c.w.dates.map((d, k) => ({ Data: fmtDate(d), ['Rapporto ' + c.list[c.ai] + ' / ' + c.list[c.bi]]: r4(c.w.closes[c.ai][k] / c.w.closes[c.bi][k]) })));
+  sheet('Prezzi', byDate((i, k) => c.w.closes[i][k]));
+  sheet('Sintesi', c.list.map((t, i) => ({
+    Ticker: t, Nome: (itemMap.get(t) || {}).name || '', 'Ultimo dato (file)': lastStamp(loaded.get(t)),
+    'Perf. periodo %': r4(c.stats[i].perf * 100), 'Max drawdown %': r4(c.stats[i].mdd * 100),
+    'Vol. annualizzata %': c.stats[i].vol == null ? '' : r4(c.stats[i].vol * 100),
+    'Giorni senza scambi %': r4(c.stats[i].zero * 100),
+  })));
+  sheet('Info', [
+    { Voce: 'Generato il', Valore: fmtStamp(c.stamp) },
+    { Voce: 'Periodo scelto', Valore: state.period },
+    { Voce: 'Intervallo effettivo', Valore: fmtDate(c.w.dates[0]) + ' - ' + fmtDate(c.w.dates[c.w.dates.length - 1]) },
+    { Voce: 'Giorni di borsa in comune', Valore: c.w.dates.length },
+    { Voce: 'ETF', Valore: c.list.join(', ') },
+    { Voce: 'ETF di riferimento (PerfRelativa)', Valore: c.list[c.ri] },
+    { Voce: 'Rapporto A / B', Valore: c.list[c.ai] + ' / ' + c.list[c.bi] },
+    { Voce: 'Fonte dati', Valore: 'data/charts/TICKER.json (chiusure giornaliere)' },
+    { Voce: 'Versione pagina', Valore: APP_VERSION + ' del ' + fmtDate(APP_DATE) },
+  ]);
+  XLSX.writeFile(wb, 'core_confronto_' + state.period + '_' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '.xlsx');
+}
+
+// ═══════════════════════════════════════════════════════
+//  REGOLE (PDF) — generato dal codice: usa le stesse costanti della pagina
+// ═══════════════════════════════════════════════════════
+function rulesSections() {
+  const per = PERIODS.map(p => p.k).join(', ');
+  return [
+    ['Scopo', [
+      `Confrontare in un grafico a linee da ${MIN_SEL} a ${MAX_SEL} ETF/ETP di CORE nello stesso periodo.`,
+    ]],
+    ['Quali ETF si possono scegliere', [
+      'Solo gli strumenti con un grafico generato (elenco in data/charts/index.json). Gli altri strumenti di CORE non hanno lo storico dei prezzi e non sono selezionabili.',
+      `Massimo ${MAX_SEL} ETF alla volta: oltre questo numero le linee non sono leggibili.`,
+    ]],
+    ['Dati e allineamento', [
+      'Si usano le chiusure giornaliere dei file data/charts/TICKER.json (storico fino a 2 anni). Le date sono giorni di borsa nel fuso Europe/Rome.',
+      'Il confronto usa solo le date in cui tutti gli ETF selezionati hanno un dato. Se un ETF ha dati piu vecchi degli altri, l\'intervallo si accorcia e la pagina lo segnala.',
+      'Non e garantito che le chiusure includano i dividendi: confrontare ETF ad accumulazione e a distribuzione puo essere distorto.',
+    ]],
+    ['Periodi', [
+      `Periodi disponibili: ${per}, contati a ritroso dall\'ultima data in comune. Se lo storico in comune e piu corto, si usa tutto lo storico disponibile e la pagina lo segnala.`,
+    ]],
+    ['Le tre viste', [
+      'Base 100: prezzo di ogni ETF diviso il prezzo del primo giorno del periodo, per 100.',
+      'Performance relativa: differenza, in punti percentuali, tra la performance cumulata di ogni ETF e quella dell\'ETF di riferimento scelto dall\'utente. Il riferimento vale sempre 0.',
+      'Rapporto A/B: prezzo di A diviso prezzo di B (valore non normalizzato). Se sale, A batte B. A e B si scelgono tra gli ETF selezionati.',
+    ]],
+    ['Indicatori in tabella', [
+      'Performance periodo = ultima chiusura / prima chiusura del periodo - 1.',
+      'Max drawdown = peggior calo dal massimo precedente dentro il periodo.',
+      'Volatilita annualizzata = deviazione standard dei rendimenti logaritmici giornalieri x radice di 252 (dato informativo).',
+      'Giorni senza scambi = quota di giorni con volume zero nel periodo.',
+    ]],
+    ['Avvisi mostrati dalla pagina', [
+      'ETP a leva/short: la base 100 non e confrontabile con strumenti 1x oltre il breve periodo (decadimento, path-dependency).',
+      `Prezzi spesso fermi (oltre il ${Math.round(ZERO_VOL_WARN * 100)}% di giorni senza scambi): la volatilita risulta sottostimata.`,
+      'Date di aggiornamento diverse tra gli ETF: il confronto e tagliato alla data comune piu vecchia.',
+      'Mix di ETF ad accumulazione e a distribuzione.',
+    ]],
+    ['Grafico e standard scannerv2', [
+      'Per il confronto si usa un grafico a linee: heikin ashi, KAMA e segnali dello standard scannerv2 valgono per il singolo ETF e non si sovrappongono su piu strumenti.',
+      'Il link TradingView di ogni ETF usa il suffisso di borsa (MIL:, XETR:, EURONEXT:, LSE:).',
+    ]],
+    ['Esportazione', [
+      'Esporta Excel scarica le serie del periodo e della vista attuali: Base100, PerfRelativa, Rapporto, Prezzi, Sintesi, Info.',
+    ]],
+    ['Avvertenza', [
+      'Pagina informativa, non e una raccomandazione di investimento. Le performance passate non sono indicative di quelle future.',
+    ]],
+  ];
+}
+
+function downloadRulesPdf() {
+  if (!window.jspdf) { alert('Libreria PDF (jsPDF da cdnjs) non caricata: controlla la connessione e riprova.'); return; }
+  const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' });
+  const M = 16, TW = 210 - 2 * M;
+  let y = 20;
+  const ensure = h => { if (y + h > 282) { doc.addPage(); y = 20; } };
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(16);
+  doc.text('CORE - Confronto ETF: regole della pagina', M, y); y += 7;
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(91, 100, 114);
+  doc.text(`Versione pagina ${APP_VERSION} del ${fmtDate(APP_DATE)} - PDF generato il ${fmtStamp(Date.now() / 1000)}`, M, y); y += 9;
+  doc.setTextColor(20, 24, 31);
+  rulesSections().forEach(sec => {
+    ensure(16);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text(sec[0], M, y); y += 6;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    sec[1].forEach(line => {
+      const parts = doc.splitTextToSize('- ' + line, TW);
+      ensure(parts.length * 5 + 1);
+      doc.text(parts, M, y); y += parts.length * 5 + 1.5;
+    });
+    y += 3;
+  });
+  doc.save('CORE_Confronto_ETF_regole.pdf');
+}
+
+// ═══════════════════════════════════════════════════════
+//  EVENTI
+// ═══════════════════════════════════════════════════════
+el('pickList').addEventListener('change', e => { const t = e.target.dataset && e.target.dataset.t; if (t) toggle(t); });
+el('chips').addEventListener('click', e => { const t = e.target.dataset && e.target.dataset.rm; if (t) toggle(t); });
+el('clear').addEventListener('click', () => { selected = []; colorOf.clear(); writeUrl(); renderList(); draw(); });
+['q', 'f-ac', 'f-sig', 'f-open'].forEach(id => el(id).addEventListener('input', renderList));
+el('controls').addEventListener('click', e => {
+  const v = e.target.dataset && e.target.dataset.view, p = e.target.dataset && e.target.dataset.period;
+  if (v) { state.view = v; writeUrl(); draw(); }
+  if (p) { state.period = p; writeUrl(); draw(); }
+});
+el('controls').addEventListener('change', e => {
+  const k = e.target.dataset && e.target.dataset.sel;
+  if (!k) return;
+  state[k] = e.target.value;
+  draw();
+});
+el('export-excel').addEventListener('click', exportExcel);
+el('rules-pdf').addEventListener('click', downloadRulesPdf);
+el('back').addEventListener('click', () => { location.href = 'index.html'; });
+let _rt = null;
+window.addEventListener('resize', () => {
+  clearTimeout(_rt);
+  _rt = setTimeout(() => { if (el('chartWrap').clientWidth !== lastWidth && lastCtx) draw(); }, 150);
+});
+
+init();
+</script>
+</body>
+</html>
