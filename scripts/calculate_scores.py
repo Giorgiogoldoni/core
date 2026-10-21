@@ -129,6 +129,10 @@ def calculate_psar(
     return sar_series, trend_up
 
 
+# Soglia massima di strumenti con prezzo mancante oltre la quale il run viene scartato
+MAX_CLOSE_MISSING_RATIO = 0.20
+
+
 def compute_score_for_ticker(ticker_yf: str) -> dict | None:
     """Scarica i dati storici ed elabora il Composite Score."""
     try:
@@ -139,6 +143,12 @@ def compute_score_for_ticker(ticker_yf: str) -> dict | None:
         # Appiattisci MultiIndex colonne se presente
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+
+        # Scarta le barre senza prezzo (yfinance puo' restituire l'ultima riga con
+        # valori vuoti): altrimenti close/ADX/score dell'ultima barra diventano NaN/0.
+        df = df.dropna(subset=["Close", "High", "Low"])
+        if len(df) < 50:
+            return None
 
         close = df["Close"]
         volume = df["Volume"]
@@ -301,6 +311,24 @@ def main():
 
         if done < total:
             time.sleep(BATCH_PAUSE_SECONDS)
+
+    # Controllo di sanita': se troppi strumenti hanno prezzo mancante il run e' guasto
+    # (dati yfinance incompleti). Esce con errore PRIMA di sovrascrivere etf_scores.json,
+    # cosi' il workflow si ferma e non committa dati sbagliati.
+    def _close_ko(r):
+        c = r.get("close")
+        return c is None or (isinstance(c, float) and math.isnan(c)) or c <= 0
+
+    n_ko = sum(1 for r in results if _close_ko(r))
+    ratio_ko = n_ko / len(results) if results else 1.0
+    print(f"Controllo sanita': {n_ko}/{len(results)} strumenti con prezzo mancante ({ratio_ko:.0%})")
+    if not results or ratio_ko > MAX_CLOSE_MISSING_RATIO:
+        print(
+            f"[ERROR] Run scartato: oltre il {MAX_CLOSE_MISSING_RATIO:.0%} degli strumenti senza prezzo. "
+            "etf_scores.json NON aggiornato.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
     # Ordina per score_operativo decrescente
     results_sorted = sorted(
