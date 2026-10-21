@@ -50,15 +50,14 @@ SLEEP_BETWEEN_TICKERS = 0.3
 # Segnali che qualificano un ticker per la generazione del grafico dettaglio
 QUALIFYING_SIGNALS = {"BUY", "WATCHLIST — timing fresco", "WATCHLIST — trend maturo"}
 
-# Filtro borsa: solo Borsa Italiana (.MI). Il modulo "Posizioni Aperte" copre
-# solo questo segmento dell'universo core, per scelta esplicita — Xetra (.DE)
-# resta escluso da questa pipeline (non dallo screening generale di core).
-EXCHANGE_SUFFIX = ".MI"
+# Filtro borsa: None = nessun filtro (Borsa Italiana .MI + Xetra .DE).
+# In precedenza era ".MI"; per ripristinarlo basta rimettere EXCHANGE_SUFFIX = ".MI".
+EXCHANGE_SUFFIX = None
 
 
 def select_tickers():
     """Legge etf_scores.json e seleziona i ticker qualificati (BUY, WATCHLIST, ANTEPRIMA)
-    limitati a Borsa Italiana (.MI). Porta con sé anche i campi anagrafici/di score
+    (se EXCHANGE_SUFFIX e' valorizzato, solo quel suffisso). Porta con sé anche i campi anagrafici/di score
     già calcolati da calculate_scores.py (name, asset_class, adx, close) per evitare
     di ricalcolarli qui."""
     if not os.path.exists(SCORES_PATH):
@@ -73,7 +72,7 @@ def select_tickers():
         signal = item.get("signal")
         anteprima = item.get("anteprima", False)
         ticker_yf = item.get("ticker_yf", "")
-        if not ticker_yf.endswith(EXCHANGE_SUFFIX):
+        if EXCHANGE_SUFFIX and not ticker_yf.endswith(EXCHANGE_SUFFIX):
             continue
         if signal in QUALIFYING_SIGNALS or anteprima:
             selected.append({
@@ -757,7 +756,7 @@ def main():
     now = datetime.datetime.now()
     tickers = select_tickers()
     print(f"generate_charts.py — {now.strftime('%Y-%m-%d %H:%M')}")
-    print(f"Ticker qualificati Borsa Italiana (BUY/WATCHLIST/ANTEPRIMA): {len(tickers)}")
+    print(f"Ticker qualificati (BUY/WATCHLIST/ANTEPRIMA): {len(tickers)}")
 
     os.makedirs(CHARTS_DIR, exist_ok=True)
     os.makedirs(REGOLE_DIR, exist_ok=True)
