@@ -58,7 +58,7 @@ CHECKS = [
     ("scripts/generate_charts.py", "not above_kama and not sar_bull"),
     ("scripts/generate_charts.py", "er < 0.30 and rsi < 30 and ao_imp"),
     ("scripts/generate_charts.py", "< 0.03"),
-    ("scripts/generate_charts.py", 'EXCHANGE_SUFFIX = ".MI"'),
+    ("scripts/generate_charts.py", 'EXCHANGE_SUFFIX = None'),
     ("scripts/generate_charts.py", 'period="2y"'),
     ("scripts/generate_charts.py", 'last_seg in ("BUY1", "BUY2")'),
 ]
@@ -315,7 +315,7 @@ def build():
         "<b>Uscita ML</b>: sui segnali BUY1 e BUY2 dell'ultima barra, un modello statistico stima il rendimento massimo atteso e i giorni al picco. &Egrave; solo un'indicazione: non chiude posizioni e non modifica i segnali.",
     ])
     story.append(P("Quali ETF hanno il grafico", H3))
-    story.append(P("Il grafico di dettaglio e la scheda &laquo;Regole operative&raquo; del singolo ETF vengono generati solo per gli strumenti di Borsa Italiana (.MI) che nell'ultimo aggiornamento risultano BUY, WATCHLIST o ANTEPRIMA nello Score. "
+    story.append(P("Il grafico di dettaglio e la scheda &laquo;Regole operative&raquo; del singolo ETF vengono generati solo per gli strumenti (Borsa Italiana e Xetra) che nell'ultimo aggiornamento risultano BUY, WATCHLIST o ANTEPRIMA nello Score. "
                    "Per gli altri la colonna Grafico mostra un trattino.", BODY))
 
     # ── 5. Limiti ──
